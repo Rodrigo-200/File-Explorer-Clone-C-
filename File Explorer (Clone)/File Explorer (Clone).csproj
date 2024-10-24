@@ -52,6 +52,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListViewColumnSorter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -85,6 +86,39 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\view-list.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\check-box-empty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\7725075.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrows.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sort-down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sort.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sort-descending.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

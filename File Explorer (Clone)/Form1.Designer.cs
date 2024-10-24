@@ -35,29 +35,41 @@ namespace File_Explorer__Clone_
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.imgl_Large = new System.Windows.Forms.ImageList(this.components);
             this.lvw_FileExplorer = new System.Windows.Forms.ListView();
             this.ch_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ch_Modified = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ch_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ch_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.cms_GeneralOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addNewTextFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addNewFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imgl_Small = new System.Windows.Forms.ImageList(this.components);
             this.cbb_ViewType = new System.Windows.Forms.ComboBox();
             this.txt_Path = new System.Windows.Forms.TextBox();
             this.btn_GoUpOneLevel = new System.Windows.Forms.Button();
             this.btn_Foward = new System.Windows.Forms.Button();
             this.btn_GoBack = new System.Windows.Forms.Button();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cms_GeneralOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.largeIconsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.smallIconsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.detailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addNewTextFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addNewFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sortByToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dateModifiedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ascendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.descendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cms_FileOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.apagarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.cms_GeneralOptions.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
+            this.cms_FileOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -89,38 +101,54 @@ namespace File_Explorer__Clone_
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(182, 558);
-            this.treeView1.StateImageList = this.imageList1;
+            this.treeView1.StateImageList = this.imgl_Large;
             this.treeView1.TabIndex = 0;
             // 
-            // imageList1
+            // imgl_Large
             // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "folder.png");
-            this.imageList1.Images.SetKeyName(1, "document.png");
+            this.imgl_Large.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgl_Large.ImageStream")));
+            this.imgl_Large.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgl_Large.Images.SetKeyName(0, "folder.png");
+            this.imgl_Large.Images.SetKeyName(1, "txt.png");
+            this.imgl_Large.Images.SetKeyName(2, "rar.png");
+            this.imgl_Large.Images.SetKeyName(3, "pdb-file-format-variant.png");
+            this.imgl_Large.Images.SetKeyName(4, "configfile.png");
+            this.imgl_Large.Images.SetKeyName(5, "exe (1).png");
+            this.imgl_Large.Images.SetKeyName(6, "pptx.png");
+            this.imgl_Large.Images.SetKeyName(7, "doc.png");
+            this.imgl_Large.Images.SetKeyName(8, "png-file.png");
+            this.imgl_Large.Images.SetKeyName(9, "lua.png");
+            this.imgl_Large.Images.SetKeyName(10, "docmfile.png");
+            this.imgl_Large.Images.SetKeyName(11, "audio.png");
             // 
             // lvw_FileExplorer
             // 
+            this.lvw_FileExplorer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvw_FileExplorer.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ch_Name,
             this.ch_Modified,
             this.ch_Type,
             this.ch_Size});
-            this.lvw_FileExplorer.ContextMenuStrip = this.cms_GeneralOptions;
             this.lvw_FileExplorer.FullRowSelect = true;
             this.lvw_FileExplorer.HideSelection = false;
             this.lvw_FileExplorer.LabelEdit = true;
-            this.lvw_FileExplorer.LargeImageList = this.imageList1;
-            this.lvw_FileExplorer.Location = new System.Drawing.Point(8, 63);
+            this.lvw_FileExplorer.LargeImageList = this.imgl_Large;
+            this.lvw_FileExplorer.Location = new System.Drawing.Point(3, 63);
             this.lvw_FileExplorer.Name = "lvw_FileExplorer";
-            this.lvw_FileExplorer.Size = new System.Drawing.Size(760, 491);
-            this.lvw_FileExplorer.SmallImageList = this.imageList1;
+            this.lvw_FileExplorer.Size = new System.Drawing.Size(766, 491);
+            this.lvw_FileExplorer.SmallImageList = this.imgl_Small;
             this.lvw_FileExplorer.TabIndex = 6;
             this.lvw_FileExplorer.UseCompatibleStateImageBehavior = false;
             this.lvw_FileExplorer.View = System.Windows.Forms.View.Details;
             this.lvw_FileExplorer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lvw_FileExplorer_AfterLabelEdit);
+            this.lvw_FileExplorer.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvw_FileExplorer_ColumnClick);
             this.lvw_FileExplorer.DoubleClick += new System.EventHandler(this.lvw_FileExplorer_DoubleClick);
+            this.lvw_FileExplorer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvw_FileExplorer_KeyDown);
+            this.lvw_FileExplorer.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lvw_FileExplorer_KeyPress);
             this.lvw_FileExplorer.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lvw_FileExplorer_MouseClick);
+            this.lvw_FileExplorer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lvw_FileExplorer_MouseDown);
             // 
             // ch_Name
             // 
@@ -140,39 +168,25 @@ namespace File_Explorer__Clone_
             // ch_Size
             // 
             this.ch_Size.Text = "Size";
+            this.ch_Size.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ch_Size.Width = 85;
             // 
-            // cms_GeneralOptions
+            // imgl_Small
             // 
-            this.cms_GeneralOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addToolStripMenuItem});
-            this.cms_GeneralOptions.Name = "cms_GeneralOptions";
-            this.cms_GeneralOptions.Size = new System.Drawing.Size(97, 26);
-            // 
-            // addToolStripMenuItem
-            // 
-            this.addToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addNewTextFileToolStripMenuItem,
-            this.addNewFolderToolStripMenuItem});
-            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.addToolStripMenuItem.Text = "Add";
-            // 
-            // addNewTextFileToolStripMenuItem
-            // 
-            this.addNewTextFileToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.document;
-            this.addNewTextFileToolStripMenuItem.Name = "addNewTextFileToolStripMenuItem";
-            this.addNewTextFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.addNewTextFileToolStripMenuItem.Text = "Add new Text File";
-            this.addNewTextFileToolStripMenuItem.Click += new System.EventHandler(this.addNewTextFileToolStripMenuItem_Click);
-            // 
-            // addNewFolderToolStripMenuItem
-            // 
-            this.addNewFolderToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.folder;
-            this.addNewFolderToolStripMenuItem.Name = "addNewFolderToolStripMenuItem";
-            this.addNewFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.addNewFolderToolStripMenuItem.Text = "Add New Folder";
-            this.addNewFolderToolStripMenuItem.Click += new System.EventHandler(this.addNewFolderToolStripMenuItem_Click);
+            this.imgl_Small.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgl_Small.ImageStream")));
+            this.imgl_Small.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgl_Small.Images.SetKeyName(0, "folder.png");
+            this.imgl_Small.Images.SetKeyName(1, "txt.png");
+            this.imgl_Small.Images.SetKeyName(2, "rar.png");
+            this.imgl_Small.Images.SetKeyName(3, "pdb-file-format-variant.png");
+            this.imgl_Small.Images.SetKeyName(4, "configfile.png");
+            this.imgl_Small.Images.SetKeyName(5, "exe (1).png");
+            this.imgl_Small.Images.SetKeyName(6, "pptx.png");
+            this.imgl_Small.Images.SetKeyName(7, "doc.png");
+            this.imgl_Small.Images.SetKeyName(8, "png-file.png");
+            this.imgl_Small.Images.SetKeyName(9, "lua.png");
+            this.imgl_Small.Images.SetKeyName(10, "docmfile.png");
+            this.imgl_Small.Images.SetKeyName(11, "audio.png");
             // 
             // cbb_ViewType
             // 
@@ -183,9 +197,9 @@ namespace File_Explorer__Clone_
             "List",
             "Large Icons",
             "Small Icons"});
-            this.cbb_ViewType.Location = new System.Drawing.Point(666, 36);
+            this.cbb_ViewType.Location = new System.Drawing.Point(669, 36);
             this.cbb_ViewType.Name = "cbb_ViewType";
-            this.cbb_ViewType.Size = new System.Drawing.Size(97, 21);
+            this.cbb_ViewType.Size = new System.Drawing.Size(94, 21);
             this.cbb_ViewType.TabIndex = 5;
             this.cbb_ViewType.SelectedIndexChanged += new System.EventHandler(this.cbb_ViewType_SelectedIndexChanged);
             // 
@@ -195,7 +209,7 @@ namespace File_Explorer__Clone_
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_Path.Location = new System.Drawing.Point(103, 11);
             this.txt_Path.Name = "txt_Path";
-            this.txt_Path.Size = new System.Drawing.Size(669, 20);
+            this.txt_Path.Size = new System.Drawing.Size(660, 20);
             this.txt_Path.TabIndex = 4;
             this.txt_Path.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Path_KeyPress);
             // 
@@ -235,18 +249,148 @@ namespace File_Explorer__Clone_
             this.btn_GoBack.UseVisualStyleBackColor = true;
             this.btn_GoBack.Click += new System.EventHandler(this.btn_GoBack_Click);
             // 
-            // contextMenuStrip1
+            // cms_GeneralOptions
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.apagarToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(113, 26);
+            this.cms_GeneralOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewToolStripMenuItem,
+            this.addToolStripMenuItem,
+            this.sortByToolStripMenuItem});
+            this.cms_GeneralOptions.Name = "cms_GeneralOptions";
+            this.cms_GeneralOptions.Size = new System.Drawing.Size(112, 70);
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.largeIconsToolStripMenuItem,
+            this.smallIconsToolStripMenuItem,
+            this.listToolStripMenuItem,
+            this.detailToolStripMenuItem});
+            this.viewToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.menu;
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // largeIconsToolStripMenuItem
+            // 
+            this.largeIconsToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.check_box_empty;
+            this.largeIconsToolStripMenuItem.Name = "largeIconsToolStripMenuItem";
+            this.largeIconsToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.largeIconsToolStripMenuItem.Text = "Large Icons";
+            this.largeIconsToolStripMenuItem.Click += new System.EventHandler(this.largeIconsToolStripMenuItem_Click);
+            // 
+            // smallIconsToolStripMenuItem
+            // 
+            this.smallIconsToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.menu;
+            this.smallIconsToolStripMenuItem.Name = "smallIconsToolStripMenuItem";
+            this.smallIconsToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.smallIconsToolStripMenuItem.Text = "Small Icons";
+            this.smallIconsToolStripMenuItem.Click += new System.EventHandler(this.smallIconsToolStripMenuItem_Click);
+            // 
+            // listToolStripMenuItem
+            // 
+            this.listToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.menu__1_;
+            this.listToolStripMenuItem.Name = "listToolStripMenuItem";
+            this.listToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.listToolStripMenuItem.Text = "List";
+            this.listToolStripMenuItem.Click += new System.EventHandler(this.listToolStripMenuItem_Click);
+            // 
+            // detailToolStripMenuItem
+            // 
+            this.detailToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.view_list;
+            this.detailToolStripMenuItem.Name = "detailToolStripMenuItem";
+            this.detailToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.detailToolStripMenuItem.Text = "Details";
+            this.detailToolStripMenuItem.Click += new System.EventHandler(this.detailToolStripMenuItem_Click);
+            // 
+            // addToolStripMenuItem
+            // 
+            this.addToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addNewTextFileToolStripMenuItem,
+            this.addNewFolderToolStripMenuItem});
+            this.addToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.add;
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.addToolStripMenuItem.Text = "New";
+            // 
+            // addNewTextFileToolStripMenuItem
+            // 
+            this.addNewTextFileToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.document;
+            this.addNewTextFileToolStripMenuItem.Name = "addNewTextFileToolStripMenuItem";
+            this.addNewTextFileToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.addNewTextFileToolStripMenuItem.Text = "New Text File";
+            this.addNewTextFileToolStripMenuItem.Click += new System.EventHandler(this.addNewTextFileToolStripMenuItem_Click);
+            // 
+            // addNewFolderToolStripMenuItem
+            // 
+            this.addNewFolderToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.folder;
+            this.addNewFolderToolStripMenuItem.Name = "addNewFolderToolStripMenuItem";
+            this.addNewFolderToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.addNewFolderToolStripMenuItem.Text = "New Folder";
+            this.addNewFolderToolStripMenuItem.Click += new System.EventHandler(this.addNewFolderToolStripMenuItem_Click);
+            // 
+            // sortByToolStripMenuItem
+            // 
+            this.sortByToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nameToolStripMenuItem,
+            this.dateModifiedToolStripMenuItem,
+            this.ascendingToolStripMenuItem,
+            this.descendingToolStripMenuItem});
+            this.sortByToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.arrows;
+            this.sortByToolStripMenuItem.Name = "sortByToolStripMenuItem";
+            this.sortByToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.sortByToolStripMenuItem.Text = "Sort by";
+            // 
+            // nameToolStripMenuItem
+            // 
+            this.nameToolStripMenuItem.Name = "nameToolStripMenuItem";
+            this.nameToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.nameToolStripMenuItem.Text = "Name";
+            this.nameToolStripMenuItem.Click += new System.EventHandler(this.nameToolStripMenuItem_Click);
+            // 
+            // dateModifiedToolStripMenuItem
+            // 
+            this.dateModifiedToolStripMenuItem.Name = "dateModifiedToolStripMenuItem";
+            this.dateModifiedToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.dateModifiedToolStripMenuItem.Text = "Date Modified";
+            this.dateModifiedToolStripMenuItem.Click += new System.EventHandler(this.dateModifiedToolStripMenuItem_Click);
+            // 
+            // ascendingToolStripMenuItem
+            // 
+            this.ascendingToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.sort_descending;
+            this.ascendingToolStripMenuItem.Name = "ascendingToolStripMenuItem";
+            this.ascendingToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.ascendingToolStripMenuItem.Text = "Ascending";
+            // 
+            // descendingToolStripMenuItem
+            // 
+            this.descendingToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.sort;
+            this.descendingToolStripMenuItem.Name = "descendingToolStripMenuItem";
+            this.descendingToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.descendingToolStripMenuItem.Text = "Descending";
+            // 
+            // cms_FileOptions
+            // 
+            this.cms_FileOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.apagarToolStripMenuItem,
+            this.copyToolStripMenuItem});
+            this.cms_FileOptions.Name = "contextMenuStrip1";
+            this.cms_FileOptions.Size = new System.Drawing.Size(144, 48);
             // 
             // apagarToolStripMenuItem
             // 
+            this.apagarToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.delete;
             this.apagarToolStripMenuItem.Name = "apagarToolStripMenuItem";
-            this.apagarToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.apagarToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.apagarToolStripMenuItem.Text = "Apagar";
+            this.apagarToolStripMenuItem.Click += new System.EventHandler(this.apagarToolStripMenuItem_Click);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources._7725075;
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.copyToolStripMenuItem.Text = "Copy as path";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -263,13 +407,14 @@ namespace File_Explorer__Clone_
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.cms_GeneralOptions.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.cms_FileOptions.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
+        private ListViewColumnSorter lvwColumnSorter;
         private SplitContainer splitContainer1;
         private Button btn_GoBack;
         private TextBox txt_Path;
@@ -277,7 +422,7 @@ namespace File_Explorer__Clone_
         private Button btn_Foward;
         private ComboBox cbb_ViewType;
         private TreeView treeView1;
-        private ImageList imageList1;
+        private ImageList imgl_Large;
         private ListView lvw_FileExplorer;
         private ColumnHeader ch_Name;
         private ColumnHeader ch_Modified;
@@ -287,7 +432,19 @@ namespace File_Explorer__Clone_
         private ContextMenuStrip cms_GeneralOptions;
         private ColumnHeader ch_Type;
         private ColumnHeader ch_Size;
-        private ContextMenuStrip contextMenuStrip1;
+        private ContextMenuStrip cms_FileOptions;
         private ToolStripMenuItem apagarToolStripMenuItem;
+        private ToolStripMenuItem viewToolStripMenuItem;
+        private ToolStripMenuItem largeIconsToolStripMenuItem;
+        private ToolStripMenuItem smallIconsToolStripMenuItem;
+        private ToolStripMenuItem listToolStripMenuItem;
+        private ToolStripMenuItem detailToolStripMenuItem;
+        private ImageList imgl_Small;
+        private ToolStripMenuItem copyToolStripMenuItem;
+        private ToolStripMenuItem sortByToolStripMenuItem;
+        private ToolStripMenuItem nameToolStripMenuItem;
+        private ToolStripMenuItem dateModifiedToolStripMenuItem;
+        private ToolStripMenuItem ascendingToolStripMenuItem;
+        private ToolStripMenuItem descendingToolStripMenuItem;
     }
 }
