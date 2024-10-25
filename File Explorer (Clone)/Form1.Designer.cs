@@ -64,6 +64,7 @@ namespace File_Explorer__Clone_
             this.cms_FileOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.apagarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showHiddenFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -76,6 +77,7 @@ namespace File_Explorer__Clone_
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -90,17 +92,17 @@ namespace File_Explorer__Clone_
             this.splitContainer1.Panel2.Controls.Add(this.btn_GoUpOneLevel);
             this.splitContainer1.Panel2.Controls.Add(this.btn_Foward);
             this.splitContainer1.Panel2.Controls.Add(this.btn_GoBack);
-            this.splitContainer1.Size = new System.Drawing.Size(951, 558);
-            this.splitContainer1.SplitterDistance = 182;
-            this.splitContainer1.SplitterWidth = 3;
+            this.splitContainer1.Size = new System.Drawing.Size(1268, 687);
+            this.splitContainer1.SplitterDistance = 242;
             this.splitContainer1.TabIndex = 0;
             // 
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
+            this.treeView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(182, 558);
+            this.treeView1.Size = new System.Drawing.Size(242, 687);
             this.treeView1.StateImageList = this.imgl_Large;
             this.treeView1.TabIndex = 0;
             // 
@@ -135,9 +137,10 @@ namespace File_Explorer__Clone_
             this.lvw_FileExplorer.HideSelection = false;
             this.lvw_FileExplorer.LabelEdit = true;
             this.lvw_FileExplorer.LargeImageList = this.imgl_Large;
-            this.lvw_FileExplorer.Location = new System.Drawing.Point(3, 63);
+            this.lvw_FileExplorer.Location = new System.Drawing.Point(4, 78);
+            this.lvw_FileExplorer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.lvw_FileExplorer.Name = "lvw_FileExplorer";
-            this.lvw_FileExplorer.Size = new System.Drawing.Size(766, 491);
+            this.lvw_FileExplorer.Size = new System.Drawing.Size(1022, 603);
             this.lvw_FileExplorer.SmallImageList = this.imgl_Small;
             this.lvw_FileExplorer.TabIndex = 6;
             this.lvw_FileExplorer.UseCompatibleStateImageBehavior = false;
@@ -197,9 +200,10 @@ namespace File_Explorer__Clone_
             "List",
             "Large Icons",
             "Small Icons"});
-            this.cbb_ViewType.Location = new System.Drawing.Point(669, 36);
+            this.cbb_ViewType.Location = new System.Drawing.Point(894, 44);
+            this.cbb_ViewType.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbb_ViewType.Name = "cbb_ViewType";
-            this.cbb_ViewType.Size = new System.Drawing.Size(94, 21);
+            this.cbb_ViewType.Size = new System.Drawing.Size(124, 24);
             this.cbb_ViewType.TabIndex = 5;
             this.cbb_ViewType.SelectedIndexChanged += new System.EventHandler(this.cbb_ViewType_SelectedIndexChanged);
             // 
@@ -207,9 +211,10 @@ namespace File_Explorer__Clone_
             // 
             this.txt_Path.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_Path.Location = new System.Drawing.Point(103, 11);
+            this.txt_Path.Location = new System.Drawing.Point(137, 14);
+            this.txt_Path.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txt_Path.Name = "txt_Path";
-            this.txt_Path.Size = new System.Drawing.Size(660, 20);
+            this.txt_Path.Size = new System.Drawing.Size(881, 22);
             this.txt_Path.TabIndex = 4;
             this.txt_Path.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Path_KeyPress);
             // 
@@ -217,9 +222,10 @@ namespace File_Explorer__Clone_
             // 
             this.btn_GoUpOneLevel.FlatAppearance.BorderSize = 0;
             this.btn_GoUpOneLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_GoUpOneLevel.Location = new System.Drawing.Point(71, 10);
+            this.btn_GoUpOneLevel.Location = new System.Drawing.Point(95, 12);
+            this.btn_GoUpOneLevel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_GoUpOneLevel.Name = "btn_GoUpOneLevel";
-            this.btn_GoUpOneLevel.Size = new System.Drawing.Size(27, 20);
+            this.btn_GoUpOneLevel.Size = new System.Drawing.Size(36, 25);
             this.btn_GoUpOneLevel.TabIndex = 3;
             this.btn_GoUpOneLevel.Text = "↑";
             this.btn_GoUpOneLevel.UseVisualStyleBackColor = true;
@@ -229,9 +235,10 @@ namespace File_Explorer__Clone_
             // 
             this.btn_Foward.FlatAppearance.BorderSize = 0;
             this.btn_Foward.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Foward.Location = new System.Drawing.Point(39, 10);
+            this.btn_Foward.Location = new System.Drawing.Point(52, 12);
+            this.btn_Foward.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_Foward.Name = "btn_Foward";
-            this.btn_Foward.Size = new System.Drawing.Size(27, 20);
+            this.btn_Foward.Size = new System.Drawing.Size(36, 25);
             this.btn_Foward.TabIndex = 2;
             this.btn_Foward.Text = "→";
             this.btn_Foward.UseVisualStyleBackColor = true;
@@ -241,9 +248,10 @@ namespace File_Explorer__Clone_
             // 
             this.btn_GoBack.FlatAppearance.BorderSize = 0;
             this.btn_GoBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_GoBack.Location = new System.Drawing.Point(8, 10);
+            this.btn_GoBack.Location = new System.Drawing.Point(11, 12);
+            this.btn_GoBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_GoBack.Name = "btn_GoBack";
-            this.btn_GoBack.Size = new System.Drawing.Size(27, 20);
+            this.btn_GoBack.Size = new System.Drawing.Size(36, 25);
             this.btn_GoBack.TabIndex = 1;
             this.btn_GoBack.Text = "←";
             this.btn_GoBack.UseVisualStyleBackColor = true;
@@ -251,12 +259,14 @@ namespace File_Explorer__Clone_
             // 
             // cms_GeneralOptions
             // 
+            this.cms_GeneralOptions.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.cms_GeneralOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewToolStripMenuItem,
             this.addToolStripMenuItem,
-            this.sortByToolStripMenuItem});
+            this.sortByToolStripMenuItem,
+            this.showHiddenFilesToolStripMenuItem});
             this.cms_GeneralOptions.Name = "cms_GeneralOptions";
-            this.cms_GeneralOptions.Size = new System.Drawing.Size(112, 70);
+            this.cms_GeneralOptions.Size = new System.Drawing.Size(215, 136);
             // 
             // viewToolStripMenuItem
             // 
@@ -267,14 +277,14 @@ namespace File_Explorer__Clone_
             this.detailToolStripMenuItem});
             this.viewToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.menu;
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // largeIconsToolStripMenuItem
             // 
             this.largeIconsToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.check_box_empty;
             this.largeIconsToolStripMenuItem.Name = "largeIconsToolStripMenuItem";
-            this.largeIconsToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.largeIconsToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.largeIconsToolStripMenuItem.Text = "Large Icons";
             this.largeIconsToolStripMenuItem.Click += new System.EventHandler(this.largeIconsToolStripMenuItem_Click);
             // 
@@ -282,7 +292,7 @@ namespace File_Explorer__Clone_
             // 
             this.smallIconsToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.menu;
             this.smallIconsToolStripMenuItem.Name = "smallIconsToolStripMenuItem";
-            this.smallIconsToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.smallIconsToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.smallIconsToolStripMenuItem.Text = "Small Icons";
             this.smallIconsToolStripMenuItem.Click += new System.EventHandler(this.smallIconsToolStripMenuItem_Click);
             // 
@@ -290,7 +300,7 @@ namespace File_Explorer__Clone_
             // 
             this.listToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.menu__1_;
             this.listToolStripMenuItem.Name = "listToolStripMenuItem";
-            this.listToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.listToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.listToolStripMenuItem.Text = "List";
             this.listToolStripMenuItem.Click += new System.EventHandler(this.listToolStripMenuItem_Click);
             // 
@@ -298,7 +308,7 @@ namespace File_Explorer__Clone_
             // 
             this.detailToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.view_list;
             this.detailToolStripMenuItem.Name = "detailToolStripMenuItem";
-            this.detailToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.detailToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.detailToolStripMenuItem.Text = "Details";
             this.detailToolStripMenuItem.Click += new System.EventHandler(this.detailToolStripMenuItem_Click);
             // 
@@ -309,14 +319,14 @@ namespace File_Explorer__Clone_
             this.addNewFolderToolStripMenuItem});
             this.addToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.add;
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.addToolStripMenuItem.Text = "New";
             // 
             // addNewTextFileToolStripMenuItem
             // 
             this.addNewTextFileToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.document;
             this.addNewTextFileToolStripMenuItem.Name = "addNewTextFileToolStripMenuItem";
-            this.addNewTextFileToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.addNewTextFileToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.addNewTextFileToolStripMenuItem.Text = "New Text File";
             this.addNewTextFileToolStripMenuItem.Click += new System.EventHandler(this.addNewTextFileToolStripMenuItem_Click);
             // 
@@ -324,7 +334,7 @@ namespace File_Explorer__Clone_
             // 
             this.addNewFolderToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.folder;
             this.addNewFolderToolStripMenuItem.Name = "addNewFolderToolStripMenuItem";
-            this.addNewFolderToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.addNewFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.addNewFolderToolStripMenuItem.Text = "New Folder";
             this.addNewFolderToolStripMenuItem.Click += new System.EventHandler(this.addNewFolderToolStripMenuItem_Click);
             // 
@@ -337,20 +347,20 @@ namespace File_Explorer__Clone_
             this.descendingToolStripMenuItem});
             this.sortByToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.arrows;
             this.sortByToolStripMenuItem.Name = "sortByToolStripMenuItem";
-            this.sortByToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.sortByToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.sortByToolStripMenuItem.Text = "Sort by";
             // 
             // nameToolStripMenuItem
             // 
             this.nameToolStripMenuItem.Name = "nameToolStripMenuItem";
-            this.nameToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.nameToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
             this.nameToolStripMenuItem.Text = "Name";
             this.nameToolStripMenuItem.Click += new System.EventHandler(this.nameToolStripMenuItem_Click);
             // 
             // dateModifiedToolStripMenuItem
             // 
             this.dateModifiedToolStripMenuItem.Name = "dateModifiedToolStripMenuItem";
-            this.dateModifiedToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.dateModifiedToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
             this.dateModifiedToolStripMenuItem.Text = "Date Modified";
             this.dateModifiedToolStripMenuItem.Click += new System.EventHandler(this.dateModifiedToolStripMenuItem_Click);
             // 
@@ -358,29 +368,30 @@ namespace File_Explorer__Clone_
             // 
             this.ascendingToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.sort_descending;
             this.ascendingToolStripMenuItem.Name = "ascendingToolStripMenuItem";
-            this.ascendingToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.ascendingToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
             this.ascendingToolStripMenuItem.Text = "Ascending";
             // 
             // descendingToolStripMenuItem
             // 
             this.descendingToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.sort;
             this.descendingToolStripMenuItem.Name = "descendingToolStripMenuItem";
-            this.descendingToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.descendingToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
             this.descendingToolStripMenuItem.Text = "Descending";
             // 
             // cms_FileOptions
             // 
+            this.cms_FileOptions.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.cms_FileOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.apagarToolStripMenuItem,
             this.copyToolStripMenuItem});
             this.cms_FileOptions.Name = "contextMenuStrip1";
-            this.cms_FileOptions.Size = new System.Drawing.Size(144, 48);
+            this.cms_FileOptions.Size = new System.Drawing.Size(169, 56);
             // 
             // apagarToolStripMenuItem
             // 
             this.apagarToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.delete;
             this.apagarToolStripMenuItem.Name = "apagarToolStripMenuItem";
-            this.apagarToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.apagarToolStripMenuItem.Size = new System.Drawing.Size(168, 26);
             this.apagarToolStripMenuItem.Text = "Apagar";
             this.apagarToolStripMenuItem.Click += new System.EventHandler(this.apagarToolStripMenuItem_Click);
             // 
@@ -388,16 +399,24 @@ namespace File_Explorer__Clone_
             // 
             this.copyToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources._7725075;
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(168, 26);
             this.copyToolStripMenuItem.Text = "Copy as path";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
+            // showHiddenFilesToolStripMenuItem
+            // 
+            this.showHiddenFilesToolStripMenuItem.Name = "showHiddenFilesToolStripMenuItem";
+            this.showHiddenFilesToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
+            this.showHiddenFilesToolStripMenuItem.Text = "Show Hidden Items";
+            this.showHiddenFilesToolStripMenuItem.Click += new System.EventHandler(this.showHiddenFilesToolStripMenuItem_Click);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(951, 558);
+            this.ClientSize = new System.Drawing.Size(1268, 687);
             this.Controls.Add(this.splitContainer1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -446,5 +465,6 @@ namespace File_Explorer__Clone_
         private ToolStripMenuItem dateModifiedToolStripMenuItem;
         private ToolStripMenuItem ascendingToolStripMenuItem;
         private ToolStripMenuItem descendingToolStripMenuItem;
+        private ToolStripMenuItem showHiddenFilesToolStripMenuItem;
     }
 }

@@ -18,6 +18,7 @@ namespace File_Explorer__Clone_
         string path = Environment.CurrentDirectory + @"\";
         string recent = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         List<string> OldPosition = new List<string>();
+        bool Show_Hidden = false;
 
         public Form1()
         {
@@ -46,21 +47,51 @@ namespace File_Explorer__Clone_
             {
                 try
                 {
-                    ListViewItem Directory = new ListViewItem();
-                    Directory.Text = item.Name;
-                    Directory.ImageIndex = 0;
+                    if (!Show_Hidden)
+                    {
+                        if (item.Attributes.HasFlag(FileAttributes.Hidden))
+                        {
+
+                        }
+                        else
+                        {
+                            ListViewItem Directory = new ListViewItem();
+                            Directory.Text = item.Name;
+                            Directory.ImageIndex = 0;
 
 
-                    ListViewItem.ListViewSubItem Mod_date = new ListViewItem.ListViewSubItem();
-                    Mod_date.Text = item.LastWriteTime.ToString();
-                    ListViewItem.ListViewSubItem _Type = new ListViewItem.ListViewSubItem();
-                    _Type.Text = "File Folder";
+                            ListViewItem.ListViewSubItem Mod_date = new ListViewItem.ListViewSubItem();
+                            Mod_date.Text = item.LastWriteTime.ToString();
+                            ListViewItem.ListViewSubItem _Type = new ListViewItem.ListViewSubItem();
+                            _Type.Text = "File Folder";
 
 
-                    Directory.SubItems.Add(Mod_date);
-                    Directory.SubItems.Add(_Type);
+                            Directory.SubItems.Add(Mod_date);
+                            Directory.SubItems.Add(_Type);
 
-                    lvw_FileExplorer.Items.Add(Directory);
+                            lvw_FileExplorer.Items.Add(Directory);
+                        }
+                    }
+                    else
+                    {
+
+                        ListViewItem Directory = new ListViewItem();
+                        Directory.Text = item.Name;
+                        Directory.ImageIndex = 0;
+
+
+                        ListViewItem.ListViewSubItem Mod_date = new ListViewItem.ListViewSubItem();
+                        Mod_date.Text = item.LastWriteTime.ToString();
+                        ListViewItem.ListViewSubItem _Type = new ListViewItem.ListViewSubItem();
+                        _Type.Text = "File Folder";
+
+
+                        Directory.SubItems.Add(Mod_date);
+                        Directory.SubItems.Add(_Type);
+
+                        lvw_FileExplorer.Items.Add(Directory);
+
+                    }
                 }
                 catch (Exception)
                 {
@@ -83,12 +114,12 @@ namespace File_Explorer__Clone_
                 double ByteSize = Convert.ToDouble(item.Length);
                 double size = Math.Ceiling((ByteSize / 1024));
                 Size.Text = size.ToString() + " KB";
-                
+
 
 
                 switch (item.Extension)
                 {
-                case ".txt":
+                    case ".txt":
                         listViewItem.ImageIndex = 1;
                         _Type.Text = "Text Document"; break;
 
@@ -105,8 +136,48 @@ namespace File_Explorer__Clone_
                         _Type.Text = "CONFIG File"; break;
 
                     case ".exe":
-                        listViewItem.ImageIndex = 5;
-                        _Type.Text = "Application"; break;
+                        try
+                        {
+
+                            string filePath = Path.Combine(item.FullName);
+
+                            Icon icon = Icon.ExtractAssociatedIcon(filePath);
+
+
+                            if (icon != null)
+                            {
+
+                                Bitmap iconBitmap = icon.ToBitmap();
+
+
+                                string imageKey = filePath;
+
+
+                                if (!imgl_Large.Images.ContainsKey(imageKey))
+                                {
+                                    imgl_Large.Images.Add(imageKey, iconBitmap);
+                                }
+
+                                if (!imgl_Small.Images.ContainsKey(imageKey))
+                                {
+                                    imgl_Small.Images.Add(imageKey, iconBitmap);
+                                }
+
+
+                                listViewItem.ImageKey = imageKey;
+                                _Type.Text = "Application";
+                            }
+                            else
+                            {
+                                listViewItem.ImageIndex = 0;
+                                _Type.Text = "Application";
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                        break;
 
                     case ".pptx":
                         listViewItem.ImageIndex = 6;
@@ -114,7 +185,7 @@ namespace File_Explorer__Clone_
 
                     case ".docx":
                         listViewItem.ImageIndex = 7;
-                        _Type.Text = "Microsoft Word Document";  break;
+                        _Type.Text = "Microsoft Word Document"; break;
 
                     case ".png":
                         listViewItem.ImageIndex = 8;
@@ -124,48 +195,49 @@ namespace File_Explorer__Clone_
                         listViewItem.ImageIndex = 9;
                         _Type.Text = "Lua Source File"; break;
 
-                    case ".lnk": 
-                            try
+                    case ".lnk":
+                        try
+                        {
+
+                            string filePath = Path.Combine(item.FullName);
+
+                            Icon icon = Icon.ExtractAssociatedIcon(filePath);
+
+
+                            if (icon != null)
                             {
 
-                                string filePath = Path.Combine(item.FullName);
-
-                                Icon icon = Icon.ExtractAssociatedIcon(filePath);
+                                Bitmap iconBitmap = icon.ToBitmap();
 
 
-                                if (icon != null)
+                                string imageKey = filePath;
+
+
+                                if (!imgl_Large.Images.ContainsKey(imageKey))
                                 {
-
-                                    Bitmap iconBitmap = icon.ToBitmap();
-
-
-                                    string imageKey = filePath;
-
-
-                                    if (!imgl_Large.Images.ContainsKey(imageKey))
-                                    {
-                                        imgl_Large.Images.Add(imageKey, iconBitmap);
-                                    }
-
-                                    if (!imgl_Small.Images.ContainsKey(imageKey))
-                                    {
-                                        imgl_Small.Images.Add(imageKey, iconBitmap);
-                                    }
-
-
-                                    listViewItem.ImageKey = imageKey;
-                                    _Type.Text = "Shortcut";
+                                    imgl_Large.Images.Add(imageKey, iconBitmap);
                                 }
-                                else
+
+                                if (!imgl_Small.Images.ContainsKey(imageKey))
                                 {
-                                    listViewItem.ImageIndex = 0; 
-                                    _Type.Text = "Shortcut";
+                                    imgl_Small.Images.Add(imageKey, iconBitmap);
                                 }
+
+
+                                listViewItem.ImageKey = imageKey;
+                                _Type.Text = "Shortcut";
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                MessageBox.Show(ex.Message);
-                            } break;
+                                listViewItem.ImageIndex = 1;
+                                _Type.Text = "Shortcut";
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                        break;
 
                     case ".docm":
                         listViewItem.ImageIndex = 10;
@@ -183,12 +255,12 @@ namespace File_Explorer__Clone_
 
 
 
-                    listViewItem.SubItems.Add(Mod_date);
-                    listViewItem.SubItems.Add(_Type);
-                    listViewItem.SubItems.Add(Size);
+                listViewItem.SubItems.Add(Mod_date);
+                listViewItem.SubItems.Add(_Type);
+                listViewItem.SubItems.Add(Size);
 
-                    lvw_FileExplorer.Items.Add(listViewItem);
-                }
+                lvw_FileExplorer.Items.Add(listViewItem);
+            }
 
 
 
@@ -214,7 +286,7 @@ namespace File_Explorer__Clone_
                 try
                 {
                     string filePath = Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text);
-                    Process.Start(filePath); 
+                    Process.Start(filePath);
                 }
                 catch (Exception ex)
                 {
@@ -229,7 +301,7 @@ namespace File_Explorer__Clone_
             path = OldPosition.Last();
             OldPosition.Remove(path);
             OldPosition.Add(path);
-            
+
             RefreshExplorer();
         }
 
@@ -265,7 +337,7 @@ namespace File_Explorer__Clone_
             string originalFullPath = Path.Combine(path, lvw_FileExplorer.Items[e.Item].Text);
             string newFullPath = Path.Combine(path, e.Label);
 
-           
+
             try
             {
                 if (lvw_FileExplorer.FocusedItem.ImageIndex == 1)
@@ -324,13 +396,31 @@ namespace File_Explorer__Clone_
 
         private void addNewTextFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            int cnt = 0;
             string newFileName = "New File.txt";
+
+            DirectoryInfo dir = new DirectoryInfo(path);
+            foreach (ListViewItem item in lvw_FileExplorer.Items)
+            {
+                foreach (var item2 in dir.GetFiles()) // Vai a cada diretorio dentro do diretorio "path"
+                {
+                    if (item2.Name == newFileName)
+                    {
+                        cnt++;
+                    }
+                }
+                if (cnt != 0)
+                {
+                    newFileName = "New File";
+                    newFileName = newFileName + "(" + cnt + ")" + ".txt";
+                }
+            }
 
             string fullPath = Path.Combine(path, newFileName);
 
             try
             {
-                using (FileStream fs = File.Create(fullPath)) { }
+                using (FileStream filestream = File.Create(fullPath)) { }
 
                 RefreshExplorer();
 
@@ -354,11 +444,33 @@ namespace File_Explorer__Clone_
 
         private void addNewFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            int cnt = 0;
             string newFolderName = "New Folder";
+
+            DirectoryInfo dir = new DirectoryInfo(path);
+            foreach (ListViewItem item in lvw_FileExplorer.Items)
+            {
+                foreach (var item2 in dir.GetDirectories()) // Vai a cada diretorio dentro do diretorio "path"
+                {
+                    if (item2.Name == newFolderName)
+                    {
+                        cnt++;
+                    }
+                }
+                if (cnt != 0)
+                {
+                    newFolderName = "New Folder";
+                    newFolderName = newFolderName + "(" + cnt + ")";
+                }
+            }
+
+                string fullPath = Path.Combine(path, newFolderName);
+
+
 
             try
             {
-                Directory.CreateDirectory(path + @"\" + newFolderName);
+                Directory.CreateDirectory(fullPath);
 
                 RefreshExplorer();
 
@@ -407,20 +519,48 @@ namespace File_Explorer__Clone_
 
         private void deleteFile()
         {
-            FileInfo file = new FileInfo(path + lvw_FileExplorer.SelectedItems[0].Text);
-            if (file.Exists)
+            int cnt = 0;
+            foreach (var item in lvw_FileExplorer.SelectedItems)
             {
-                try
+                if (lvw_FileExplorer.SelectedItems[cnt].ImageIndex != 0)
                 {
-                    file.Delete();
+
+                    FileInfo file = new FileInfo(path + lvw_FileExplorer.SelectedItems[cnt].Text);
+                    if (file.Exists)
+                    {
+                        try
+                        {
+                            file.Delete();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                            throw;
+                        }
+
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show(ex.Message);
-                    throw;
+                    DirectoryInfo directory = new DirectoryInfo(path + lvw_FileExplorer.SelectedItems[cnt].Text);
+                    if (directory.Exists)
+                    {
+                        try
+                        {
+                            directory.Delete(true);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                            throw;
+                        }
+
+                    }
                 }
-                RefreshExplorer();
+                cnt++;
+
             }
+            RefreshExplorer();
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -456,10 +596,10 @@ namespace File_Explorer__Clone_
                 lvw_FileExplorer.Sorting = SortOrder.Descending;
             }
             else
-            { 
-            lvw_FileExplorer.Sort();
-            lvw_FileExplorer.Sorting = SortOrder.Ascending;
-        }
+            {
+                lvw_FileExplorer.Sort();
+                lvw_FileExplorer.Sorting = SortOrder.Ascending;
+            }
         }
 
         private void dateModifiedToolStripMenuItem_Click(object sender, EventArgs e)
@@ -506,6 +646,25 @@ namespace File_Explorer__Clone_
             {
                 deleteFile();
             }
+            if (e.KeyCode == Keys.Enter)
+            {
+                path += lvw_FileExplorer.FocusedItem.Text;
+                RefreshExplorer();
+            }
+
+        }
+
+        private void showHiddenFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Show_Hidden)
+            {
+                Show_Hidden = true;
+            }
+            else
+            {
+                Show_Hidden = false;
+            }
+            RefreshExplorer();
         }
     }
 
