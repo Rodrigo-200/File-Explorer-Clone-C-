@@ -120,5 +120,113 @@
   <ItemGroup>
     <None Include="Resources\sort-descending.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\redo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\right-arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\left-arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\turn-back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\up-to-date.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sort-descending1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sort1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sort-down1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrows1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\77250751.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\check-box-empty1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\view-list1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\audio.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lua.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\png-file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\doc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pptx.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\txt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exe %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exe.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\configfile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdb-file-format-variant.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\png-transparent-winrar-icon-thumbnail__1_-removebg-preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\png-transparent-winrar-icon-thumbnail %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\png-transparent-winrar-icon-thumbnail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu %281%291.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\54f737502df8f8f7333ac3a073a392c3.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

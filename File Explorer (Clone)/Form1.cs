@@ -10,14 +10,16 @@ using System.Windows.Forms;
 using System.IO;
 using System.Linq.Expressions;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace File_Explorer__Clone_
 {
     public partial class Form1 : Form
     {
         string path = Environment.CurrentDirectory + @"\";
-        string recent = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        string recent = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + "Microsoft" + @"\" + "Windows" + @"\" + "Recent";
         List<string> OldPosition = new List<string>();
+        List<string> ForwardPosition = new List<string>();
         bool Show_Hidden = false;
 
         public Form1()
@@ -34,7 +36,6 @@ namespace File_Explorer__Clone_
             txt_Path.Text = path;
             lvw_FileExplorer.View = View.Details;
             RefreshExplorer();
-
         }
 
 
@@ -272,8 +273,8 @@ namespace File_Explorer__Clone_
             {
                 try
                 {
-                    path = path += lvw_FileExplorer.SelectedItems[0].Text + @"\";
-                    RefreshExplorer();
+                    string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text);
+                    NavigateTo(selectedPath);
                 }
                 catch (Exception)
                 {
@@ -298,30 +299,12 @@ namespace File_Explorer__Clone_
 
         private void btn_GoBack_Click(object sender, EventArgs e)
         {
-            path = OldPosition.Last();
-            OldPosition.Remove(path);
-            OldPosition.Add(path);
-
-            RefreshExplorer();
-        }
-
-        private void cbb_ViewType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbb_ViewType.SelectedItem == "Details")
+            if (OldPosition.Count > 0)
             {
-                lvw_FileExplorer.View = View.Details;
-            }
-            if (cbb_ViewType.SelectedItem == "List")
-            {
-                lvw_FileExplorer.View = View.List;
-            }
-            if (cbb_ViewType.SelectedItem == "Large Icons")
-            {
-                lvw_FileExplorer.View = View.LargeIcon;
-            }
-            if (cbb_ViewType.SelectedItem == "Small Icons")
-            {
-                lvw_FileExplorer.View = View.SmallIcon;
+                ForwardPosition.Add(path); // Store current path for forward navigation
+                path = OldPosition.Last();  // Set path to the last element in the OldPosition list
+                OldPosition.RemoveAt(OldPosition.Count - 1);  // Remove the last element from OldPosition
+                RefreshExplorer();
             }
         }
 
@@ -361,9 +344,13 @@ namespace File_Explorer__Clone_
 
         private void btn_Foward_Click(object sender, EventArgs e)
         {
-            path = OldPosition.Last();
-            OldPosition.Remove(path);
-            RefreshExplorer();
+            if (ForwardPosition.Count > 0)
+            {
+                OldPosition.Add(path); // Add current path back to OldPosition for possible back navigation
+                path = ForwardPosition.Last();  // Move to the last forward path
+                ForwardPosition.RemoveAt(ForwardPosition.Count - 1);  // Remove the last element from ForwardPosition
+                RefreshExplorer();
+            }
         }
 
         private void txt_Path_TextChanged(object sender, EventArgs e)
@@ -376,11 +363,7 @@ namespace File_Explorer__Clone_
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                string oldpath = path;
-                path = txt_Path.Text;
-
-                OldPosition.Add(oldpath);
-                RefreshExplorer();
+                NavigateTo(txt_Path.Text.Trim());
             }
         }
 
@@ -389,9 +372,13 @@ namespace File_Explorer__Clone_
 
         private void btn_GoUpOneLevel_Click(object sender, EventArgs e)
         {
-            OldPosition.Add(path);
-            path = new DirectoryInfo(path).Parent.FullName + @"\";
-            RefreshExplorer();
+
+            if (Directory.GetParent(path) != null)
+            {
+                OldPosition.Add(path);
+                path = new DirectoryInfo(path).Parent.FullName + @"\";
+                RefreshExplorer();
+            }
         }
 
         private void addNewTextFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -648,8 +635,8 @@ namespace File_Explorer__Clone_
             }
             if (e.KeyCode == Keys.Enter)
             {
-                path += lvw_FileExplorer.FocusedItem.Text;
-                RefreshExplorer();
+                string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text);
+                NavigateTo(selectedPath);
             }
 
         }
@@ -664,6 +651,244 @@ namespace File_Explorer__Clone_
             {
                 Show_Hidden = false;
             }
+
+            RefreshExplorer();
+        }
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NavigateTo(string newPath)
+        {
+            OldPosition.Add(path);  // Add current path to back navigation history
+            path = newPath;  // Update path
+            ForwardPosition.Clear();  // Clear forward history since a new path has been taken
+            RefreshExplorer();
+        }
+
+        private void detailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lvw_FileExplorer.View = View.Details;
+        }
+
+        private void listToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            lvw_FileExplorer.View = View.List;
+        }
+
+        private void largeIconToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lvw_FileExplorer.View = View.LargeIcon;
+        }
+
+        private void smallIconsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            lvw_FileExplorer.View = View.SmallIcon;
+        }
+
+        private void tsb_delete_Click(object sender, EventArgs e)
+        {
+            deleteFile();
+        }
+
+        private void newtextfileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int cnt = 0;
+            string newFileName = "New File.txt";
+
+            DirectoryInfo dir = new DirectoryInfo(path);
+            foreach (ListViewItem item in lvw_FileExplorer.Items)
+            {
+                foreach (var item2 in dir.GetFiles()) // Vai a cada diretorio dentro do diretorio "path"
+                {
+                    if (item2.Name == newFileName)
+                    {
+                        cnt++;
+                    }
+                }
+                if (cnt != 0)
+                {
+                    newFileName = "New File";
+                    newFileName = newFileName + "(" + cnt + ")" + ".txt";
+                }
+            }
+
+            string fullPath = Path.Combine(path, newFileName);
+
+            try
+            {
+                using (FileStream filestream = File.Create(fullPath)) { }
+
+                RefreshExplorer();
+
+
+                foreach (ListViewItem item in lvw_FileExplorer.Items)
+                {
+                    if (item.Text == newFileName)
+                    {
+                        lvw_FileExplorer.FocusedItem = item;
+                        item.Selected = true;
+                        item.BeginEdit();
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error creating file: " + ex.Message);
+            }
+        }
+
+        private void newPowerPointFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int cnt = 0;
+            string newFileName = "New File.pptx";
+
+            DirectoryInfo dir = new DirectoryInfo(path);
+            foreach (ListViewItem item in lvw_FileExplorer.Items)
+            {
+                foreach (var item2 in dir.GetFiles()) // Vai a cada diretorio dentro do diretorio "path"
+                {
+                    if (item2.Name == newFileName)
+                    {
+                        cnt++;
+                    }
+                }
+                if (cnt != 0)
+                {
+                    newFileName = "New File";
+                    newFileName = newFileName + "(" + cnt + ")" + ".pptx";
+                }
+            }
+
+            string fullPath = Path.Combine(path, newFileName);
+
+            try
+            {
+                using (FileStream filestream = File.Create(fullPath)) { }
+
+                RefreshExplorer();
+
+
+                foreach (ListViewItem item in lvw_FileExplorer.Items)
+                {
+                    if (item.Text == newFileName)
+                    {
+                        lvw_FileExplorer.FocusedItem = item;
+                        item.Selected = true;
+                        item.BeginEdit();
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error creating file: " + ex.Message);
+            }
+        }
+
+        private void newFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int cnt = 0;
+            string newFolderName = "New Folder";
+
+            DirectoryInfo dir = new DirectoryInfo(path);
+            foreach (ListViewItem item in lvw_FileExplorer.Items)
+            {
+                foreach (var item2 in dir.GetDirectories()) // Vai a cada diretorio dentro do diretorio "path"
+                {
+                    if (item2.Name == newFolderName)
+                    {
+                        cnt++;
+                    }
+                }
+                if (cnt != 0)
+                {
+                    newFolderName = "New Folder";
+                    newFolderName = newFolderName + "(" + cnt + ")";
+                }
+            }
+
+            string fullPath = Path.Combine(path, newFolderName);
+
+
+
+            try
+            {
+                Directory.CreateDirectory(fullPath);
+
+                RefreshExplorer();
+
+
+                foreach (ListViewItem item in lvw_FileExplorer.Items)
+                {
+                    if (item.Text == newFolderName)
+                    {
+                        lvw_FileExplorer.FocusedItem = item;
+                        item.Selected = true;
+                        item.BeginEdit();
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error creating Directory: " + ex.Message);
+            }
+        }
+
+        private void newWinRarFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int cnt = 0;
+            string newFileName = "New File.rar";
+
+            DirectoryInfo dir = new DirectoryInfo(path);
+            foreach (ListViewItem item in lvw_FileExplorer.Items)
+            {
+                foreach (var item2 in dir.GetFiles()) // Vai a cada diretorio dentro do diretorio "path"
+                {
+                    if (item2.Name == newFileName)
+                    {
+                        cnt++;
+                    }
+                }
+                if (cnt != 0)
+                {
+                    newFileName = "New File";
+                    newFileName = newFileName + "(" + cnt + ")" + ".rar";
+                }
+            }
+
+            string fullPath = Path.Combine(path, newFileName);
+
+            try
+            {
+                using (FileStream filestream = File.Create(fullPath)) { }
+
+                RefreshExplorer();
+
+
+                foreach (ListViewItem item in lvw_FileExplorer.Items)
+                {
+                    if (item.Text == newFileName)
+                    {
+                        lvw_FileExplorer.FocusedItem = item;
+                        item.Selected = true;
+                        item.BeginEdit();
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error creating file: " + ex.Message);
+            }
+        }
+
+        private void tsb_refresh_Click(object sender, EventArgs e)
+        {
             RefreshExplorer();
         }
     }
