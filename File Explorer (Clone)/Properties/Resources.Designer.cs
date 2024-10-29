@@ -283,6 +283,16 @@ namespace File_Explorer__Clone_.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap folder__1_ {
+            get {
+                object obj = ResourceManager.GetObject("folder (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap folder1 {
             get {
                 object obj = ResourceManager.GetObject("folder1", resourceCulture);
