@@ -1303,5 +1303,59 @@ namespace File_Explorer__Clone_
             RefreshExplorer();
 
         }
+
+        private void tsb_Compress_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lvw_FileExplorer.SelectedItems.Count == 0) { return; }
+
+
+
+                string destinationPath = path;
+                int cnt = 0;
+
+                foreach (var file in lvw_FileExplorer.SelectedItems)
+                {
+                    string sourceFile = Path.Combine(lvw_FileExplorer.SelectedItems[cnt].Text);
+
+                    if (!File.Exists(sourceFile))
+                    {
+                    }
+                    try
+                    {
+                        string winRarPath = @"C:\Program Files\WinRAR\WinRAR.exe";
+                        if (!File.Exists(winRarPath))
+                        {
+                            MessageBox.Show("Não tem WinRAR instalado no seu computador", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        Process process = new Process();
+                        process.StartInfo.FileName = winRarPath;
+                        process.StartInfo.Arguments = $"a -r \"{destinationPath}\" \"{sourceFile}\"";
+                        process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                        process.StartInfo.CreateNoWindow = true;
+
+                        process.Start();
+                        process.WaitForExit();
+
+                        if (process.ExitCode == 0) { }
+                        else { }
+                    }
+                    catch { }
+                    finally
+                    {
+                        cnt++;
+                    }
+                }
+                    RefreshExplorer();
+                    return;
+
+            }
+            catch { }
+
+            RefreshExplorer();
+        }
     }
 }
