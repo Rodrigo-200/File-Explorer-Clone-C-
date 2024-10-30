@@ -37,33 +37,17 @@ namespace File_Explorer__Clone_
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.imgl_Drivers = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.txt_Path = new System.Windows.Forms.ToolStripTextBox();
-            this.lvw_FileExplorer = new System.Windows.Forms.ListView();
-            this.ch_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_Modified = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.imgl_Large = new System.Windows.Forms.ImageList(this.components);
-            this.imgl_Small = new System.Windows.Forms.ImageList(this.components);
-            this.cms_GeneralOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.showHiddenFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cms_FileOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsdd_new = new System.Windows.Forms.ToolStripDropDownButton();
             this.newtextfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newPowerPointFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newWinRarFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_Cut = new System.Windows.Forms.ToolStripButton();
             this.tsb_Copy = new System.Windows.Forms.ToolStripButton();
             this.tsb_Paste = new System.Windows.Forms.ToolStripButton();
             this.tsb_delete = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.cbb_ViewType = new System.Windows.Forms.ToolStripDropDownButton();
             this.detailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,13 +60,27 @@ namespace File_Explorer__Clone_
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.ascendingToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.descendingToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_Favorite = new System.Windows.Forms.ToolStripButton();
             this.tsb_Extract = new System.Windows.Forms.ToolStripButton();
             this.tsb_Compress = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btn_GoBack = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_Foward = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_GoUpOneLevel = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_refresh = new System.Windows.Forms.ToolStripButton();
+            this.txt_Path = new System.Windows.Forms.ToolStripTextBox();
+            this.lvw_FileExplorer = new System.Windows.Forms.ListView();
+            this.ch_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_Modified = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imgl_Large = new System.Windows.Forms.ImageList(this.components);
+            this.imgl_Small = new System.Windows.Forms.ImageList(this.components);
+            this.cms_GeneralOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.largeIconsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.smallIconsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,7 +94,9 @@ namespace File_Explorer__Clone_
             this.dateModifiedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ascendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.descendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showHiddenFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.cms_FileOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.apagarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -117,7 +117,7 @@ namespace File_Explorer__Clone_
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -130,7 +130,7 @@ namespace File_Explorer__Clone_
             this.splitContainer1.Panel2.Controls.Add(this.toolStrip2);
             this.splitContainer1.Panel2.Controls.Add(this.lvw_FileExplorer);
             this.splitContainer1.Size = new System.Drawing.Size(1344, 687);
-            this.splitContainer1.SplitterDistance = 254;
+            this.splitContainer1.SplitterDistance = 253;
             this.splitContainer1.TabIndex = 0;
             // 
             // treeView1
@@ -142,11 +142,11 @@ namespace File_Explorer__Clone_
             this.treeView1.Indent = 19;
             this.treeView1.LineColor = System.Drawing.Color.White;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
-            this.treeView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.treeView1.Margin = new System.Windows.Forms.Padding(4);
             this.treeView1.Name = "treeView1";
             this.treeView1.PathSeparator = "";
             this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.Size = new System.Drawing.Size(254, 687);
+            this.treeView1.Size = new System.Drawing.Size(253, 687);
             this.treeView1.StateImageList = this.imgl_Drivers;
             this.treeView1.TabIndex = 0;
             this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyDown);
@@ -184,167 +184,11 @@ namespace File_Explorer__Clone_
             this.tsb_Favorite,
             this.tsb_Extract,
             this.tsb_Compress});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 27);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 31);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1086, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1087, 31);
             this.toolStrip1.TabIndex = 19;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 27);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 27);
-            // 
-            // toolStrip2
-            // 
-            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btn_GoBack,
-            this.toolStripSeparator4,
-            this.btn_Foward,
-            this.toolStripSeparator5,
-            this.btn_GoUpOneLevel,
-            this.toolStripSeparator2,
-            this.tsb_refresh,
-            this.txt_Path});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(1086, 27);
-            this.toolStrip2.TabIndex = 17;
-            this.toolStrip2.Text = "toolStrip2";
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.ForeColor = System.Drawing.SystemColors.Control;
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 27);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.ForeColor = System.Drawing.SystemColors.Control;
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 27);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.ForeColor = System.Drawing.SystemColors.Control;
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
-            // 
-            // txt_Path
-            // 
-            this.txt_Path.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_Path.Name = "txt_Path";
-            this.txt_Path.Size = new System.Drawing.Size(865, 27);
-            this.txt_Path.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Path_KeyPress);
-            // 
-            // lvw_FileExplorer
-            // 
-            this.lvw_FileExplorer.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.lvw_FileExplorer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvw_FileExplorer.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ch_Name,
-            this.ch_Modified,
-            this.ch_Description,
-            this.ch_Size});
-            this.lvw_FileExplorer.FullRowSelect = true;
-            this.lvw_FileExplorer.HideSelection = false;
-            this.lvw_FileExplorer.LabelEdit = true;
-            this.lvw_FileExplorer.LargeImageList = this.imgl_Large;
-            this.lvw_FileExplorer.Location = new System.Drawing.Point(4, 65);
-            this.lvw_FileExplorer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.lvw_FileExplorer.Name = "lvw_FileExplorer";
-            this.lvw_FileExplorer.Size = new System.Drawing.Size(1078, 616);
-            this.lvw_FileExplorer.SmallImageList = this.imgl_Small;
-            this.lvw_FileExplorer.TabIndex = 6;
-            this.lvw_FileExplorer.UseCompatibleStateImageBehavior = false;
-            this.lvw_FileExplorer.View = System.Windows.Forms.View.Details;
-            this.lvw_FileExplorer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lvw_FileExplorer_AfterLabelEdit);
-            this.lvw_FileExplorer.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvw_FileExplorer_ColumnClick);
-            this.lvw_FileExplorer.SelectedIndexChanged += new System.EventHandler(this.lvw_FileExplorer_SelectedIndexChanged);
-            this.lvw_FileExplorer.DoubleClick += new System.EventHandler(this.lvw_FileExplorer_DoubleClick);
-            this.lvw_FileExplorer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvw_FileExplorer_KeyDown);
-            this.lvw_FileExplorer.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lvw_FileExplorer_KeyPress);
-            this.lvw_FileExplorer.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lvw_FileExplorer_MouseClick);
-            this.lvw_FileExplorer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lvw_FileExplorer_MouseDown);
-            // 
-            // ch_Name
-            // 
-            this.ch_Name.Text = "Name";
-            this.ch_Name.Width = 304;
-            // 
-            // ch_Modified
-            // 
-            this.ch_Modified.Text = "Date Modified";
-            this.ch_Modified.Width = 154;
-            // 
-            // ch_Description
-            // 
-            this.ch_Description.Text = "Description";
-            this.ch_Description.Width = 123;
-            // 
-            // ch_Size
-            // 
-            this.ch_Size.Text = "Size";
-            this.ch_Size.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ch_Size.Width = 85;
-            // 
-            // imgl_Large
-            // 
-            this.imgl_Large.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgl_Large.ImageStream")));
-            this.imgl_Large.TransparentColor = System.Drawing.Color.Transparent;
-            this.imgl_Large.Images.SetKeyName(0, "folder.png");
-            // 
-            // imgl_Small
-            // 
-            this.imgl_Small.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgl_Small.ImageStream")));
-            this.imgl_Small.TransparentColor = System.Drawing.Color.Transparent;
-            this.imgl_Small.Images.SetKeyName(0, "folder.png");
-            // 
-            // cms_GeneralOptions
-            // 
-            this.cms_GeneralOptions.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.cms_GeneralOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewToolStripMenuItem,
-            this.addToolStripMenuItem,
-            this.sortByToolStripMenuItem,
-            this.showHiddenFilesToolStripMenuItem,
-            this.pasteToolStripMenuItem1});
-            this.cms_GeneralOptions.Name = "cms_GeneralOptions";
-            this.cms_GeneralOptions.Size = new System.Drawing.Size(212, 134);
-            // 
-            // showHiddenFilesToolStripMenuItem
-            // 
-            this.showHiddenFilesToolStripMenuItem.Name = "showHiddenFilesToolStripMenuItem";
-            this.showHiddenFilesToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
-            this.showHiddenFilesToolStripMenuItem.Text = "Show Hidden Items";
-            this.showHiddenFilesToolStripMenuItem.Click += new System.EventHandler(this.showHiddenFilesToolStripMenuItem_Click);
-            // 
-            // cms_FileOptions
-            // 
-            this.cms_FileOptions.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.cms_FileOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.apagarToolStripMenuItem,
-            this.copyToolStripMenuItem,
-            this.cutToolStripMenuItem,
-            this.copyToolStripMenuItem1,
-            this.pasteToolStripMenuItem,
-            this.addToFavoritesToolStripMenuItem});
-            this.cms_FileOptions.Name = "contextMenuStrip1";
-            this.cms_FileOptions.Size = new System.Drawing.Size(191, 160);
             // 
             // tsdd_new
             // 
@@ -393,6 +237,11 @@ namespace File_Explorer__Clone_
             this.newWinRarFileToolStripMenuItem.Text = "New WinRar File";
             this.newWinRarFileToolStripMenuItem.Click += new System.EventHandler(this.newWinRarFileToolStripMenuItem_Click);
             // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 27);
+            // 
             // tsb_Cut
             // 
             this.tsb_Cut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -432,6 +281,11 @@ namespace File_Explorer__Clone_
             this.tsb_delete.Size = new System.Drawing.Size(29, 24);
             this.tsb_delete.Text = "Delete";
             this.tsb_delete.Click += new System.EventHandler(this.tsb_delete_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // cbb_ViewType
             // 
@@ -531,6 +385,11 @@ namespace File_Explorer__Clone_
             this.descendingToolStripMenuItem1.Size = new System.Drawing.Size(189, 26);
             this.descendingToolStripMenuItem1.Text = "Descending";
             // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 27);
+            // 
             // tsb_Favorite
             // 
             this.tsb_Favorite.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -561,6 +420,25 @@ namespace File_Explorer__Clone_
             this.tsb_Compress.Text = "toolStripButton1";
             this.tsb_Compress.Click += new System.EventHandler(this.tsb_Compress_Click);
             // 
+            // toolStrip2
+            // 
+            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btn_GoBack,
+            this.toolStripSeparator4,
+            this.btn_Foward,
+            this.toolStripSeparator5,
+            this.btn_GoUpOneLevel,
+            this.toolStripSeparator2,
+            this.tsb_refresh,
+            this.txt_Path});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(1087, 31);
+            this.toolStrip2.TabIndex = 17;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
             // btn_GoBack
             // 
             this.btn_GoBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -570,6 +448,12 @@ namespace File_Explorer__Clone_
             this.btn_GoBack.Size = new System.Drawing.Size(29, 24);
             this.btn_GoBack.Text = "toolStripButton1";
             this.btn_GoBack.Click += new System.EventHandler(this.btn_GoBack_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.ForeColor = System.Drawing.SystemColors.Control;
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 27);
             // 
             // btn_Foward
             // 
@@ -582,6 +466,12 @@ namespace File_Explorer__Clone_
             this.btn_Foward.ToolTipText = "Foward";
             this.btn_Foward.Click += new System.EventHandler(this.btn_Foward_Click);
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.ForeColor = System.Drawing.SystemColors.Control;
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 27);
+            // 
             // btn_GoUpOneLevel
             // 
             this.btn_GoUpOneLevel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -592,6 +482,12 @@ namespace File_Explorer__Clone_
             this.btn_GoUpOneLevel.Text = "toolStripButton3";
             this.btn_GoUpOneLevel.Click += new System.EventHandler(this.btn_GoUpOneLevel_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.ForeColor = System.Drawing.SystemColors.Control;
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
+            // 
             // tsb_refresh
             // 
             this.tsb_refresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -601,6 +497,90 @@ namespace File_Explorer__Clone_
             this.tsb_refresh.Size = new System.Drawing.Size(29, 24);
             this.tsb_refresh.Text = "toolStripButton4";
             this.tsb_refresh.Click += new System.EventHandler(this.tsb_refresh_Click);
+            // 
+            // txt_Path
+            // 
+            this.txt_Path.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_Path.Name = "txt_Path";
+            this.txt_Path.Size = new System.Drawing.Size(680, 31);
+            this.txt_Path.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Path_KeyPress);
+            // 
+            // lvw_FileExplorer
+            // 
+            this.lvw_FileExplorer.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.lvw_FileExplorer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvw_FileExplorer.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ch_Name,
+            this.ch_Modified,
+            this.ch_Description,
+            this.ch_Size});
+            this.lvw_FileExplorer.FullRowSelect = true;
+            this.lvw_FileExplorer.HideSelection = false;
+            this.lvw_FileExplorer.LabelEdit = true;
+            this.lvw_FileExplorer.LargeImageList = this.imgl_Large;
+            this.lvw_FileExplorer.Location = new System.Drawing.Point(4, 65);
+            this.lvw_FileExplorer.Margin = new System.Windows.Forms.Padding(4);
+            this.lvw_FileExplorer.Name = "lvw_FileExplorer";
+            this.lvw_FileExplorer.Size = new System.Drawing.Size(1079, 616);
+            this.lvw_FileExplorer.SmallImageList = this.imgl_Small;
+            this.lvw_FileExplorer.TabIndex = 6;
+            this.lvw_FileExplorer.UseCompatibleStateImageBehavior = false;
+            this.lvw_FileExplorer.View = System.Windows.Forms.View.Details;
+            this.lvw_FileExplorer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lvw_FileExplorer_AfterLabelEdit);
+            this.lvw_FileExplorer.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvw_FileExplorer_ColumnClick);
+            this.lvw_FileExplorer.SelectedIndexChanged += new System.EventHandler(this.lvw_FileExplorer_SelectedIndexChanged);
+            this.lvw_FileExplorer.DoubleClick += new System.EventHandler(this.lvw_FileExplorer_DoubleClick);
+            this.lvw_FileExplorer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvw_FileExplorer_KeyDown);
+            this.lvw_FileExplorer.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lvw_FileExplorer_KeyPress);
+            this.lvw_FileExplorer.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lvw_FileExplorer_MouseClick);
+            this.lvw_FileExplorer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lvw_FileExplorer_MouseDown);
+            // 
+            // ch_Name
+            // 
+            this.ch_Name.Text = "Name";
+            this.ch_Name.Width = 304;
+            // 
+            // ch_Modified
+            // 
+            this.ch_Modified.Text = "Date Modified";
+            this.ch_Modified.Width = 154;
+            // 
+            // ch_Description
+            // 
+            this.ch_Description.Text = "Description";
+            this.ch_Description.Width = 123;
+            // 
+            // ch_Size
+            // 
+            this.ch_Size.Text = "Size";
+            this.ch_Size.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ch_Size.Width = 85;
+            // 
+            // imgl_Large
+            // 
+            this.imgl_Large.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgl_Large.ImageStream")));
+            this.imgl_Large.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgl_Large.Images.SetKeyName(0, "folder.png");
+            // 
+            // imgl_Small
+            // 
+            this.imgl_Small.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgl_Small.ImageStream")));
+            this.imgl_Small.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgl_Small.Images.SetKeyName(0, "folder.png");
+            // 
+            // cms_GeneralOptions
+            // 
+            this.cms_GeneralOptions.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.cms_GeneralOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewToolStripMenuItem,
+            this.addToolStripMenuItem,
+            this.sortByToolStripMenuItem,
+            this.showHiddenFilesToolStripMenuItem,
+            this.pasteToolStripMenuItem1});
+            this.cms_GeneralOptions.Name = "cms_GeneralOptions";
+            this.cms_GeneralOptions.Size = new System.Drawing.Size(212, 134);
             // 
             // viewToolStripMenuItem
             // 
@@ -712,6 +692,13 @@ namespace File_Explorer__Clone_
             this.descendingToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
             this.descendingToolStripMenuItem.Text = "Descending";
             // 
+            // showHiddenFilesToolStripMenuItem
+            // 
+            this.showHiddenFilesToolStripMenuItem.Name = "showHiddenFilesToolStripMenuItem";
+            this.showHiddenFilesToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.showHiddenFilesToolStripMenuItem.Text = "Show Hidden Items";
+            this.showHiddenFilesToolStripMenuItem.Click += new System.EventHandler(this.showHiddenFilesToolStripMenuItem_Click);
+            // 
             // pasteToolStripMenuItem1
             // 
             this.pasteToolStripMenuItem1.Image = global::File_Explorer__Clone_.Properties.Resources.paste;
@@ -719,6 +706,19 @@ namespace File_Explorer__Clone_
             this.pasteToolStripMenuItem1.Size = new System.Drawing.Size(211, 26);
             this.pasteToolStripMenuItem1.Text = "Paste";
             this.pasteToolStripMenuItem1.Click += new System.EventHandler(this.pasteToolStripMenuItem1_Click);
+            // 
+            // cms_FileOptions
+            // 
+            this.cms_FileOptions.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.cms_FileOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.apagarToolStripMenuItem,
+            this.copyToolStripMenuItem,
+            this.cutToolStripMenuItem,
+            this.copyToolStripMenuItem1,
+            this.pasteToolStripMenuItem,
+            this.addToFavoritesToolStripMenuItem});
+            this.cms_FileOptions.Name = "contextMenuStrip1";
+            this.cms_FileOptions.Size = new System.Drawing.Size(191, 160);
             // 
             // apagarToolStripMenuItem
             // 
@@ -774,7 +774,7 @@ namespace File_Explorer__Clone_
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1344, 687);
             this.Controls.Add(this.splitContainer1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);

@@ -23,6 +23,7 @@ namespace File_Explorer__Clone_
     public partial class Form1 : Form
     {
         string path = Environment.CurrentDirectory + @"\";
+        string logspath = Environment.CurrentDirectory + @"\" + "Logs.txt";
         string recent = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + "Microsoft" + @"\" + "Windows" + @"\" + "Recent";
         List<string> OldPosition = new List<string>();
         List<string> ForwardPosition = new List<string>();
@@ -94,9 +95,31 @@ namespace File_Explorer__Clone_
                         lvw_FileExplorer.Items.Add(Directory);
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    throw;
+                    if (File.Exists(logspath))
+                    {
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
+                    else
+                    {
+
+                        using (FileStream filestream = File.Create(logspath)) { }
+
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
                 }
             }
             foreach (var item in dir.GetFiles())
@@ -143,7 +166,29 @@ namespace File_Explorer__Clone_
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    if (File.Exists(logspath))
+                    {
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
+                    else
+                    {
+
+                        using (FileStream filestream = File.Create(logspath)) { }
+
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
                 }
 
                 _Type.Text = GetFileTypeDescription(item.FullName);
@@ -171,9 +216,31 @@ namespace File_Explorer__Clone_
                     string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text + @"\");
                     NavigateTo(selectedPath);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    throw;
+                    if (File.Exists(logspath))
+                    {
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
+                    else
+                    {
+
+                        using (FileStream filestream = File.Create(logspath)) { }
+
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
                 }
             }
             else
@@ -185,7 +252,29 @@ namespace File_Explorer__Clone_
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error opening file: " + ex.Message);
+                    if (File.Exists(logspath))
+                    {
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
+                    else
+                    {
+
+                        using (FileStream filestream = File.Create(logspath)) { }
+
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
                 }
             }
 
@@ -438,8 +527,29 @@ namespace File_Explorer__Clone_
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.Message);
-                            throw;
+                            if (File.Exists(logspath))
+                            {
+                                string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                                using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                                {
+                                    writetext.WriteLine(error);
+                                }
+                            }
+                            else
+                            {
+
+                                using (FileStream filestream = File.Create(logspath)) { }
+
+                                string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                                using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                                {
+                                    writetext.WriteLine(error);
+                                }
+                            }
                         }
 
                     }
@@ -455,8 +565,29 @@ namespace File_Explorer__Clone_
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.Message);
-                            throw;
+                            if (File.Exists(logspath))
+                            {
+                                string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                                using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                                {
+                                    writetext.WriteLine(error);
+                                }
+                            }
+                            else
+                            {
+
+                                using (FileStream filestream = File.Create(logspath)) { }
+
+                                string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                                using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                                {
+                                    writetext.WriteLine(error);
+                                }
+                            }
                         }
 
                     }
@@ -942,8 +1073,29 @@ namespace File_Explorer__Clone_
                                     }
                                     catch (Exception ex)
                                     {
-                                        MessageBox.Show(ex.Message);
-                                        throw;
+                                        if (File.Exists(logspath))
+                                        {
+                                            string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                                            using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                                            {
+                                                writetext.WriteLine(error);
+                                            }
+                                        }
+                                        else
+                                        {
+
+                                            using (FileStream filestream = File.Create(logspath)) { }
+
+                                            string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                                            using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                                            {
+                                                writetext.WriteLine(error);
+                                            }
+                                        }
                                     }
                                 }
 
@@ -952,16 +1104,59 @@ namespace File_Explorer__Clone_
                         }
                         catch (Exception ex)
                         {
-                            throw;
+                            if (File.Exists(logspath))
+                            {
+                                string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                                using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                                {
+                                    writetext.WriteLine(error);
+                                }
+                            }
+                            else
+                            {
+
+                                using (FileStream filestream = File.Create(logspath)) { }
+
+                                string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                                using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                                {
+                                    writetext.WriteLine(error);
+                                }
+                            }
                         }
                     }
 
                     parent.Nodes.Add(son);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    if (File.Exists(logspath))
+                    {
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
 
-                    throw;
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
+                    else
+                    {
+
+                        using (FileStream filestream = File.Create(logspath)) { }
+
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
                 }
             }
             treeView1.Nodes.Add(parent);
@@ -1002,7 +1197,32 @@ namespace File_Explorer__Clone_
                         return imageKey;
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    if (File.Exists(logspath))
+                    {
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
+                    else
+                    {
+
+                        using (FileStream filestream = File.Create(logspath)) { }
+
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
+                }
                 return "default_file";
             }
             return "unknown";
@@ -1029,9 +1249,33 @@ namespace File_Explorer__Clone_
                         NavigateTo(selectedPath);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    string selectedPath = treeView1.SelectedNode.Text;
+                    if (File.Exists(logspath))
+                    {
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
+                    else
+                    {
+
+                        using (FileStream filestream = File.Create(logspath)) { }
+
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
+
+                string selectedPath = treeView1.SelectedNode.Text;
                     NavigateTo(selectedPath);
                 }
             }
@@ -1051,9 +1295,31 @@ namespace File_Explorer__Clone_
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                if (File.Exists(logspath))
+                {
+                    string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                    using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                    {
+                        writetext.WriteLine(error);
+                    }
+                }
+                else
+                {
+
+                    using (FileStream filestream = File.Create(logspath)) { }
+
+                    string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                    using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                    {
+                        writetext.WriteLine(error);
+                    }
+                }
             }
             finally
             {
@@ -1091,7 +1357,32 @@ namespace File_Explorer__Clone_
                             }
                         }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        if (File.Exists(logspath))
+                        {
+                            string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                            using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                            {
+                                writetext.WriteLine(error);
+                            }
+                        }
+                        else
+                        {
+
+                            using (FileStream filestream = File.Create(logspath)) { }
+
+                            string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                            using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                            {
+                                writetext.WriteLine(error);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -1115,7 +1406,32 @@ namespace File_Explorer__Clone_
 
                     }
                 }
-                catch (Exception ex) { }
+                catch (Exception ex)
+                {
+                    if (File.Exists(logspath))
+                    {
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
+                    else
+                    {
+
+                        using (FileStream filestream = File.Create(logspath)) { }
+
+                        string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                        using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                        {
+                            writetext.WriteLine(error);
+                        }
+                    }
+                }
             }
         }
 
@@ -1291,14 +1607,64 @@ namespace File_Explorer__Clone_
                         if (process.ExitCode == 0) { }
                         else { }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        if (File.Exists(logspath))
+                        {
+                            string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                            using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                            {
+                                writetext.WriteLine(error);
+                            }
+                        }
+                        else
+                        {
+
+                            using (FileStream filestream = File.Create(logspath)) { }
+
+                            string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                            using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                            {
+                                writetext.WriteLine(error);
+                            }
+                        }
+                    }
                     RefreshExplorer();
                     return;
                 }
 
                 ZipFile.ExtractToDirectory(sourceFile, destinationPath);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                if (File.Exists(logspath))
+                {
+                    string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                    using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                    {
+                        writetext.WriteLine(error);
+                    }
+                }
+                else
+                {
+
+                    using (FileStream filestream = File.Create(logspath)) { }
+
+                    string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                    using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                    {
+                        writetext.WriteLine(error);
+                    }
+                }
+            }
 
             RefreshExplorer();
 
@@ -1321,6 +1687,7 @@ namespace File_Explorer__Clone_
 
                     if (!File.Exists(sourceFile))
                     {
+                        return;
                     }
                     try
                     {
@@ -1343,17 +1710,70 @@ namespace File_Explorer__Clone_
                         if (process.ExitCode == 0) { }
                         else { }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        if (File.Exists(logspath))
+                        {
+                            string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                            using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                            {
+                                writetext.WriteLine(error);
+                            }
+                        }
+                        else
+                        {
+
+                            using (FileStream filestream = File.Create(logspath)) { }
+
+                            string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                            using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                            {
+                                writetext.WriteLine(error);
+                            }
+                        }
+                    }
                     finally
                     {
                         cnt++;
                     }
                 }
                     RefreshExplorer();
-                    return;
+                throw new Exception();
+                return;
+
+
 
             }
-            catch { }
+            catch (Exception ex)
+            {
+                if (File.Exists(logspath))
+                {
+                    string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+                    using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                    {
+                        writetext.WriteLine(error);
+                    }
+                }
+                else
+                {
+
+                    using (FileStream filestream = File.Create(logspath)) { }
+
+                    string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + ex.Message + DateTime.Now + "\n";
+
+
+
+                    using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                    {
+                        writetext.WriteLine(error);
+                    }
+                }
+            }
 
             RefreshExplorer();
         }
