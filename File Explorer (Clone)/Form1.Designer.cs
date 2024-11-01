@@ -26,8 +26,8 @@ namespace File_Explorer__Clone_
         #region Windows Form Designer generated code
 
         /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -149,6 +149,7 @@ namespace File_Explorer__Clone_
             this.treeView1.Size = new System.Drawing.Size(189, 558);
             this.treeView1.StateImageList = this.imgl_Drivers;
             this.treeView1.TabIndex = 0;
+            this.treeView1.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeExpand);
             this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyDown);
             this.treeView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDoubleClick);
             this.treeView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
@@ -293,10 +294,9 @@ namespace File_Explorer__Clone_
             this.listToolStripMenuItem1,
             this.largeIconToolStripMenuItem,
             this.smallIconsToolStripMenuItem1});
-            this.cbb_ViewType.Image = global::File_Explorer__Clone_.Properties.Resources.view_list;
             this.cbb_ViewType.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cbb_ViewType.Name = "cbb_ViewType";
-            this.cbb_ViewType.Size = new System.Drawing.Size(65, 24);
+            this.cbb_ViewType.Size = new System.Drawing.Size(45, 24);
             this.cbb_ViewType.Text = "View";
             // 
             // detailsToolStripMenuItem
@@ -309,7 +309,7 @@ namespace File_Explorer__Clone_
             // 
             // listToolStripMenuItem1
             // 
-            this.listToolStripMenuItem1.Image = global::File_Explorer__Clone_.Properties.Resources.menu__1_;
+            this.listToolStripMenuItem1.Image = global::File_Explorer__Clone_.Properties.Resources.menu1;
             this.listToolStripMenuItem1.Name = "listToolStripMenuItem1";
             this.listToolStripMenuItem1.Size = new System.Drawing.Size(134, 22);
             this.listToolStripMenuItem1.Text = "List";
@@ -348,7 +348,6 @@ namespace File_Explorer__Clone_
             // 
             // nameToolStripMenuItem1
             // 
-            this.nameToolStripMenuItem1.Image = global::File_Explorer__Clone_.Properties.Resources.sort_down;
             this.nameToolStripMenuItem1.Name = "nameToolStripMenuItem1";
             this.nameToolStripMenuItem1.Size = new System.Drawing.Size(149, 22);
             this.nameToolStripMenuItem1.Text = "Name";
@@ -372,7 +371,6 @@ namespace File_Explorer__Clone_
             // 
             // ascendingToolStripMenuItem1
             // 
-            this.ascendingToolStripMenuItem1.Image = global::File_Explorer__Clone_.Properties.Resources.sort_descending;
             this.ascendingToolStripMenuItem1.Name = "ascendingToolStripMenuItem1";
             this.ascendingToolStripMenuItem1.Size = new System.Drawing.Size(149, 22);
             this.ascendingToolStripMenuItem1.Text = "Ascending";
@@ -481,10 +479,9 @@ namespace File_Explorer__Clone_
             // tsb_refresh
             // 
             this.tsb_refresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_refresh.Image = global::File_Explorer__Clone_.Properties.Resources.up_to_date;
             this.tsb_refresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_refresh.Name = "tsb_refresh";
-            this.tsb_refresh.Size = new System.Drawing.Size(24, 24);
+            this.tsb_refresh.Size = new System.Drawing.Size(23, 24);
             this.tsb_refresh.Text = "toolStripButton4";
             this.tsb_refresh.Click += new System.EventHandler(this.tsb_refresh_Click);
             // 
@@ -512,7 +509,7 @@ namespace File_Explorer__Clone_
             this.lvw_FileExplorer.LargeImageList = this.imgl_Large;
             this.lvw_FileExplorer.Location = new System.Drawing.Point(3, 53);
             this.lvw_FileExplorer.Name = "lvw_FileExplorer";
-            this.lvw_FileExplorer.Size = new System.Drawing.Size(812, 501);
+            this.lvw_FileExplorer.Size = new System.Drawing.Size(817, 501);
             this.lvw_FileExplorer.SmallImageList = this.imgl_Small;
             this.lvw_FileExplorer.TabIndex = 6;
             this.lvw_FileExplorer.UseCompatibleStateImageBehavior = false;
@@ -602,7 +599,7 @@ namespace File_Explorer__Clone_
             // 
             // listToolStripMenuItem
             // 
-            this.listToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.menu__1_;
+            this.listToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.menu1;
             this.listToolStripMenuItem.Name = "listToolStripMenuItem";
             this.listToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.listToolStripMenuItem.Text = "List";
@@ -670,7 +667,6 @@ namespace File_Explorer__Clone_
             // 
             // ascendingToolStripMenuItem
             // 
-            this.ascendingToolStripMenuItem.Image = global::File_Explorer__Clone_.Properties.Resources.sort_descending;
             this.ascendingToolStripMenuItem.Name = "ascendingToolStripMenuItem";
             this.ascendingToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.ascendingToolStripMenuItem.Text = "Ascending";
@@ -710,7 +706,7 @@ namespace File_Explorer__Clone_
             this.compressAsWinRARToolStripMenuItem,
             this.compressAsZIPFileToolStripMenuItem});
             this.cms_FileOptions.Name = "contextMenuStrip1";
-            this.cms_FileOptions.Size = new System.Drawing.Size(192, 234);
+            this.cms_FileOptions.Size = new System.Drawing.Size(192, 212);
             // 
             // apagarToolStripMenuItem
             // 
@@ -804,9 +800,9 @@ namespace File_Explorer__Clone_
 
         private ListViewColumnSorter lvwColumnSorter;
         private SplitContainer splitContainer1;
-        private TreeView treeView1;
+        private System.Windows.Forms.TreeView treeView1;
         private ImageList imgl_Large;
-        private ListView lvw_FileExplorer;
+        private System.Windows.Forms.ListView lvw_FileExplorer;
         private ColumnHeader ch_Name;
         private ColumnHeader ch_Modified;
         private ToolStripMenuItem addToolStripMenuItem;
@@ -818,12 +814,12 @@ namespace File_Explorer__Clone_
         private ContextMenuStrip cms_FileOptions;
         private ToolStripMenuItem apagarToolStripMenuItem;
         private ToolStripMenuItem viewToolStripMenuItem;
-        private ToolStripMenuItem largeIconsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem largeIconsToolStripMenuItem;
         private ToolStripMenuItem smallIconsToolStripMenuItem;
-        private ToolStripMenuItem listToolStripMenuItem;
-        private ToolStripMenuItem detailToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem detailToolStripMenuItem;
         private ImageList imgl_Small;
-        private ToolStripMenuItem copyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private ToolStripMenuItem sortByToolStripMenuItem;
         private ToolStripMenuItem nameToolStripMenuItem;
         private ToolStripMenuItem dateModifiedToolStripMenuItem;
@@ -832,14 +828,14 @@ namespace File_Explorer__Clone_
         private ToolStripMenuItem showHiddenFilesToolStripMenuItem;
         private ToolStripMenuItem cutToolStripMenuItem;
         private ToolStrip toolStrip2;
-        private ToolStripButton btn_GoBack;
+        private System.Windows.Forms.ToolStripButton btn_GoBack;
         private ToolStripButton btn_Foward;
         private ToolStripButton btn_GoUpOneLevel;
         private ToolStripButton tsb_refresh;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripSeparator toolStripSeparator5;
-        private ToolStripTextBox txt_Path;
+        private System.Windows.Forms.ToolStripTextBox txt_Path;
         private ToolStrip toolStrip1;
         private ToolStripDropDownButton tsdd_new;
         private ToolStripMenuItem newtextfileToolStripMenuItem;
@@ -850,9 +846,9 @@ namespace File_Explorer__Clone_
         private ToolStripButton tsb_delete;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripDropDownButton cbb_ViewType;
-        private ToolStripMenuItem detailsToolStripMenuItem;
-        private ToolStripMenuItem listToolStripMenuItem1;
-        private ToolStripMenuItem largeIconToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem detailsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem largeIconToolStripMenuItem;
         private ToolStripMenuItem smallIconsToolStripMenuItem1;
         private ToolStripDropDownButton toolStripDropDownButton1;
         private ToolStripMenuItem nameToolStripMenuItem1;
@@ -871,8 +867,8 @@ namespace File_Explorer__Clone_
         private ToolStripMenuItem pasteToolStripMenuItem;
         private ToolStripMenuItem addToFavoritesToolStripMenuItem;
         private ToolStripMenuItem pasteToolStripMenuItem1;
-        private ToolStripButton tsb_Extract;
-        private ToolStripMenuItem compressAsWinRARToolStripMenuItem;
-        private ToolStripMenuItem compressAsZIPFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton tsb_Extract;
+        private System.Windows.Forms.ToolStripMenuItem compressAsWinRARToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem compressAsZIPFileToolStripMenuItem;
     }
 }
