@@ -23,11 +23,10 @@ namespace File_Explorer__Clone_
 {
     public partial class Form1 : Form
     {
+        #region Inicialização de variaveis 
+
         string path = Environment.CurrentDirectory + @"\";
         string logspath = Environment.CurrentDirectory + @"\" + "Logs.txt";
-
-        string recent = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + "Microsoft" +
-                        @"\" + "Windows" + @"\" + "Recent";
 
         List<string> OldPosition = new List<string>();
         List<string> ForwardPosition = new List<string>();
@@ -36,6 +35,8 @@ namespace File_Explorer__Clone_
 
         private List<string> copiedFilePaths = new List<string>();
         private bool cutOperation = false;
+
+        #endregion
 
         public Form1()
         {
@@ -52,131 +53,111 @@ namespace File_Explorer__Clone_
             refreshTreeView();
         }
 
+        #region Eventos Keypress
 
-        private void RefreshExplorer()
+        private void txt_Path_KeyPress(object sender, KeyPressEventArgs e)
         {
-            lvw_FileExplorer.Items.Clear();
-            txt_Path.Text = path;
-            DirectoryInfo dir = new DirectoryInfo(path);
-            try
+            if (e.KeyChar == (char)Keys.Enter)
             {
-                foreach (var item in dir.GetDirectories())
+                NavigateTo(txt_Path.Text.Trim());
+            }
+        }
+        private void lvw_FileExplorer_KeyPress(object sender, KeyPressEventArgs e)
+        {
+        }
+        #endregion
+
+        #region Eventos MouseDown
+
+        private void lvw_FileExplorer_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hitTestInfo = lvw_FileExplorer.HitTest(e.Location);
+
+                if (hitTestInfo.Item != null)
                 {
-                    try
-                    {
-                        if (!Show_Hidden)
-                        {
-                            if (item.Attributes.HasFlag(FileAttributes.Hidden))
-                            {
-                            }
-                            else
-                            {
-                                ListViewItem Directory = new ListViewItem();
-                                Directory.Text = item.Name;
-                                Directory.ImageIndex = 0;
-
-                                ListViewItem.ListViewSubItem Mod_date = new ListViewItem.ListViewSubItem();
-                                Mod_date.Text = item.LastWriteTime.ToString();
-                                ListViewItem.ListViewSubItem _Type = new ListViewItem.ListViewSubItem();
-                                _Type.Text = "File Folder";
-
-                                Directory.SubItems.Add(Mod_date);
-                                Directory.SubItems.Add(_Type);
-
-                                lvw_FileExplorer.Items.Add(Directory);
-                            }
-                        }
-                        else
-                        {
-                            ListViewItem Directory = new ListViewItem();
-                            Directory.Text = item.Name;
-                            Directory.ImageIndex = 0;
-
-                            ListViewItem.ListViewSubItem Mod_date = new ListViewItem.ListViewSubItem();
-                            Mod_date.Text = item.LastWriteTime.ToString();
-                            ListViewItem.ListViewSubItem _Type = new ListViewItem.ListViewSubItem();
-                            _Type.Text = "File Folder";
-
-                            Directory.SubItems.Add(Mod_date);
-                            Directory.SubItems.Add(_Type);
-
-                            lvw_FileExplorer.Items.Add(Directory);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        LogError(ex.Message);
-                    }
+                    cms_FileOptions.Show(Cursor.Position);
                 }
-
-                foreach (var item in dir.GetFiles())
+                else
                 {
-                    ListViewItem listViewItem = new ListViewItem();
-                    listViewItem.Text = item.Name;
-                    ListViewItem.ListViewSubItem Mod_date = new ListViewItem.ListViewSubItem();
-                    Mod_date.Text = item.LastWriteTime.ToString();
-                    ListViewItem.ListViewSubItem _Type = new ListViewItem.ListViewSubItem();
-                    _Type.Text = item.Extension.ToString();
-                    ListViewItem.ListViewSubItem Size = new ListViewItem.ListViewSubItem();
-                    double ByteSize = Convert.ToDouble(item.Length);
-                    double size = Math.Ceiling((ByteSize / 1024));
-                    Size.Text = size.ToString() + " KB";
-
-                    try
-                    {
-                        string filePath = Path.Combine(item.FullName);
-
-                        Icon icon = Icon.ExtractAssociatedIcon(filePath);
-
-                        if (icon != null)
-                        {
-                            Bitmap iconBitmap = icon.ToBitmap();
-
-                            string imageKey = filePath;
-
-                            if (!imgl_Large.Images.ContainsKey(imageKey))
-                            {
-                                imgl_Large.Images.Add(imageKey, iconBitmap);
-                            }
-
-                            if (!imgl_Small.Images.ContainsKey(imageKey))
-                            {
-                                imgl_Small.Images.Add(imageKey, iconBitmap);
-                            }
-
-                            listViewItem.ImageKey = imageKey;
-                        }
-                        else
-                        {
-                            listViewItem.ImageIndex = 1;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        LogError(ex.Message);
-                    }
-
-                    _Type.Text = GetFileTypeDescription(item.FullName);
-
-                    listViewItem.SubItems.Add(Mod_date);
-                    listViewItem.SubItems.Add(_Type);
-                    listViewItem.SubItems.Add(Size);
-
-                    lvw_FileExplorer.Items.Add(listViewItem);
+                    cms_GeneralOptions.Show(Cursor.Position);
                 }
             }
-            catch (Exception ex)
+
+            if (e.Button == MouseButtons.XButton2)
             {
-                LogError(ex.Message);
+                if (ForwardPosition.Count > 0)
+                {
+                    OldPosition.Add(path);
+                    path = ForwardPosition.Last();
+                    ForwardPosition.RemoveAt(ForwardPosition.Count - 1);
+                    RefreshExplorer();
+                }
+            }
+
+            if (e.Button == MouseButtons.XButton1)
+            {
+                if (OldPosition.Count > 0)
+                {
+                    ForwardPosition.Add(path);
+                    path = OldPosition.Last();
+                    OldPosition.RemoveAt(OldPosition.Count - 1);
+                    RefreshExplorer();
+                }
             }
         }
 
-        private string GetFileTypeDescription(string filePath)
+
+
+
+        private void treeView1_MouseDown(object sender, MouseEventArgs e)
         {
-            FileInfo fileInfo = new FileInfo(filePath);
-            return Path.GetExtension(filePath).TrimStart('.').ToUpper() + " File";
+            var hitTestInfo = treeView1.HitTest(e.Location);
+
+            if (e.Button == MouseButtons.Right)
+            {
+                if (hitTestInfo.Node != null)
+                {
+                    cms_FileOptions.Show(Cursor.Position);
+                }
+                else
+                {
+                    cms_GeneralOptions.Show(Cursor.Position);
+                }
+            }
+            else
+            {
+                try
+                {
+                    if (hitTestInfo.Location == TreeViewHitTestLocations.Label ||
+                        hitTestInfo.Location == TreeViewHitTestLocations.Image)
+                    {
+                        if (hitTestInfo.Node.ImageIndex == 5 ||
+                            hitTestInfo.Node.ImageIndex == 1 ||
+                            hitTestInfo.Node.ImageIndex == 2 ||
+                            hitTestInfo.Node.ImageIndex == 3 ||
+                            hitTestInfo.Node.ImageIndex == 4 ||
+                            hitTestInfo.Node.ImageIndex == 6)
+                        {
+                            OldPosition.Add(path);
+                            ForwardPosition.Clear();
+
+                            path = hitTestInfo.Node.Tag.ToString();
+                            RefreshExplorer();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogError(ex.Message);
+                }
+            }
         }
 
+        #endregion
+
+        #region Eventos DoubleClick
         private void lvw_FileExplorer_DoubleClick(object sender, EventArgs e)
         {
             if (lvw_FileExplorer.SelectedItems[0].ImageIndex == 0)
@@ -205,6 +186,39 @@ namespace File_Explorer__Clone_
             }
         }
 
+        private void treeView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            var hitTestInfo = treeView1.HitTest(e.Location);
+            if (hitTestInfo.Location == TreeViewHitTestLocations.Label ||
+                hitTestInfo.Location == TreeViewHitTestLocations.Image && hitTestInfo.Node.Parent != null)
+            {
+                try
+                {
+                    string favpath = hitTestInfo.Node.Tag.ToString();
+                    if (Directory.Exists(favpath))
+                    {
+                        path = Path.Combine(favpath + @"\");
+                        RefreshExplorer();
+                    }
+                    else
+                    {
+                        Process.Start(favpath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogError(ex.Message);
+                }
+            }
+        }
+        #endregion
+
+        #region Eventos Click
+
+        private void tsb_Rename_Click(object sender, EventArgs e)
+        {
+            lvw_FileExplorer.SelectedItems[0].BeginEdit();
+        }
         private void btn_GoBack_Click(object sender, EventArgs e)
         {
             if (OldPosition.Count > 0)
@@ -216,40 +230,6 @@ namespace File_Explorer__Clone_
             }
         }
 
-
-        private void lvw_FileExplorer_AfterLabelEdit(object sender, LabelEditEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(e.Label))
-            {
-                e.CancelEdit = true;
-                return;
-            }
-
-            string originalFullPath = Path.Combine(path, lvw_FileExplorer.Items[e.Item].Text);
-            string newFullPath = Path.Combine(path, e.Label);
-
-            try
-            {
-                if (lvw_FileExplorer.FocusedItem.ImageIndex == 1)
-                {
-                    File.Move(originalFullPath, newFullPath);
-                    lvw_FileExplorer.SelectedItems[0].Text = e.Label;
-                }
-                else
-                {
-                    Directory.Move(lvw_FileExplorer.SelectedItems[0].Text, e.Label);
-                    lvw_FileExplorer.SelectedItems[0].Text = e.Label;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error renaming file: " + ex.Message, "Error", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                e.CancelEdit = true;
-                LogError(ex.Message);
-            }
-        }
-
         private void btn_Foward_Click(object sender, EventArgs e)
         {
             if (ForwardPosition.Count > 0)
@@ -258,44 +238,6 @@ namespace File_Explorer__Clone_
                 path = ForwardPosition.Last();
                 ForwardPosition.RemoveAt(ForwardPosition.Count - 1);
                 RefreshExplorer();
-            }
-        }
-
-        private void txt_Path_TextChanged(object sender, EventArgs e)
-        {
-            path = txt_Path.Text;
-        }
-
-
-        private void txt_Path_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                NavigateTo(txt_Path.Text.Trim());
-            }
-        }
-
-        private void lvw_FileExplorer_MouseClick(object sender, MouseEventArgs e)
-        {
-            FileInfo file = new FileInfo(path + lvw_FileExplorer.SelectedItems[0].Text);
-            if (file.Extension == ".rar")
-            {
-                tsb_Extract.Visible = true;
-            }
-            else
-            {
-                tsb_Extract.Visible = false;
-            }
-
-            if (Directory.Exists(Path.Combine(path, lvw_FileExplorer.HitTest(e.Location).Item.Text)))
-            {
-                tsb_Favorite.Enabled = false;
-                addToFavoritesToolStripMenuItem.Enabled = false;
-            }
-            else
-            {
-                tsb_Favorite.Enabled = true;
-                addToFavoritesToolStripMenuItem.Enabled = true;
             }
         }
 
@@ -409,90 +351,9 @@ namespace File_Explorer__Clone_
             }
         }
 
-        private void lvw_FileExplorer_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                var hitTestInfo = lvw_FileExplorer.HitTest(e.Location);
-
-                if (hitTestInfo.Item != null)
-                {
-                    cms_FileOptions.Show(Cursor.Position);
-                }
-                else
-                {
-                    cms_GeneralOptions.Show(Cursor.Position);
-                }
-            }
-
-            if (e.Button == MouseButtons.XButton2)
-            {
-                if (ForwardPosition.Count > 0)
-                {
-                    OldPosition.Add(path);
-                    path = ForwardPosition.Last();
-                    ForwardPosition.RemoveAt(ForwardPosition.Count - 1);
-                    RefreshExplorer();
-                }
-            }
-
-            if (e.Button == MouseButtons.XButton1)
-            {
-                if (OldPosition.Count > 0)
-                {
-                    ForwardPosition.Add(path);
-                    path = OldPosition.Last();
-                    OldPosition.RemoveAt(OldPosition.Count - 1);
-                    RefreshExplorer();
-                }
-            }
-        }
-
         private void apagarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             deleteFile();
-        }
-
-        private void deleteFile()
-        {
-            int cnt = 0;
-            foreach (var item in lvw_FileExplorer.SelectedItems)
-            {
-                if (lvw_FileExplorer.SelectedItems[cnt].ImageIndex != 0)
-                {
-                    FileInfo file = new FileInfo(path + lvw_FileExplorer.SelectedItems[cnt].Text);
-                    if (file.Exists)
-                    {
-                        try
-                        {
-                            file.Delete();
-                        }
-                        catch (Exception ex)
-                        {
-                            LogError(ex.Message);
-                        }
-                    }
-                }
-                else
-                {
-                    DirectoryInfo directory = new DirectoryInfo(path + lvw_FileExplorer.SelectedItems[cnt].Text);
-                    if (directory.Exists)
-                    {
-                        try
-                        {
-                            directory.Delete(true);
-                        }
-                        catch (Exception ex)
-                        {
-                            LogError(ex.Message);
-                        }
-                    }
-                }
-
-                cnt++;
-            }
-
-            RefreshExplorer();
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -541,101 +402,6 @@ namespace File_Explorer__Clone_
              */
         }
 
-        private void lvw_FileExplorer_ColumnClick(object sender, ColumnClickEventArgs e)
-        {
-            if (e.Column == lvwColumnSorter.SortColumn)
-            {
-                if (lvwColumnSorter.Order == SortOrder.Ascending)
-                {
-                    lvwColumnSorter.Order = SortOrder.Descending;
-                }
-                else
-                {
-                    lvwColumnSorter.Order = SortOrder.Ascending;
-                }
-            }
-            else
-            {
-                lvwColumnSorter.SortColumn = e.Column;
-                lvwColumnSorter.Order = SortOrder.Ascending;
-            }
-
-            this.lvw_FileExplorer.Sort();
-        }
-
-        private void lvw_FileExplorer_KeyPress(object sender, KeyPressEventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// Handles the KeyDown event for the file explorer ListView.
-        /// Responds to various keypresses to perform actions such as starting edit mode, deleting files, navigating to files and directories, copying, pasting, cutting, selecting all items, focusing the path textbox, and refreshing the explorer.
-        /// </summary>
-        /// <param name="sender">The source of the event, typically the ListView control.</param>
-        /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        private void lvw_FileExplorer_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.F2)
-            {
-                foreach (ListViewItem item in lvw_FileExplorer.SelectedItems)
-                {
-                    item.BeginEdit();
-                    break;
-                }
-            }
-
-            if (e.KeyCode == Keys.Delete)
-            {
-                deleteFile();
-            }
-
-            if (e.KeyCode == Keys.Enter)
-            {
-                if (File.Exists(path + lvw_FileExplorer.SelectedItems[0].Text))
-                {
-                    Process.Start(path + lvw_FileExplorer.SelectedItems[0].Text);
-                }
-                else
-                {
-                    string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text);
-                    NavigateTo(selectedPath);
-                }
-            }
-
-            if (e.Control && e.KeyCode == Keys.C)
-            {
-                AddToClipboard(false);
-            }
-
-            if (e.Control && e.KeyCode == Keys.V)
-            {
-                PasteFiles(path);
-            }
-
-            if (e.Control && e.KeyCode == Keys.X)
-            {
-                AddToClipboard(true);
-            }
-
-            if (e.Control && e.KeyCode == Keys.A)
-            {
-                foreach (ListViewItem item in lvw_FileExplorer.Items)
-                {
-                    item.Selected = true;
-                }
-            }
-
-            if (e.Control && e.KeyCode == Keys.L || e.Alt && e.KeyCode == Keys.D)
-            {
-                txt_Path.Focus();
-            }
-
-            if (e.KeyCode == Keys.F5)
-            {
-                RefreshExplorer();
-            }
-        }
-
         private void showHiddenFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!Show_Hidden)
@@ -652,6 +418,10 @@ namespace File_Explorer__Clone_
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            foreach (ListViewItem item in lvw_FileExplorer.SelectedItems)
+            {
+                item.BackColor = Color.LightGray;
+            }
             AddToClipboard(true);
         }
 
@@ -900,340 +670,6 @@ namespace File_Explorer__Clone_
             RefreshExplorer();
         }
 
-        private void refreshTreeView()
-        {
-            treeView1.Nodes.Clear();
-
-            // Add "Favorites" root node
-            TreeNode favoritesNode = new TreeNode("Favorites");
-            treeView1.Nodes.Add(favoritesNode);
-
-            // Add favorite paths
-            foreach (string favPath in favoritePaths)
-            {
-                if (File.Exists(favPath))
-                {
-                    Icon fileIcon = Icon.ExtractAssociatedIcon(favPath);
-                    if (fileIcon != null && !imgl_Drivers.Images.ContainsKey(favPath))
-                    {
-                        imgl_Drivers.Images.Add(favPath, fileIcon.ToBitmap());
-                    }
-
-                    TreeNode favNode = new TreeNode(Path.GetFileName(favPath))
-                    {
-                        Tag = favPath,
-                        ImageKey = favPath,
-                        SelectedImageKey = favPath
-                    };
-
-                    favoritesNode.Nodes.Add(favNode);
-                }
-            }
-
-            // Add "This PC" root node
-            TreeNode parent = new TreeNode("This PC");
-            parent.ImageIndex = 0;
-
-            // Add all logical drives as nodes
-            foreach (var item in Environment.GetLogicalDrives())
-            {
-                try
-                {
-                    DriveInfo driver = new DriveInfo(item);
-                    TreeNode son = new TreeNode(driver.Name);
-
-                    // Set drive type icon
-                    switch (driver.DriveType)
-                    {
-                        case DriveType.Fixed:
-                            son.ImageIndex = 1;
-                            son.SelectedImageIndex = 1;
-                            break;
-                        case DriveType.Removable:
-                            son.ImageIndex = 2;
-                            son.SelectedImageIndex = 2;
-                            break;
-                        case DriveType.Network:
-                            son.ImageIndex = 3;
-                            son.SelectedImageIndex = 3;
-                            break;
-                        case DriveType.CDRom:
-                            son.ImageIndex = 4;
-                            son.SelectedImageIndex = 4;
-                            break;
-                        default:
-                            son.ImageIndex = 1;
-                            son.SelectedImageIndex = 1;
-                            break;
-                    }
-
-                    // Highlight system drive
-                    string driveLetter = Path.GetPathRoot(driver.Name);
-                    string systemDrive = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System));
-                    if (driveLetter.Equals(systemDrive, StringComparison.OrdinalIgnoreCase))
-                    {
-                        son.ImageIndex = 6;
-                        son.SelectedImageIndex = 6;
-                    }
-
-                    // Add placeholder to each drive node
-                    DirectoryInfo dir = new DirectoryInfo(driver.Name);
-                    foreach (var directory in dir.GetDirectories())
-                    {
-                        if (!directory.Attributes.HasFlag(FileAttributes.Hidden))
-                        {
-                            TreeNode directoryNode = new TreeNode(directory.Name)
-                            {
-                                Tag = directory.FullName, // Store the full path of the directory
-                                ImageIndex = 5,
-                                SelectedImageIndex = 5
-                            };
-                            // Add placeholder to show it's expandable
-                            directoryNode.Nodes.Add(new TreeNode("Loading..."));
-                            son.Nodes.Add(directoryNode);
-                        }
-                    }
-
-                    parent.Nodes.Add(son);
-                }
-                catch (Exception ex)
-                {
-                    LogError(ex.Message);
-                }
-            }
-
-            treeView1.Nodes.Add(parent);
-            favoritesNode.Expand();
-            parent.Expand();
-        }
-        
-        private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
-        {
-            TreeNode node = e.Node;
-            
-            if (node.Nodes.Count == 1 && node.Nodes[0].Text == "Loading...")
-            {
-                node.Nodes.Clear();
-                DirectoryInfo directoryInfo = new DirectoryInfo((string)node.Tag);
-                LoadDirectories(node, directoryInfo);
-            }
-        }
-
-
-        private void LoadDirectories(TreeNode node, DirectoryInfo directoryInfo)
-        {
-            try
-            {
-                foreach (DirectoryInfo subdir in directoryInfo.GetDirectories())
-                {
-                    if (!subdir.Attributes.HasFlag(FileAttributes.Hidden))
-                    {
-                        TreeNode subNode = new TreeNode(subdir.Name)
-                        {
-                            Tag = subdir.FullName, // Store the full path
-                            ImageIndex = 5,
-                            SelectedImageIndex = 5
-                        };
-                        // Add a placeholder node to make this node appear expandable
-                        if (subdir.GetDirectories() != null )
-                        {
-                            subNode.Nodes.Add(new TreeNode("Loading..."));
-                        }
-
-                        node.Nodes.Add(subNode);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogError($"Failed to load directories from {directoryInfo.FullName}: {ex.Message}");
-            }
-        }
-
-        private string GetImageKeyForPath(string path)
-        {
-            string imageKey = path;
-
-            if (Directory.Exists(path))
-            {
-                return "folder";
-            }
-            else if (File.Exists(path))
-            {
-                try
-                {
-                    Icon icon = Icon.ExtractAssociatedIcon(path);
-                    if (icon != null)
-                    {
-                        Bitmap iconBitmap = icon.ToBitmap();
-
-                        if (!imgl_Large.Images.ContainsKey(imageKey))
-                        {
-                            imgl_Large.Images.Add(imageKey, iconBitmap);
-                        }
-
-
-                        if (!imgl_Drivers.Images.ContainsKey(imageKey))
-                        {
-                            imgl_Drivers.Images.Add(imageKey, iconBitmap);
-                        }
-
-                        return imageKey;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogError(ex.Message);
-                }
-
-                return "default_file";
-            }
-
-            return "unknown";
-        }
-
-        private void treeView1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Delete)
-            {
-                deleteFile();
-            }
-
-            if (e.KeyCode == Keys.Enter)
-            {
-                try
-                {
-                    if (treeView1.SelectedNode.Text == "Favorites")
-                    {
-                    }
-                    else
-                    {
-                        if (treeView1.SelectedNode.Text == "This PC")
-                        {
-                        }
-                        else
-                        {
-                            if (treeView1.SelectedNode.Parent.Text == "Favorites")
-                            {
-                                Process.Start(treeView1.SelectedNode.Tag.ToString());
-                            }
-                            else
-                            {
-                                if (treeView1.SelectedNode.Parent.Text != "This PC")
-                                {
-                                    string selectedPath = treeView1.SelectedNode.Tag.ToString();
-                                    NavigateTo(selectedPath);
-                                }
-                                else
-                                {
-                                    string selectedPath = treeView1.SelectedNode.Text;
-                                    NavigateTo(selectedPath);
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogError(ex.Message);
-                }
-            }
-        }
-
-        private void treeView1_MouseDown(object sender, MouseEventArgs e)
-        {
-            string favpath = "";
-            var hitTestInfo = treeView1.HitTest(e.Location);
-            try
-            {
-                if (hitTestInfo.Location == TreeViewHitTestLocations.Label ||
-                    hitTestInfo.Location == TreeViewHitTestLocations.Image)
-                {
-                    if (hitTestInfo.Node.Parent != null)
-                    {
-                        favpath = hitTestInfo.Node.Text.ToString();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogError(ex.Message);
-            }
-            finally
-            {
-                if (e.Button == MouseButtons.Right)
-                {
-                    if (hitTestInfo.Node != null)
-                    {
-                        cms_FileOptions.Show(Cursor.Position);
-                    }
-                    else
-                    {
-                        cms_GeneralOptions.Show(Cursor.Position);
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        if (Directory.Exists(favpath))
-                        {
-                            OldPosition.Add(path);
-                            ForwardPosition.Clear();
-                            path = Path.Combine(favpath + @"\");
-                            RefreshExplorer();
-                        }
-                        else
-                        {
-                            if (hitTestInfo.Location == TreeViewHitTestLocations.Label ||
-                                hitTestInfo.Location == TreeViewHitTestLocations.Image)
-                            {
-                                if (hitTestInfo.Node.Tag.ToString() == "directorys" ||
-                                    hitTestInfo.Node.Tag.ToString() == "disks")
-                                {
-                                    OldPosition.Add(path);
-                                    ForwardPosition.Clear();
-                                    path = hitTestInfo.Node.Parent.FullPath.Remove(0, 7) + @"\" + favpath;
-                                    RefreshExplorer();
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        LogError(ex.Message);
-                    }
-                }
-            }
-        }
-
-        private void treeView1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            var hitTestInfo = treeView1.HitTest(e.Location);
-            if (hitTestInfo.Location == TreeViewHitTestLocations.Label ||
-                hitTestInfo.Location == TreeViewHitTestLocations.Image && hitTestInfo.Node.Parent != null)
-            {
-                try
-                {
-                    string favpath = hitTestInfo.Node.Tag.ToString();
-                    if (Directory.Exists(favpath))
-                    {
-                        path = Path.Combine(favpath + @"\");
-                        RefreshExplorer();
-                    }
-                    else
-                    {
-                        Process.Start(favpath);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogError(ex.Message);
-                }
-            }
-        }
-
-
         private void tsb_Paste_Click(object sender, EventArgs e)
         {
             PasteFiles(path);
@@ -1241,6 +677,10 @@ namespace File_Explorer__Clone_
 
         private void tsb_Cut_Click(object sender, EventArgs e)
         {
+            foreach (ListViewItem item in lvw_FileExplorer.SelectedItems)
+            {
+                item.BackColor = Color.LightGray;
+            }
             AddToClipboard(true);
         }
 
@@ -1249,111 +689,9 @@ namespace File_Explorer__Clone_
             AddToClipboard(false);
         }
 
-        private void lvw_FileExplorer_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-
-        private void AddToClipboard(bool cut)
-        {
-            copiedFilePaths.Clear();
-            cutOperation = cut;
-            foreach (ListViewItem item in lvw_FileExplorer.SelectedItems)
-            {
-                string fullPath = Path.Combine(path, item.Text);
-                copiedFilePaths.Add(fullPath);
-            }
-        }
-
-        private void PasteFiles(string destinationPath)
-        {
-            foreach (string sourcePath in copiedFilePaths)
-            {
-                string destPath = Path.Combine(destinationPath, Path.GetFileName(sourcePath));
-                if (Directory.Exists(sourcePath))
-                {
-                    DirectoryInfo sourceDir = new DirectoryInfo(sourcePath);
-                    DirectoryInfo destDir = new DirectoryInfo(destPath);
-                    if (cutOperation)
-                    {
-                        Directory.Move(sourcePath, destPath);
-                    }
-                    else
-                    {
-                        CopyDirectory(sourceDir, destDir);
-                    }
-                }
-                else if (File.Exists(sourcePath))
-                {
-                    if (cutOperation)
-                    {
-                        File.Move(sourcePath, destPath);
-                    }
-                    else
-                    {
-                        File.Copy(sourcePath, destPath, true);
-                    }
-                }
-            }
-
-            if (cutOperation)
-            {
-                copiedFilePaths.Clear();
-            }
-
-            RefreshExplorer();
-        }
-
-        private static void CopyDirectory(DirectoryInfo source, DirectoryInfo target)
-        {
-            Directory.CreateDirectory(target.FullName);
-            foreach (FileInfo fi in source.GetFiles())
-            {
-                fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
-            }
-
-            foreach (DirectoryInfo subDir in source.GetDirectories())
-            {
-                DirectoryInfo nextTargetSubDir = target.CreateSubdirectory(subDir.Name);
-                CopyDirectory(subDir, nextTargetSubDir);
-            }
-        }
-
         private void tsb_Favorite_Click(object sender, EventArgs e)
         {
             AddToFavorite();
-        }
-
-        private void AddToFavorite()
-        {
-            if (lvw_FileExplorer.SelectedItems.Count > 0)
-            {
-                if (lvw_FileExplorer.SelectedItems.Count > 1)
-                {
-                    int cnt = 0;
-                    foreach (var item in lvw_FileExplorer.SelectedItems)
-                    {
-                        string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[cnt].Text);
-                        if (!favoritePaths.Contains(selectedPath))
-                        {
-                            favoritePaths.Add(selectedPath);
-                        }
-
-                        cnt++;
-                    }
-
-                    refreshTreeView();
-                }
-                else
-                {
-                    string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text);
-                    if (!favoritePaths.Contains(selectedPath))
-                    {
-                        favoritePaths.Add(selectedPath);
-                        refreshTreeView();
-                    }
-                }
-            }
         }
 
         private void copyToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -1443,36 +781,6 @@ namespace File_Explorer__Clone_
         {
         }
 
-
-        private void LogError(string message)
-        {
-            if (File.Exists(logspath))
-            {
-                string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + message +
-                               DateTime.Now + "\n";
-
-                using (StreamWriter writetext = new StreamWriter("Logs.txt"))
-                {
-                    writetext.WriteLine(error);
-                }
-            }
-            else
-            {
-                using (FileStream filestream = File.Create(logspath))
-                {
-                }
-
-                string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + message +
-                               DateTime.Now + "\n";
-
-
-                using (StreamWriter writetext = new StreamWriter("Logs.txt"))
-                {
-                    writetext.WriteLine(error);
-                }
-            }
-        }
-
         private void compressAsWinRARToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (lvw_FileExplorer.SelectedItems.Count == 0)
@@ -1529,18 +837,6 @@ namespace File_Explorer__Clone_
             RefreshExplorer();
         }
 
-        private void lvw_FileExplorer_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
-        {
-            FileInfo file = new FileInfo(path + e.Item.Text);
-            if (file.Extension == ".rar")
-            {
-                tsb_Extract.Visible = true;
-            }
-            else
-            {
-                tsb_Extract.Visible = false;
-            }
-        }
 
         private void compressAsZIPFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1570,7 +866,439 @@ namespace File_Explorer__Clone_
 
             RefreshExplorer();
         }
+        private void cbb_ViewType_Click(object sender, EventArgs e)
+        {
 
+        }
+        #endregion
+
+        #region Eventos KeyDown
+        /// <summary>
+        /// Handles the KeyDown event for the file explorer ListView.
+        /// Responds to various keypresses to perform actions such as starting edit mode, deleting files, navigating to files and directories, copying, pasting, cutting, selecting all items, focusing the path textbox, and refreshing the explorer.
+        /// </summary>
+        /// <param name="sender">The source of the event, typically the ListView control.</param>
+        /// <param name="e">A KeyEventArgs that contains the event data.</param>
+        private void lvw_FileExplorer_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F2)
+            {
+                foreach (ListViewItem item in lvw_FileExplorer.SelectedItems)
+                {
+                    item.BeginEdit();
+                    break;
+                }
+            }
+
+            if (e.KeyCode == Keys.Delete)
+            {
+                deleteFile();
+            }
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (File.Exists(path + lvw_FileExplorer.SelectedItems[0].Text))
+                {
+                    Process.Start(path + lvw_FileExplorer.SelectedItems[0].Text);
+                }
+                else
+                {
+                    string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text);
+                    NavigateTo(selectedPath);
+                }
+            }
+
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                AddToClipboard(false);
+            }
+
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                PasteFiles(path);
+            }
+
+            if (e.Control && e.KeyCode == Keys.X)
+            {
+                foreach(ListViewItem item in lvw_FileExplorer.SelectedItems)
+                {
+                    item.BackColor = Color.LightGray;
+                }
+                AddToClipboard(true);
+            }
+
+            if (e.Control && e.KeyCode == Keys.A)
+            {
+                foreach (ListViewItem item in lvw_FileExplorer.Items)
+                {
+                    item.Selected = true;
+                }
+            }
+
+            if (e.Control && e.KeyCode == Keys.L || e.Alt && e.KeyCode == Keys.D)
+            {
+                txt_Path.Focus();
+            }
+
+            if (e.KeyCode == Keys.F5)
+            {
+                RefreshExplorer();
+            }
+        }
+
+        private void treeView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                deleteFile();
+            }
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    if (treeView1.SelectedNode.Text == "Favorites")
+                    {
+                    }
+                    else
+                    {
+                        if (treeView1.SelectedNode.Text == "This PC")
+                        {
+                        }
+                        else
+                        {
+                            if (treeView1.SelectedNode.Parent.Text == "Favorites")
+                            {
+                                Process.Start(treeView1.SelectedNode.Tag.ToString());
+                            }
+                            else
+                            {
+                                if (treeView1.SelectedNode.Parent.Text != "This PC")
+                                {
+                                    string selectedPath = treeView1.SelectedNode.Tag.ToString();
+                                    NavigateTo(selectedPath);
+                                }
+                                else
+                                {
+                                    string selectedPath = treeView1.SelectedNode.Text;
+                                    NavigateTo(selectedPath);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogError(ex.Message);
+                }
+            }
+        }
+        #endregion
+
+        #region Evento MouseClick
+        private void lvw_FileExplorer_MouseClick(object sender, MouseEventArgs e)
+        {
+            FileInfo file = new FileInfo(path + lvw_FileExplorer.SelectedItems[0].Text);
+            if (file.Extension == ".rar")
+            {
+                tsb_Extract.Visible = true;
+            }
+            else
+            {
+                tsb_Extract.Visible = false;
+            }
+
+            if (Directory.Exists(Path.Combine(path, lvw_FileExplorer.HitTest(e.Location).Item.Text)))
+            {
+                tsb_Favorite.Enabled = false;
+                addToFavoritesToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                tsb_Favorite.Enabled = true;
+                addToFavoritesToolStripMenuItem.Enabled = true;
+            }
+        }
+        #endregion
+
+        #region Eventos Refresh
+
+        private void RefreshExplorer()
+        {
+            lvw_FileExplorer.Items.Clear();
+            txt_Path.Text = path;
+            DirectoryInfo dir = new DirectoryInfo(path);
+            try
+            {
+                foreach (var item in dir.GetDirectories())
+                {
+                    try
+                    {
+                        if (!Show_Hidden)
+                        {
+                            if (item.Attributes.HasFlag(FileAttributes.Hidden))
+                            {
+                            }
+                            else
+                            {
+                                ListViewItem Directory = new ListViewItem();
+                                Directory.Text = item.Name;
+                                Directory.ImageIndex = 0;
+
+                                ListViewItem.ListViewSubItem Mod_date = new ListViewItem.ListViewSubItem();
+                                Mod_date.Text = item.LastWriteTime.ToString();
+                                ListViewItem.ListViewSubItem _Type = new ListViewItem.ListViewSubItem();
+                                _Type.Text = "File Folder";
+
+                                Directory.SubItems.Add(Mod_date);
+                                Directory.SubItems.Add(_Type);
+
+                                lvw_FileExplorer.Items.Add(Directory);
+                            }
+                        }
+                        else
+                        {
+                            ListViewItem Directory = new ListViewItem();
+                            Directory.Text = item.Name;
+                            Directory.ImageIndex = 0;
+
+                            ListViewItem.ListViewSubItem Mod_date = new ListViewItem.ListViewSubItem();
+                            Mod_date.Text = item.LastWriteTime.ToString();
+                            ListViewItem.ListViewSubItem _Type = new ListViewItem.ListViewSubItem();
+                            _Type.Text = "File Folder";
+
+                            Directory.SubItems.Add(Mod_date);
+                            Directory.SubItems.Add(_Type);
+
+                            lvw_FileExplorer.Items.Add(Directory);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogError(ex.Message);
+                    }
+                }
+
+                foreach (var item in dir.GetFiles())
+                {
+                    ListViewItem listViewItem = new ListViewItem();
+                    listViewItem.Text = item.Name;
+                    ListViewItem.ListViewSubItem Mod_date = new ListViewItem.ListViewSubItem();
+                    Mod_date.Text = item.LastWriteTime.ToString();
+                    ListViewItem.ListViewSubItem _Type = new ListViewItem.ListViewSubItem();
+                    _Type.Text = item.Extension.ToString();
+                    ListViewItem.ListViewSubItem Size = new ListViewItem.ListViewSubItem();
+                    double ByteSize = Convert.ToDouble(item.Length);
+                    double size = Math.Ceiling((ByteSize / 1024));
+                    Size.Text = size.ToString() + " KB";
+
+                    try
+                    {
+                        string filePath = Path.Combine(item.FullName);
+
+                        Icon icon = Icon.ExtractAssociatedIcon(filePath);
+
+                        if (icon != null)
+                        {
+                            Bitmap iconBitmap = icon.ToBitmap();
+
+                            string imageKey = filePath;
+
+                            if (!imgl_Large.Images.ContainsKey(imageKey))
+                            {
+                                imgl_Large.Images.Add(imageKey, iconBitmap);
+                            }
+
+                            if (!imgl_Small.Images.ContainsKey(imageKey))
+                            {
+                                imgl_Small.Images.Add(imageKey, iconBitmap);
+                            }
+
+                            listViewItem.ImageKey = imageKey;
+                        }
+                        else
+                        {
+                            listViewItem.ImageIndex = 1;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogError(ex.Message);
+                    }
+
+                    _Type.Text = GetFileTypeDescription(item.FullName);
+
+                    listViewItem.SubItems.Add(Mod_date);
+                    listViewItem.SubItems.Add(_Type);
+                    listViewItem.SubItems.Add(Size);
+
+                    lvw_FileExplorer.Items.Add(listViewItem);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogError(ex.Message);
+            }
+        }
+
+        private void refreshTreeView()
+        {
+            treeView1.Nodes.Clear();
+
+            // Add "Favorites" root node
+            TreeNode favoritesNode = new TreeNode("Favorites");
+            treeView1.Nodes.Add(favoritesNode);
+
+            // Add favorite paths
+            foreach (string favPath in favoritePaths)
+            {
+                if (File.Exists(favPath))
+                {
+                    Icon fileIcon = Icon.ExtractAssociatedIcon(favPath);
+                    if (fileIcon != null && !imgl_Drivers.Images.ContainsKey(favPath))
+                    {
+                        imgl_Drivers.Images.Add(favPath, fileIcon.ToBitmap());
+                    }
+
+                    TreeNode favNode = new TreeNode(Path.GetFileName(favPath))
+                    {
+                        Tag = favPath,
+                        ImageKey = favPath,
+                        SelectedImageKey = favPath
+                    };
+
+                    favoritesNode.Nodes.Add(favNode);
+                }
+            }
+
+            // Add "This PC" root node
+            TreeNode parent = new TreeNode("This PC");
+            parent.ImageIndex = 0;
+
+            // Add all logical drives as nodes
+            foreach (var item in Environment.GetLogicalDrives())
+            {
+                try
+                {
+                    DriveInfo driver = new DriveInfo(item);
+                    TreeNode son = new TreeNode(driver.Name);
+                    son.Tag = driver.Name;
+
+                    // Set drive type icon
+                    switch (driver.DriveType)
+                    {
+                        case DriveType.Fixed:
+                            son.ImageIndex = 1;
+                            son.SelectedImageIndex = 1;
+                            break;
+                        case DriveType.Removable:
+                            son.ImageIndex = 2;
+                            son.SelectedImageIndex = 2;
+                            break;
+                        case DriveType.Network:
+                            son.ImageIndex = 3;
+                            son.SelectedImageIndex = 3;
+                            break;
+                        case DriveType.CDRom:
+                            son.ImageIndex = 4;
+                            son.SelectedImageIndex = 4;
+                            break;
+                        default:
+                            son.ImageIndex = 1;
+                            son.SelectedImageIndex = 1;
+                            break;
+                    }
+
+                    // Highlight system drive
+                    string driveLetter = Path.GetPathRoot(driver.Name);
+                    string systemDrive = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System));
+                    if (driveLetter.Equals(systemDrive, StringComparison.OrdinalIgnoreCase))
+                    {
+                        son.ImageIndex = 6;
+                        son.SelectedImageIndex = 6;
+                    }
+
+                    // Add placeholder to each drive node
+                    DirectoryInfo dir = new DirectoryInfo(driver.Name);
+                    foreach (var directory in dir.GetDirectories())
+                    {
+                        if (!directory.Attributes.HasFlag(FileAttributes.Hidden))
+                        {
+                            TreeNode directoryNode = new TreeNode(directory.Name)
+                            {
+                                Tag = directory.FullName, // Store the full path of the directory
+                                ImageIndex = 5,
+                                SelectedImageIndex = 5
+                            };
+                            // Add placeholder to show it's expandable
+                            if (directory.GetDirectories().Length != 0)
+                            {
+                                directoryNode.Nodes.Add(new TreeNode("Loading..."));
+                            }
+                            son.Nodes.Add(directoryNode);
+                        }
+                    }
+
+                    parent.Nodes.Add(son);
+                }
+                catch (Exception ex)
+                {
+                    LogError(ex.Message);
+                }
+            }
+
+            treeView1.Nodes.Add(parent);
+            favoritesNode.Expand();
+            parent.Expand();
+        }
+        #endregion
+
+        #region Evento AfterLabelEdit
+        private void lvw_FileExplorer_AfterLabelEdit(object sender, LabelEditEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(e.Label))
+            {
+                e.CancelEdit = true;
+                return;
+            }
+
+            string originalFullPath = Path.Combine(path, lvw_FileExplorer.Items[e.Item].Text);
+            string newFullPath = Path.Combine(path, e.Label);
+
+            try
+            {
+                if (lvw_FileExplorer.FocusedItem.ImageIndex == 1)
+                {
+                    File.Move(originalFullPath, newFullPath);
+                    lvw_FileExplorer.SelectedItems[0].Text = e.Label;
+                }
+                else
+                {
+                    Directory.Move(lvw_FileExplorer.SelectedItems[0].Text, e.Label);
+                    lvw_FileExplorer.SelectedItems[0].Text = e.Label;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error renaming file: " + ex.Message, "Error", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                e.CancelEdit = true;
+                LogError(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Evento TextChanged
+
+        private void txt_Path_TextChanged(object sender, EventArgs e)
+        {
+            path = txt_Path.Text;
+        }
+
+        #endregion
+
+        #region AddDirectoryToZip
 
         private void AddDirectoryToZip(ZipArchive archive, DirectoryInfo dirInfo, string relativePath)
         {
@@ -1586,5 +1314,350 @@ namespace File_Explorer__Clone_
                 AddDirectoryToZip(archive, subdir, tempPath);
             }
         }
+
+        #endregion
+
+        #region ItemSelectionChanged
+
+        private void lvw_FileExplorer_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            FileInfo file = new FileInfo(path + e.Item.Text);
+            if (file.Extension == ".rar")
+            {
+                tsb_Extract.Visible = true;
+            }
+            else
+            {
+                tsb_Extract.Visible = false;
+            }
+
+            if(lvw_FileExplorer.SelectedItems.Count == 1)
+            {
+                tsb_Rename.Visible = true;
+            }
+            else
+            {
+                tsb_Rename.Visible = false;
+            }
+
+        }
+
+        #endregion
+
+        #region LogError
+
+        private void LogError(string message)
+        {
+            if (File.Exists(logspath))
+            {
+                string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + message +
+                               DateTime.Now + "\n";
+
+                using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                {
+                    writetext.WriteLine(error);
+                }
+            }
+            else
+            {
+                using (FileStream filestream = File.Create(logspath))
+                {
+                }
+
+                string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + message +
+                               DateTime.Now + "\n";
+
+
+                using (StreamWriter writetext = new StreamWriter("Logs.txt"))
+                {
+                    writetext.WriteLine(error);
+                }
+            }
+        }
+
+        #endregion
+
+        #region AddToFavorite
+
+        private void AddToFavorite()
+        {
+            if (lvw_FileExplorer.SelectedItems.Count > 0)
+            {
+                if (lvw_FileExplorer.SelectedItems.Count > 1)
+                {
+                    int cnt = 0;
+                    foreach (var item in lvw_FileExplorer.SelectedItems)
+                    {
+                        string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[cnt].Text);
+                        if (!favoritePaths.Contains(selectedPath))
+                        {
+                            favoritePaths.Add(selectedPath);
+                        }
+
+                        cnt++;
+                    }
+
+                    refreshTreeView();
+                }
+                else
+                {
+                    string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text);
+                    if (!favoritePaths.Contains(selectedPath))
+                    {
+                        favoritePaths.Add(selectedPath);
+                        refreshTreeView();
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Copy/Pate/Cut/Delete
+
+        private void AddToClipboard(bool cut)
+        {
+            copiedFilePaths.Clear();
+            cutOperation = cut;
+            foreach (ListViewItem item in lvw_FileExplorer.SelectedItems)
+            {
+                string fullPath = Path.Combine(path, item.Text);
+                copiedFilePaths.Add(fullPath);
+            }
+        }
+
+        private void PasteFiles(string destinationPath)
+        {
+            foreach (string sourcePath in copiedFilePaths)
+            {
+                string destPath = Path.Combine(destinationPath, Path.GetFileName(sourcePath));
+                if (Directory.Exists(sourcePath))
+                {
+                    DirectoryInfo sourceDir = new DirectoryInfo(sourcePath);
+                    DirectoryInfo destDir = new DirectoryInfo(destPath);
+                    if (cutOperation)
+                    {
+                        Directory.Move(sourcePath, destPath);
+                    }
+                    else
+                    {
+                        CopyDirectory(sourceDir, destDir);
+                    }
+                }
+                else if (File.Exists(sourcePath))
+                {
+                    if (cutOperation)
+                    {
+                        File.Move(sourcePath, destPath);
+                    }
+                    else
+                    {
+                        File.Copy(sourcePath, destPath, true);
+                    }
+                }
+            }
+
+            if (cutOperation)
+            {
+                copiedFilePaths.Clear();
+            }
+
+            RefreshExplorer();
+        }
+
+        private static void CopyDirectory(DirectoryInfo source, DirectoryInfo target)
+        {
+            Directory.CreateDirectory(target.FullName);
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
+            }
+
+            foreach (DirectoryInfo subDir in source.GetDirectories())
+            {
+                DirectoryInfo nextTargetSubDir = target.CreateSubdirectory(subDir.Name);
+                CopyDirectory(subDir, nextTargetSubDir);
+            }
+        }
+
+        private void deleteFile()
+        {
+            int cnt = 0;
+            foreach (var item in lvw_FileExplorer.SelectedItems)
+            {
+                if (lvw_FileExplorer.SelectedItems[cnt].ImageIndex != 0)
+                {
+                    FileInfo file = new FileInfo(path + lvw_FileExplorer.SelectedItems[cnt].Text);
+                    if (file.Exists)
+                    {
+                        try
+                        {
+                            file.Delete();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogError(ex.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    DirectoryInfo directory = new DirectoryInfo(path + lvw_FileExplorer.SelectedItems[cnt].Text);
+                    if (directory.Exists)
+                    {
+                        try
+                        {
+                            directory.Delete(true);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogError(ex.Message);
+                        }
+                    }
+                }
+
+                cnt++;
+            }
+
+            RefreshExplorer();
+        }
+
+        #endregion
+
+        #region Evento SelectedIndexChanged
+
+        private void lvw_FileExplorer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        #endregion
+
+        #region GetImageKeyForPath
+        private string GetImageKeyForPath(string path)
+        {
+            string imageKey = path;
+
+            if (Directory.Exists(path))
+            {
+                return "folder";
+            }
+            else if (File.Exists(path))
+            {
+                try
+                {
+                    Icon icon = Icon.ExtractAssociatedIcon(path);
+                    if (icon != null)
+                    {
+                        Bitmap iconBitmap = icon.ToBitmap();
+
+                        if (!imgl_Large.Images.ContainsKey(imageKey))
+                        {
+                            imgl_Large.Images.Add(imageKey, iconBitmap);
+                        }
+
+
+                        if (!imgl_Drivers.Images.ContainsKey(imageKey))
+                        {
+                            imgl_Drivers.Images.Add(imageKey, iconBitmap);
+                        }
+
+                        return imageKey;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogError(ex.Message);
+                }
+
+                return "default_file";
+            }
+
+            return "unknown";
+        }
+        #endregion
+
+        #region Load recursivo a diretorios na treeview
+
+        private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
+            TreeNode node = e.Node;
+
+            if (node.Nodes.Count == 1 && node.Nodes[0].Text == "Loading...")
+            {
+                node.Nodes.Clear();
+                DirectoryInfo directoryInfo = new DirectoryInfo((string)node.Tag);
+                LoadDirectories(node, directoryInfo);
+            }
+        }
+
+
+        private void LoadDirectories(TreeNode node, DirectoryInfo directoryInfo)
+        {
+            try
+            {
+                foreach (DirectoryInfo subdir in directoryInfo.GetDirectories())
+                {
+                    if (!subdir.Attributes.HasFlag(FileAttributes.Hidden))
+                    {
+                        TreeNode subNode = new TreeNode(subdir.Name)
+                        {
+                            Tag = subdir.FullName, // Store the full path
+                            ImageIndex = 5,
+                            SelectedImageIndex = 5
+                        };
+                        // Add a placeholder node to make this node appear expandable
+                        if (subdir.GetDirectories().Length != 0)
+                        {
+                            subNode.Nodes.Add(new TreeNode("Loading..."));
+                        }
+
+                        node.Nodes.Add(subNode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError($"Failed to load directories from {directoryInfo.FullName}: {ex.Message}");
+            }
+        }
+
+        #endregion
+
+        #region Evento ColumnClick
+
+        private void lvw_FileExplorer_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == lvwColumnSorter.SortColumn)
+            {
+                if (lvwColumnSorter.Order == SortOrder.Ascending)
+                {
+                    lvwColumnSorter.Order = SortOrder.Descending;
+                }
+                else
+                {
+                    lvwColumnSorter.Order = SortOrder.Ascending;
+                }
+            }
+            else
+            {
+                lvwColumnSorter.SortColumn = e.Column;
+                lvwColumnSorter.Order = SortOrder.Ascending;
+            }
+
+            this.lvw_FileExplorer.Sort();
+        }
+
+        #endregion
+
+        #region GetFileTypeDescription
+        private string GetFileTypeDescription(string filePath)
+        {
+            FileInfo fileInfo = new FileInfo(filePath);
+            return Path.GetExtension(filePath).TrimStart('.').ToUpper() + " File";
+        }
+
+        #endregion
+
+
     }
 }
