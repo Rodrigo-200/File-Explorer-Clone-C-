@@ -20,6 +20,7 @@ Veja abaixo uma captura de ecrã da aplicação:
 - 🌐 **Navegação de Diretórios**: Permite navegar entre diretórios no seu sistema.
 - 📂 **Operações de Ficheiro**: Criação, renomeação, e eliminação de ficheiros e pastas.
 - 📁 **Visualização de Detalhes**: Mostra detalhes como o tamanho, tipo e data de modificação dos ficheiros.
+- 🗜️ **Compressão e Extração de Ficheiros**: Permite comprimir ficheiros em formato WinRAR e zip, bem como extrair ambos os formatos.
 
 ## 🛠️ Instalação
 
