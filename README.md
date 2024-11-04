@@ -11,7 +11,7 @@ Este projeto é uma réplica de um explorador de ficheiros básico desenvolvido 
 Veja abaixo uma captura de ecrã da aplicação:
 
 ![Windows File Explorer (Clone)](https://github.com/user-attachments/assets/5c4ade53-ea7e-438d-bbb4-76c498d6e2e5)
-![Example](https://github.com/user-attachments/assets/c0710594-bfb6-4606-b696-e2cab52ba893)
+![Example](https://github.com/user-attachments/assets/d6f0a831-932f-4673-8fbb-4936be666a2a)
 
 
 > A interface mostra uma estrutura de navegação semelhante ao Windows File Explorer.
