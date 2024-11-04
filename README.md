@@ -1,58 +1,57 @@
 # File Explorer Clone em C# 🖥️
 
 ## 📜 Descrição
-
-Este projeto é uma réplica de um explorador de ficheiros básico desenvolvido em **C#** com o intuito de replicar funcionalidades básicas de navegação de ficheiros e pastas. É útil para aprendizagem, demonstrações ou para criar funcionalidades personalizadas de navegação de ficheiros.
+Um clone do Windows File Explorer realizado em C#.
+O principal objetivo é replicar as principais funcionalidades do Windows File Explorer.
+Este projeto foi realizado para a escola.
 
 ## 📸 Demonstração
+A interface do projeto é inspirada no Windows File Explorer e aqui estão algumas capturas de tela que ilustram as funcionalidades principais:
 
-Veja abaixo algumas capturas de ecrã da aplicação:
-
+### Janela Principal
 ![Windows File Explorer (Clone)](https://github.com/user-attachments/assets/5c4ade53-ea7e-438d-bbb4-76c498d6e2e5)
+*Esta imagem mostra a janela principal do explorador de ficheiros, destacando a similaridade com o layout do Windows File Explorer.*
+
+### Right-Click dentro de um Ficheiro/Pasta
 ![Example](https://github.com/user-attachments/assets/d6f0a831-932f-4673-8fbb-4936be666a2a)
+*Aqui podemos ver a funcionalidade de visualização de detalhes de um ficheiro selecionado quando se carrega com o botão direito do rato. Vemos que podemos copiar/cortar o ficheiro alterar o nome, entre outras opções*
+
+### Right-Click fora de um Ficheiro/Pasta
 ![Example 2](https://github.com/user-attachments/assets/2e0bf79a-cac6-4468-a30c-b535d295f12a)
-
-
-> A interface mostra uma estrutura de navegação semelhante ao Windows File Explorer.
+*Aqui podemos ver o que acontece quando se carrega com o botão direito sem ser em um ficheiro. Vemos que podemos colar ficheiros/pastas, criar novos ficheiros/pastas, entre outras opções*
 
 ## 🚀 Funcionalidades
-
-- 🌐 **Navegação de Diretórios**: Permite navegar entre diretórios no seu sistema.
-- 📂 **Operações de Ficheiro**: Criação, renomeação, e eliminação de ficheiros e pastas.
-- 📁 **Visualização de Detalhes**: Mostra detalhes como o tamanho, tipo e data de modificação dos ficheiros.
-- 🗜️ **Compressão e Extração de Ficheiros**: Permite comprimir ficheiros em formato WinRAR e zip, bem como extrair ambos os formatos.
+- 🌐 **Navegação de Diretórios**: Permite a exploração entre diretórios no sistema.
+- 📂 **Operações de Ficheiro**: Inclui criação, renomeação e eliminação de ficheiros e pastas.
+- 📁 **Visualização de Detalhes**: Exibe informações como tamanho, tipo e data de modificação de ficheiros.
+- 🗜️ **Compressão e Extração de Ficheiros**: Suporta compressão em formatos WinRAR e zip, além de extração desses formatos.
 
 ## 🛠️ Instalação
+Para configurar o projeto localmente, siga estes passos:
 
-Siga os passos abaixo para configurar o projeto localmente:
-
-1. Clone este repositório:
-   ```bash
+1. Clone o repositório:
+   ```
    git clone https://github.com/Rodrigo-200/File-Explorer-Clone-C-.git
    ```
 2. Abra o projeto no **Visual Studio**.
-3. Compile e execute o projeto diretamente no Visual Studio.
+3. Compile e execute o projeto.
 
-> **Nota**: Certifique-se de que tem o .NET Framework instalado no seu sistema.
+> **Nota**: É necessário ter o .NET Framework instalado no seu sistema.
 
 ## 📄 Código Principal
-
-O ficheiro `Form1.cs` contém a lógica principal do explorador de ficheiros.
+O ficheiro `Form1.cs` é o coração do explorador, contendo a lógica principal da aplicação.
 
 ## 💡 Como Utilizar
-
-1. **Abrir**: Clique no ícone para abrir uma nova pasta.
-2. **Voltar** e **Avançar**: Use as setas para navegar entre pastas visitadas.
-3. **Novo Ficheiro/Pasta**: Clique com o botão direito para criar ficheiros ou pastas.
-4. **Renomear ou Eliminar**: Selecione um ficheiro e escolha a ação desejada no menu.
+- **Abrir**: Clique no ícone para abrir uma nova pasta.
+- **Voltar** e **Avançar**: Navegue entre pastas visitadas utilizando as setas.
+- **Novo Ficheiro/Pasta**: Use o botão direito do mouse para criar novos ficheiros ou pastas.
+- **Renomear ou Eliminar**: Selecione um ficheiro para renomear ou eliminar através do menu.
 
 ## 🛠️ Tecnologias Utilizadas
-
 - **Linguagem**: C#
 - **Framework**: .NET Framework
 - **IDE**: Visual Studio
 
 ## 📈 Futuras Implementações
-
-- 🔒 **Permissões de Ficheiro**: Controlar acesso a ficheiros.
-- 📑 **Filtros de Pesquisa Avançados**: Adicionar opções de filtragem por extensão, data, etc.
+- 🔒 **Permissões de Ficheiro**: Implementar controle de acesso.
+- 📑 **Filtros de Pesquisa Avançados**: Adicionar filtros por extensão, data e outras especificações.
