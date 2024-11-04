@@ -10,15 +10,15 @@ A interface do projeto é inspirada no Windows File Explorer e aqui estão algum
 
 ### Janela Principal
 ![Windows File Explorer (Clone)](https://github.com/user-attachments/assets/5c4ade53-ea7e-438d-bbb4-76c498d6e2e5)
-*Esta imagem mostra a janela principal do explorador de ficheiros, destacando a similaridade com o layout do Windows File Explorer.*
+> *Esta imagem mostra a janela principal do explorador de ficheiros, destacando a similaridade com o layout do Windows File Explorer.*
 
 ### Right-Click dentro de um Ficheiro/Pasta
 ![Example](https://github.com/user-attachments/assets/d6f0a831-932f-4673-8fbb-4936be666a2a)
-*Aqui podemos ver a funcionalidade de visualização de detalhes de um ficheiro selecionado quando se carrega com o botão direito do rato. Vemos que podemos copiar/cortar o ficheiro alterar o nome, entre outras opções*
+> *Aqui podemos ver a funcionalidade de visualização de detalhes de um ficheiro selecionado quando se carrega com o botão direito do rato. Vemos que podemos copiar/cortar o ficheiro alterar o nome, entre outras opções*
 
 ### Right-Click fora de um Ficheiro/Pasta
 ![Example 2](https://github.com/user-attachments/assets/2e0bf79a-cac6-4468-a30c-b535d295f12a)
-*Aqui podemos ver o que acontece quando se carrega com o botão direito sem ser em um ficheiro. Vemos que podemos colar ficheiros/pastas, criar novos ficheiros/pastas, entre outras opções*
+> *Aqui podemos ver o que acontece quando se carrega com o botão direito sem ser em um ficheiro. Vemos que podemos colar ficheiros/pastas, criar novos ficheiros/pastas, entre outras opções*
 
 ## 🚀 Funcionalidades
 - 🌐 **Navegação de Diretórios**: Permite a exploração entre diretórios no sistema.
@@ -55,3 +55,8 @@ O ficheiro `Form1.cs` é o coração do explorador, contendo a lógica principal
 ## 📈 Futuras Implementações
 - 🔒 **Permissões de Ficheiro**: Implementar controle de acesso.
 - 📑 **Filtros de Pesquisa Avançados**: Adicionar filtros por extensão, data e outras especificações.
+
+
+
+
+
