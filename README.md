@@ -53,7 +53,7 @@ O ficheiro `Form1.cs` é o coração do explorador, contendo a lógica principal
 - **IDE**: Visual Studio
 
 ## 📈 Futuras Implementações
-- 🔒 **Permissões de Ficheiro**: Implementar controle de acesso.
+- 🔒 **Permissões de Ficheiro**: Implementar o controlo de permições para aceder a ficheiros.
 - 📑 **Filtros de Pesquisa Avançados**: Adicionar filtros por extensão, data e outras especificações.
 
 
