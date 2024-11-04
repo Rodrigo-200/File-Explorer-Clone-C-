@@ -10,6 +10,7 @@ Veja abaixo algumas capturas de ecrã da aplicação:
 
 ![Windows File Explorer (Clone)](https://github.com/user-attachments/assets/5c4ade53-ea7e-438d-bbb4-76c498d6e2e5)
 ![Example](https://github.com/user-attachments/assets/d6f0a831-932f-4673-8fbb-4936be666a2a)
+![Example 2](https://github.com/user-attachments/assets/2e0bf79a-cac6-4468-a30c-b535d295f12a)
 
 
 > A interface mostra uma estrutura de navegação semelhante ao Windows File Explorer.
