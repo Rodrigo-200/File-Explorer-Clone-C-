@@ -77,6 +77,16 @@ namespace File_Explorer__Clone_
 
                 if (hitTestInfo.Item != null)
                 {
+                    if (favoritePaths.Contains(Path.Combine(path, hitTestInfo.Item.Text)))
+                    {
+                        cms_FileOptions.Items[5].Text = "Remove from favorite";
+                        tsb_Favorite.Text = "Remove from favorite";
+                    }
+                    else
+                    {
+                        cms_FileOptions.Items[5].Text = "Add to favorites";
+                        tsb_Favorite.Text = "Add to favorites";
+                    }
                     cms_FileOptions.Show(Cursor.Position);
                 }
                 else
@@ -107,9 +117,6 @@ namespace File_Explorer__Clone_
                 }
             }
         }
-
-
-
 
         private void treeView1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -691,7 +698,7 @@ namespace File_Explorer__Clone_
 
         private void tsb_Favorite_Click(object sender, EventArgs e)
         {
-            AddToFavorite();
+                AddToFavorite();
         }
 
         private void copyToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -1021,7 +1028,7 @@ namespace File_Explorer__Clone_
         }
         #endregion
 
-        #region Eventos Refresh
+        #region Refresh ListView/TreeView
 
         private void RefreshExplorer()
         {
@@ -1148,6 +1155,8 @@ namespace File_Explorer__Clone_
 
             // Add "Favorites" root node
             TreeNode favoritesNode = new TreeNode("Favorites");
+            favoritesNode.ImageIndex = 7;
+            favoritesNode.SelectedImageIndex = 7;
             treeView1.Nodes.Add(favoritesNode);
 
             // Add favorite paths
@@ -1381,31 +1390,47 @@ namespace File_Explorer__Clone_
 
         private void AddToFavorite()
         {
-            if (lvw_FileExplorer.SelectedItems.Count > 0)
+            if (cms_FileOptions.Items[5].Text == "Remove from favorite" || tsb_Favorite.Text == "Remove from favorite")
             {
-                if (lvw_FileExplorer.SelectedItems.Count > 1)
+                int cnt = 0;
+                foreach (var item in lvw_FileExplorer.SelectedItems)
                 {
-                    int cnt = 0;
-                    foreach (var item in lvw_FileExplorer.SelectedItems)
+                    string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[cnt].Text);
+                        favoritePaths.Remove(selectedPath);
+
+                    cnt++;
+                }
+                refreshTreeView();
+            }
+            else
+            {
+
+                if (lvw_FileExplorer.SelectedItems.Count > 0)
+                {
+                    if (lvw_FileExplorer.SelectedItems.Count > 1)
                     {
-                        string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[cnt].Text);
+                        int cnt = 0;
+                        foreach (var item in lvw_FileExplorer.SelectedItems)
+                        {
+                            string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[cnt].Text);
+                            if (!favoritePaths.Contains(selectedPath))
+                            {
+                                favoritePaths.Add(selectedPath);
+                            }
+
+                            cnt++;
+                        }
+
+                        refreshTreeView();
+                    }
+                    else
+                    {
+                        string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text);
                         if (!favoritePaths.Contains(selectedPath))
                         {
                             favoritePaths.Add(selectedPath);
+                            refreshTreeView();
                         }
-
-                        cnt++;
-                    }
-
-                    refreshTreeView();
-                }
-                else
-                {
-                    string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text);
-                    if (!favoritePaths.Contains(selectedPath))
-                    {
-                        favoritePaths.Add(selectedPath);
-                        refreshTreeView();
                     }
                 }
             }
@@ -1528,6 +1553,19 @@ namespace File_Explorer__Clone_
 
         private void lvw_FileExplorer_SelectedIndexChanged(object sender, EventArgs e)
         {
+            foreach (ListViewItem item in lvw_FileExplorer.SelectedItems)
+            {
+                if (favoritePaths.Contains(Path.Combine(path, item.Text)))
+                {
+                    cms_FileOptions.Items[5].Text = "Remove from favorite";
+                    tsb_Favorite.Text = "Remove from favorite";
+                }
+                else
+                {
+                    cms_FileOptions.Items[5].Text = "Add to favorites";
+                    tsb_Favorite.Text = "Add to favorites";
+                }
+            }
         }
 
         #endregion
