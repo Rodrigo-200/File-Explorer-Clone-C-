@@ -6,7 +6,7 @@ O principal objetivo é replicar as principais funcionalidades do Windows File E
 Este projeto foi realizado para a escola.
 
 ## 📸 Demonstração
-A interface do projeto é inspirada no Windows File Explorer e aqui estão algumas capturas de tela que ilustram as funcionalidades principais:
+A interface do projeto é inspirada no Windows File Explorer e aqui estão algumas capturas de ecrã que mostram algumas das funcionalidades do programa:
 
 ### Janela Principal
 ![Windows File Explorer (Clone)](https://github.com/user-attachments/assets/5c4ade53-ea7e-438d-bbb4-76c498d6e2e5)
