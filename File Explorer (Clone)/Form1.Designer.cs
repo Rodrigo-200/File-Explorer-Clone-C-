@@ -34,7 +34,7 @@ namespace File_Explorer__Clone_
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.tvw_Disks = new System.Windows.Forms.TreeView();
             this.imgl_Drivers = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsdd_new = new System.Windows.Forms.ToolStripDropDownButton();
@@ -123,7 +123,7 @@ namespace File_Explorer__Clone_
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.treeView1);
+            this.splitContainer1.Panel1.Controls.Add(this.tvw_Disks);
             // 
             // splitContainer1.Panel2
             // 
@@ -135,25 +135,25 @@ namespace File_Explorer__Clone_
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 0;
             // 
-            // treeView1
+            // tvw_Disks
             // 
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeView1.ImageIndex = 0;
-            this.treeView1.ImageList = this.imgl_Drivers;
-            this.treeView1.Indent = 19;
-            this.treeView1.LineColor = System.Drawing.Color.White;
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.PathSeparator = "";
-            this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.Size = new System.Drawing.Size(189, 558);
-            this.treeView1.StateImageList = this.imgl_Drivers;
-            this.treeView1.TabIndex = 0;
-            this.treeView1.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeExpand);
-            this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyDown);
-            this.treeView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDoubleClick);
-            this.treeView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
+            this.tvw_Disks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvw_Disks.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tvw_Disks.ImageIndex = 0;
+            this.tvw_Disks.ImageList = this.imgl_Drivers;
+            this.tvw_Disks.Indent = 19;
+            this.tvw_Disks.LineColor = System.Drawing.Color.White;
+            this.tvw_Disks.Location = new System.Drawing.Point(0, 0);
+            this.tvw_Disks.Name = "tvw_Disks";
+            this.tvw_Disks.PathSeparator = "";
+            this.tvw_Disks.SelectedImageIndex = 0;
+            this.tvw_Disks.Size = new System.Drawing.Size(189, 558);
+            this.tvw_Disks.StateImageList = this.imgl_Drivers;
+            this.tvw_Disks.TabIndex = 0;
+            this.tvw_Disks.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeExpand);
+            this.tvw_Disks.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyDown);
+            this.tvw_Disks.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDoubleClick);
+            this.tvw_Disks.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
             // 
             // imgl_Drivers
             // 
@@ -313,7 +313,6 @@ namespace File_Explorer__Clone_
             this.cbb_ViewType.Name = "cbb_ViewType";
             this.cbb_ViewType.Size = new System.Drawing.Size(65, 24);
             this.cbb_ViewType.Text = "View";
-            this.cbb_ViewType.Click += new System.EventHandler(this.cbb_ViewType_Click);
             // 
             // detailsToolStripMenuItem
             // 
@@ -507,6 +506,7 @@ namespace File_Explorer__Clone_
             this.txt_Path.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_Path.Name = "txt_Path";
             this.txt_Path.Size = new System.Drawing.Size(511, 27);
+            this.txt_Path.Enter += new System.EventHandler(this.txt_Path_Enter);
             this.txt_Path.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Path_KeyPress);
             // 
             // lvw_FileExplorer
@@ -526,7 +526,7 @@ namespace File_Explorer__Clone_
             this.lvw_FileExplorer.LargeImageList = this.imgl_Large;
             this.lvw_FileExplorer.Location = new System.Drawing.Point(3, 53);
             this.lvw_FileExplorer.Name = "lvw_FileExplorer";
-            this.lvw_FileExplorer.Size = new System.Drawing.Size(812, 501);
+            this.lvw_FileExplorer.Size = new System.Drawing.Size(811, 501);
             this.lvw_FileExplorer.SmallImageList = this.imgl_Small;
             this.lvw_FileExplorer.TabIndex = 6;
             this.lvw_FileExplorer.UseCompatibleStateImageBehavior = false;
@@ -537,7 +537,6 @@ namespace File_Explorer__Clone_
             this.lvw_FileExplorer.SelectedIndexChanged += new System.EventHandler(this.lvw_FileExplorer_SelectedIndexChanged);
             this.lvw_FileExplorer.DoubleClick += new System.EventHandler(this.lvw_FileExplorer_DoubleClick);
             this.lvw_FileExplorer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvw_FileExplorer_KeyDown);
-            this.lvw_FileExplorer.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lvw_FileExplorer_KeyPress);
             this.lvw_FileExplorer.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lvw_FileExplorer_MouseClick);
             this.lvw_FileExplorer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lvw_FileExplorer_MouseDown);
             // 
@@ -817,7 +816,7 @@ namespace File_Explorer__Clone_
 
         private ListViewColumnSorter lvwColumnSorter;
         private SplitContainer splitContainer1;
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView tvw_Disks;
         private ImageList imgl_Large;
         private System.Windows.Forms.ListView lvw_FileExplorer;
         private ColumnHeader ch_Name;

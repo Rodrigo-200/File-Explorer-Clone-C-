@@ -1,22 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using System.Linq.Expressions;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System.Security;
-using System.Runtime.Remoting.Contexts;
-using System.Security.Cryptography;
-using System.IO.Compression;
-using System.Diagnostics.Eventing.Reader;
 
 
 namespace File_Explorer__Clone_
@@ -50,20 +40,18 @@ namespace File_Explorer__Clone_
             txt_Path.Text = path;
             lvw_FileExplorer.View = View.Details;
             RefreshExplorer();
-            refreshTreeView();
+            RefreshTreeView();
         }
 
         #region Eventos Keypress
 
         private void txt_Path_KeyPress(object sender, KeyPressEventArgs e)
         {
+            //Verifica se a tecla primida é o Enter e se for muda o path para o texto que está na textbox e reencaminha o user até esse caminho
             if (e.KeyChar == (char)Keys.Enter)
             {
                 NavigateTo(txt_Path.Text.Trim());
             }
-        }
-        private void lvw_FileExplorer_KeyPress(object sender, KeyPressEventArgs e)
-        {
         }
         #endregion
 
@@ -71,69 +59,69 @@ namespace File_Explorer__Clone_
 
         private void lvw_FileExplorer_MouseDown(object sender, MouseEventArgs e)
         {
+            //Se o botão do rato primido for o direito
             if (e.Button == MouseButtons.Right)
             {
+                //Cria uma variavel hittest para verificar varias coisas sobre o local onde o utilizador carregou
                 var hitTestInfo = lvw_FileExplorer.HitTest(e.Location);
 
+                //Se o local onde o utilizador carregou é um item
                 if (hitTestInfo.Item != null)
                 {
+                    //Se o item onde o utilizador carregou estiver na lista de ficheiros favoritos
                     if (favoritePaths.Contains(Path.Combine(path, hitTestInfo.Item.Text)))
                     {
+                        //Muda o texto to item "Add to favorites" do contextmenustrip para "Remove from favorite" e do botão do toolstrip
                         cms_FileOptions.Items[5].Text = "Remove from favorite";
                         tsb_Favorite.Text = "Remove from favorite";
                     }
                     else
                     {
+                        //Se nao existir na lista de ficheiros favoritos mantem ou altera o texto to item "Add to favorites" do contextmenustrip para "Add to favorites"
                         cms_FileOptions.Items[5].Text = "Add to favorites";
                         tsb_Favorite.Text = "Add to favorites";
                     }
-                    cms_FileOptions.Show(Cursor.Position);
+                    cms_FileOptions.Show(Cursor.Position); //Mostra o contextmenustrip com as opções dos ficheiros na posição do rato
                 }
                 else
                 {
+                    //Se o local onde o utilizador carregou não for um item mostra as opções gerais como adicionar um novo ficheiros etc..
                     cms_GeneralOptions.Show(Cursor.Position);
                 }
             }
 
+            //Se for o o botão 2 do rato (os botões laterais do rato)  anda para a frente uma posição ( como se o utilizador pressiona-se no botão de andar para a frente )
             if (e.Button == MouseButtons.XButton2)
             {
                 if (ForwardPosition.Count > 0)
                 {
-                    OldPosition.Add(path);
+                    OldPosition.Add(path); //Adiciona-se o caminho atual à lista que armazena os caminhos para andar para trás
                     path = ForwardPosition.Last();
                     ForwardPosition.RemoveAt(ForwardPosition.Count - 1);
-                    RefreshExplorer();
+                    RefreshExplorer(); // Após alterar o caminho com o da lista faz se a atualização da lisview
                 }
             }
 
+            //Se for o o botão 1 do rato (os botões laterais do rato)  anda para a trás uma posição ( como se o utilizador pressiona-se no botão de andar para trás )
             if (e.Button == MouseButtons.XButton1)
             {
                 if (OldPosition.Count > 0)
                 {
-                    ForwardPosition.Add(path);
+                    ForwardPosition.Add(path); //Adiciona-se o caminho atual à lista que armazena os caminhos para andar para a frente 
                     path = OldPosition.Last();
                     OldPosition.RemoveAt(OldPosition.Count - 1);
-                    RefreshExplorer();
+                    RefreshExplorer(); //Após alterar o caminho com o da lista faz se a atualização da lisview
                 }
             }
         }
 
         private void treeView1_MouseDown(object sender, MouseEventArgs e)
         {
-            var hitTestInfo = treeView1.HitTest(e.Location);
+            //Cria uma variavel hittest para verificar varias coisas sobre o local onde o utilizador carregou
+            var hitTestInfo = tvw_Disks.HitTest(e.Location);
 
-            if (e.Button == MouseButtons.Right)
-            {
-                if (hitTestInfo.Node != null)
-                {
-                    cms_FileOptions.Show(Cursor.Position);
-                }
-                else
-                {
-                    cms_GeneralOptions.Show(Cursor.Position);
-                }
-            }
-            else
+            //Se o botão pressionado for o esquedo reencaminha-se o utilizador ao diretório pressionado
+            if (e.Button == MouseButtons.Left)
             {
                 try
                 {
@@ -167,6 +155,7 @@ namespace File_Explorer__Clone_
         #region Eventos DoubleClick
         private void lvw_FileExplorer_DoubleClick(object sender, EventArgs e)
         {
+            //Se o item pressionado for uma pasta vai navegar até ao caminho dessa pasta
             if (lvw_FileExplorer.SelectedItems[0].ImageIndex == 0)
             {
                 try
@@ -179,6 +168,7 @@ namespace File_Explorer__Clone_
                     LogError(ex.Message);
                 }
             }
+            //Se for um ficheiro irá abrir o ficheiro começando um processo
             else
             {
                 try
@@ -195,7 +185,8 @@ namespace File_Explorer__Clone_
 
         private void treeView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            var hitTestInfo = treeView1.HitTest(e.Location);
+            //Igual ao double click da ListView Se for uma pasta irá navegar até à pasta se não irá abrir o ficheiro
+            var hitTestInfo = tvw_Disks.HitTest(e.Location);
             if (hitTestInfo.Location == TreeViewHitTestLocations.Label ||
                 hitTestInfo.Location == TreeViewHitTestLocations.Image && hitTestInfo.Node.Parent != null)
             {
@@ -224,32 +215,36 @@ namespace File_Explorer__Clone_
 
         private void tsb_Rename_Click(object sender, EventArgs e)
         {
-            lvw_FileExplorer.SelectedItems[0].BeginEdit();
+            lvw_FileExplorer.SelectedItems[0].BeginEdit(); //Começa a edição do nome do ficheiro/diretório
         }
+
         private void btn_GoBack_Click(object sender, EventArgs e)
         {
+            //Ao carregar no botão de andar para trás navega um diretório para trás na se existir algum na lista
             if (OldPosition.Count > 0)
             {
                 ForwardPosition.Add(path);
                 path = OldPosition.Last();
-                OldPosition.RemoveAt(OldPosition.Count - 1);
+                OldPosition.RemoveAt(OldPosition.Count - 1); // Remove o diretorio atual da lista para evitar repitições
                 RefreshExplorer();
             }
         }
 
         private void btn_Foward_Click(object sender, EventArgs e)
         {
+            //Ao carregar no botão de andar para a frente navega um diretório para a frente na se existir algum na lista
             if (ForwardPosition.Count > 0)
             {
                 OldPosition.Add(path);
                 path = ForwardPosition.Last();
-                ForwardPosition.RemoveAt(ForwardPosition.Count - 1);
+                ForwardPosition.RemoveAt(ForwardPosition.Count - 1); // Remove o diretorio atual da lista para evitar repitições
                 RefreshExplorer();
             }
         }
 
         private void btn_GoUpOneLevel_Click(object sender, EventArgs e)
         {
+            //Ao carregar no botão de andar para trás um nivel navega um diretório para "cima" se existir algum na lista
             if (Directory.GetParent(path) != null)
             {
                 OldPosition.Add(path);
@@ -258,104 +253,9 @@ namespace File_Explorer__Clone_
             }
         }
 
-        private void addNewTextFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            int cnt = 0;
-            string newFileName = "New File.txt";
-
-            DirectoryInfo dir = new DirectoryInfo(path);
-            foreach (ListViewItem item in lvw_FileExplorer.Items)
-            {
-                foreach (var item2 in dir.GetFiles())
-                {
-                    if (item2.Name == newFileName)
-                    {
-                        cnt++;
-                    }
-                }
-
-                if (cnt != 0)
-                {
-                    newFileName = "New File";
-                    newFileName = newFileName + "(" + cnt + ")" + ".txt";
-                }
-            }
-
-            string fullPath = Path.Combine(path, newFileName);
-
-            try
-            {
-                using (FileStream filestream = File.Create(fullPath))
-                {
-                }
-
-                RefreshExplorer();
-
-                foreach (ListViewItem item in lvw_FileExplorer.Items)
-                {
-                    if (item.Text == newFileName)
-                    {
-                        lvw_FileExplorer.FocusedItem = item;
-                        item.Selected = true;
-                        item.BeginEdit();
-                        break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error creating file: " + ex.Message);
-                LogError(ex.Message);
-            }
-        }
-
         private void addNewFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int cnt = 0;
-            string newFolderName = "New Folder";
-
-            DirectoryInfo dir = new DirectoryInfo(path);
-            foreach (ListViewItem item in lvw_FileExplorer.Items)
-            {
-                foreach (var item2 in dir.GetDirectories())
-                {
-                    if (item2.Name == newFolderName)
-                    {
-                        cnt++;
-                    }
-                }
-
-                if (cnt != 0)
-                {
-                    newFolderName = "New Folder";
-                    newFolderName = newFolderName + "(" + cnt + ")";
-                }
-            }
-
-            string fullPath = Path.Combine(path, newFolderName);
-
-            try
-            {
-                Directory.CreateDirectory(fullPath);
-
-                RefreshExplorer();
-
-                foreach (ListViewItem item in lvw_FileExplorer.Items)
-                {
-                    if (item.Text == newFolderName)
-                    {
-                        lvw_FileExplorer.FocusedItem = item;
-                        item.Selected = true;
-                        item.BeginEdit();
-                        break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error creating Directory: " + ex.Message);
-                LogError(ex.Message);
-            }
+            NewFolder();
         }
 
         private void apagarToolStripMenuItem_Click(object sender, EventArgs e)
@@ -467,209 +367,27 @@ namespace File_Explorer__Clone_
 
         private void newtextfileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int cnt = 0;
-            string newFileName = "New File.txt";
-
-            DirectoryInfo dir = new DirectoryInfo(path);
-            foreach (ListViewItem item in lvw_FileExplorer.Items)
-            {
-                foreach (var item2 in dir.GetFiles())
-                {
-                    if (item2.Name == newFileName)
-                    {
-                        cnt++;
-                    }
-                }
-
-                if (cnt != 0)
-                {
-                    newFileName = "New File";
-                    newFileName = newFileName + "(" + cnt + ")" + ".txt";
-                }
-            }
-
-            string fullPath = Path.Combine(path, newFileName);
-
-            try
-            {
-                using (FileStream filestream = File.Create(fullPath))
-                {
-                }
-
-                RefreshExplorer();
-
-
-                foreach (ListViewItem item in lvw_FileExplorer.Items)
-                {
-                    if (item.Text == newFileName)
-                    {
-                        lvw_FileExplorer.FocusedItem = item;
-                        item.Selected = true;
-                        item.BeginEdit();
-                        break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error creating file: " + ex.Message);
-                LogError(ex.Message);
-            }
+            CreateNewFile("txt");
         }
 
         private void newPowerPointFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int cnt = 0;
-            string newFileName = "New File.pptx";
+            CreateNewFile("pptx");
+        }
 
-            DirectoryInfo dir = new DirectoryInfo(path);
-            foreach (ListViewItem item in lvw_FileExplorer.Items)
-            {
-                foreach (var item2 in dir.GetFiles())
-                {
-                    if (item2.Name == newFileName)
-                    {
-                        cnt++;
-                    }
-                }
-
-                if (cnt != 0)
-                {
-                    newFileName = "New File";
-                    newFileName = newFileName + "(" + cnt + ")" + ".pptx";
-                }
-            }
-
-            string fullPath = Path.Combine(path, newFileName);
-
-            try
-            {
-                using (FileStream filestream = File.Create(fullPath))
-                {
-                }
-
-                RefreshExplorer();
-
-
-                foreach (ListViewItem item in lvw_FileExplorer.Items)
-                {
-                    if (item.Text == newFileName)
-                    {
-                        lvw_FileExplorer.FocusedItem = item;
-                        item.Selected = true;
-                        item.BeginEdit();
-                        break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error creating file: " + ex.Message);
-                LogError(ex.Message);
-            }
+        private void addNewTextFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateNewFile("txt");
         }
 
         private void newFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int cnt = 0;
-            string newFolderName = "New Folder";
-
-            DirectoryInfo dir = new DirectoryInfo(path);
-            foreach (ListViewItem item in lvw_FileExplorer.Items)
-            {
-                foreach (var item2 in dir.GetDirectories())
-                {
-                    if (item2.Name == newFolderName)
-                    {
-                        cnt++;
-                    }
-                }
-
-                if (cnt != 0)
-                {
-                    newFolderName = "New Folder";
-                    newFolderName = newFolderName + "(" + cnt + ")";
-                }
-            }
-
-            string fullPath = Path.Combine(path, newFolderName);
-
-
-            try
-            {
-                Directory.CreateDirectory(fullPath);
-
-                RefreshExplorer();
-
-
-                foreach (ListViewItem item in lvw_FileExplorer.Items)
-                {
-                    if (item.Text == newFolderName)
-                    {
-                        lvw_FileExplorer.FocusedItem = item;
-                        item.Selected = true;
-                        item.BeginEdit();
-                        break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error creating Directory: " + ex.Message);
-                LogError(ex.Message);
-            }
+            NewFolder();
         }
 
         private void newWinRarFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int cnt = 0;
-            string newFileName = "New File.rar";
-
-            DirectoryInfo dir = new DirectoryInfo(path);
-            foreach (ListViewItem item in lvw_FileExplorer.Items)
-            {
-                foreach (var item2 in dir.GetFiles())
-                {
-                    if (item2.Name == newFileName)
-                    {
-                        cnt++;
-                    }
-                }
-
-                if (cnt != 0)
-                {
-                    newFileName = "New File";
-                    newFileName = newFileName + "(" + cnt + ")" + ".rar";
-                }
-            }
-
-            string fullPath = Path.Combine(path, newFileName);
-
-            try
-            {
-                using (FileStream filestream = File.Create(fullPath))
-                {
-                }
-
-                RefreshExplorer();
-
-
-                foreach (ListViewItem item in lvw_FileExplorer.Items)
-                {
-                    if (item.Text == newFileName)
-                    {
-                        lvw_FileExplorer.FocusedItem = item;
-                        item.Selected = true;
-                        item.BeginEdit();
-                        break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error creating file: " + ex.Message);
-                LogError(ex.Message);
-            }
+            CreateNewFile("rar");
         }
 
         private void tsb_refresh_Click(object sender, EventArgs e)
@@ -698,7 +416,7 @@ namespace File_Explorer__Clone_
 
         private void tsb_Favorite_Click(object sender, EventArgs e)
         {
-                AddToFavorite();
+            AddToFavorite();
         }
 
         private void copyToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -723,6 +441,7 @@ namespace File_Explorer__Clone_
 
         private void tsb_Extract_Click_1(object sender, EventArgs e)
         {
+            //No click do botão tsb_Extract é estraido os ficheiros/diretorios de um ficheiro ".rar" se for um ficheiro ".rar" se não, extrai como se fosse um ficheiro ".zip"
             try
             {
                 if (lvw_FileExplorer.SelectedItems.Count == 0)
@@ -757,13 +476,6 @@ namespace File_Explorer__Clone_
 
                         process.Start();
                         process.WaitForExit();
-
-                        if (process.ExitCode == 0)
-                        {
-                        }
-                        else
-                        {
-                        }
                     }
                     catch (Exception ex)
                     {
@@ -784,12 +496,9 @@ namespace File_Explorer__Clone_
             RefreshExplorer();
         }
 
-        private void tsb_Compress_Click(object sender, EventArgs e)
-        {
-        }
-
         private void compressAsWinRARToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Comprime ficheiros/Diretorios como um ficheiro ".rar"
             if (lvw_FileExplorer.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Nenhum arquivo ou pasta selecionado.", "Erro", MessageBoxButtons.OK,
@@ -847,12 +556,13 @@ namespace File_Explorer__Clone_
 
         private void compressAsZIPFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //No click do item compressAsZIPFile comprime os ficheiros selecionados como um ficheiro ".zip"
             string zipFileName = lvw_FileExplorer.SelectedItems[0].Text + ".zip";
             string destinationZipPath = Path.Combine(path, zipFileName);
 
             using (FileStream zipToOpen = new FileStream(destinationZipPath, FileMode.Create))
             {
-                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
+                using (ZipArchive directory = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
                 {
                     foreach (ListViewItem item in lvw_FileExplorer.SelectedItems)
                     {
@@ -861,11 +571,11 @@ namespace File_Explorer__Clone_
                         if (Directory.Exists(sourcePath))
                         {
                             DirectoryInfo dirInfo = new DirectoryInfo(sourcePath);
-                            AddDirectoryToZip(archive, dirInfo, Path.GetFileName(sourcePath));
+                            AddDirectoryToZip(directory, dirInfo, Path.GetFileName(sourcePath));
                         }
                         else if (File.Exists(sourcePath))
                         {
-                            archive.CreateEntryFromFile(sourcePath, Path.GetFileName(sourcePath));
+                            directory.CreateEntryFromFile(sourcePath, Path.GetFileName(sourcePath));
                         }
                     }
                 }
@@ -873,21 +583,14 @@ namespace File_Explorer__Clone_
 
             RefreshExplorer();
         }
-        private void cbb_ViewType_Click(object sender, EventArgs e)
-        {
 
-        }
         #endregion
 
         #region Eventos KeyDown
-        /// <summary>
-        /// Handles the KeyDown event for the file explorer ListView.
-        /// Responds to various keypresses to perform actions such as starting edit mode, deleting files, navigating to files and directories, copying, pasting, cutting, selecting all items, focusing the path textbox, and refreshing the explorer.
-        /// </summary>
-        /// <param name="sender">The source of the event, typically the ListView control.</param>
-        /// <param name="e">A KeyEventArgs that contains the event data.</param>
+       
         private void lvw_FileExplorer_KeyDown(object sender, KeyEventArgs e)
         {
+            //Se for a tecla F2 começa a editar o nome do ficheiro selecionado
             if (e.KeyCode == Keys.F2)
             {
                 foreach (ListViewItem item in lvw_FileExplorer.SelectedItems)
@@ -897,11 +600,13 @@ namespace File_Explorer__Clone_
                 }
             }
 
+            //Ao carregar em uma tecla se for a tecla delete elimina o ficheiro selecionado
             if (e.KeyCode == Keys.Delete)
             {
                 deleteFile();
             }
 
+            //Se for a tecla enter abre o ficheiro ou navega até ao diretorio selecionado
             if (e.KeyCode == Keys.Enter)
             {
                 if (File.Exists(path + lvw_FileExplorer.SelectedItems[0].Text))
@@ -915,6 +620,7 @@ namespace File_Explorer__Clone_
                 }
             }
 
+            //Se for ctrl+c copia o ficheiro x faz cut do ficheiro se for A seleciona todos os ficheiro se for V faz paste dos ficheiros
             if (e.Control && e.KeyCode == Keys.C)
             {
                 AddToClipboard(false);
@@ -927,7 +633,7 @@ namespace File_Explorer__Clone_
 
             if (e.Control && e.KeyCode == Keys.X)
             {
-                foreach(ListViewItem item in lvw_FileExplorer.SelectedItems)
+                foreach (ListViewItem item in lvw_FileExplorer.SelectedItems)
                 {
                     item.BackColor = Color.LightGray;
                 }
@@ -942,11 +648,13 @@ namespace File_Explorer__Clone_
                 }
             }
 
+            //Ctrl + L ou Alt + D faz focus da textbox Path
             if (e.Control && e.KeyCode == Keys.L || e.Alt && e.KeyCode == Keys.D)
             {
                 txt_Path.Focus();
             }
 
+            //Se for a tecla F5 faz o refresh da ListView
             if (e.KeyCode == Keys.F5)
             {
                 RefreshExplorer();
@@ -955,39 +663,36 @@ namespace File_Explorer__Clone_
 
         private void treeView1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Delete)
-            {
-                deleteFile();
-            }
+            //Ao carregar em uma tecla dentro da treeview se for o enter entra no diretorio ou abre um ficheiros dos favoritos
 
             if (e.KeyCode == Keys.Enter)
             {
                 try
                 {
-                    if (treeView1.SelectedNode.Text == "Favorites")
+                    if (tvw_Disks.SelectedNode.Text == "Favorites")
                     {
                     }
                     else
                     {
-                        if (treeView1.SelectedNode.Text == "This PC")
+                        if (tvw_Disks.SelectedNode.Text == "This PC")
                         {
                         }
                         else
                         {
-                            if (treeView1.SelectedNode.Parent.Text == "Favorites")
+                            if (tvw_Disks.SelectedNode.Parent.Text == "Favorites")
                             {
-                                Process.Start(treeView1.SelectedNode.Tag.ToString());
+                                Process.Start(tvw_Disks.SelectedNode.Tag.ToString());
                             }
                             else
                             {
-                                if (treeView1.SelectedNode.Parent.Text != "This PC")
+                                if (tvw_Disks.SelectedNode.Parent.Text != "This PC")
                                 {
-                                    string selectedPath = treeView1.SelectedNode.Tag.ToString();
+                                    string selectedPath = tvw_Disks.SelectedNode.Tag.ToString();
                                     NavigateTo(selectedPath);
                                 }
                                 else
                                 {
-                                    string selectedPath = treeView1.SelectedNode.Text;
+                                    string selectedPath = tvw_Disks.SelectedNode.Text;
                                     NavigateTo(selectedPath);
                                 }
                             }
@@ -1005,6 +710,7 @@ namespace File_Explorer__Clone_
         #region Evento MouseClick
         private void lvw_FileExplorer_MouseClick(object sender, MouseEventArgs e)
         {
+            //Ao carregar num ficheiro se a extenção for ".rar" mostra-sw o botão tsb_Extract
             FileInfo file = new FileInfo(path + lvw_FileExplorer.SelectedItems[0].Text);
             if (file.Extension == ".rar")
             {
@@ -1015,6 +721,7 @@ namespace File_Explorer__Clone_
                 tsb_Extract.Visible = false;
             }
 
+            //Se for um Diretorio desliga os botões de adicionar como favorito se mão mantem os botões ligados
             if (Directory.Exists(Path.Combine(path, lvw_FileExplorer.HitTest(e.Location).Item.Text)))
             {
                 tsb_Favorite.Enabled = false;
@@ -1030,13 +737,18 @@ namespace File_Explorer__Clone_
 
         #region Refresh ListView/TreeView
 
+        /// <summary>
+        /// Metodo Responsavel por fazer o refresh da ListView e adicionar os diretorios na ListView
+        /// </summary>
         private void RefreshExplorer()
         {
+            //Limpa os items todos da lvw para evitar repitições
             lvw_FileExplorer.Items.Clear();
-            txt_Path.Text = path;
+            txt_Path.Text = path; //Atualiza o caminho da textbox
             DirectoryInfo dir = new DirectoryInfo(path);
             try
             {
+                //Percorre todos os diretorios e mostra na ListView os ficheiros e diretorios dentro do diretorio do caminho (path)
                 foreach (var item in dir.GetDirectories())
                 {
                     try
@@ -1085,48 +797,28 @@ namespace File_Explorer__Clone_
                         LogError(ex.Message);
                     }
                 }
-
+                //Percorre os ficheiros para os adicionar na ListView do caminho (path)
                 foreach (var item in dir.GetFiles())
                 {
                     ListViewItem listViewItem = new ListViewItem();
                     listViewItem.Text = item.Name;
+
                     ListViewItem.ListViewSubItem Mod_date = new ListViewItem.ListViewSubItem();
                     Mod_date.Text = item.LastWriteTime.ToString();
+
                     ListViewItem.ListViewSubItem _Type = new ListViewItem.ListViewSubItem();
                     _Type.Text = item.Extension.ToString();
+
                     ListViewItem.ListViewSubItem Size = new ListViewItem.ListViewSubItem();
                     double ByteSize = Convert.ToDouble(item.Length);
+
                     double size = Math.Ceiling((ByteSize / 1024));
                     Size.Text = size.ToString() + " KB";
 
                     try
                     {
                         string filePath = Path.Combine(item.FullName);
-
-                        Icon icon = Icon.ExtractAssociatedIcon(filePath);
-
-                        if (icon != null)
-                        {
-                            Bitmap iconBitmap = icon.ToBitmap();
-
-                            string imageKey = filePath;
-
-                            if (!imgl_Large.Images.ContainsKey(imageKey))
-                            {
-                                imgl_Large.Images.Add(imageKey, iconBitmap);
-                            }
-
-                            if (!imgl_Small.Images.ContainsKey(imageKey))
-                            {
-                                imgl_Small.Images.Add(imageKey, iconBitmap);
-                            }
-
-                            listViewItem.ImageKey = imageKey;
-                        }
-                        else
-                        {
-                            listViewItem.ImageIndex = 1;
-                        }
+                        listViewItem.ImageKey = GetImageKeyForPath(filePath);
                     }
                     catch (Exception ex)
                     {
@@ -1149,86 +841,85 @@ namespace File_Explorer__Clone_
             }
         }
 
-        private void refreshTreeView()
+        /// <summary>
+        /// Metodo Responsavel por fazer o refresh da Treeview e adicionar os diretorios como nós da TreeView
+        /// </summary>
+        private void RefreshTreeView()
         {
-            treeView1.Nodes.Clear();
+            //Limpa todos os nos da TreeView 
+            tvw_Disks.Nodes.Clear();
 
-            // Add "Favorites" root node
+            // Adiciona o no Favoritos à Treeview
             TreeNode favoritesNode = new TreeNode("Favorites");
             favoritesNode.ImageIndex = 7;
             favoritesNode.SelectedImageIndex = 7;
-            treeView1.Nodes.Add(favoritesNode);
+            tvw_Disks.Nodes.Add(favoritesNode);
 
-            // Add favorite paths
+            // Adiciona os caficheiros favoritos ao no favoritos
             foreach (string favPath in favoritePaths)
             {
                 if (File.Exists(favPath))
                 {
-                    Icon fileIcon = Icon.ExtractAssociatedIcon(favPath);
-                    if (fileIcon != null && !imgl_Drivers.Images.ContainsKey(favPath))
-                    {
-                        imgl_Drivers.Images.Add(favPath, fileIcon.ToBitmap());
-                    }
 
+                    //Cria um no com o ficheiro correspondente da Lista
                     TreeNode favNode = new TreeNode(Path.GetFileName(favPath))
                     {
                         Tag = favPath,
-                        ImageKey = favPath,
-                        SelectedImageKey = favPath
+                        ImageKey = GetImageKeyForPath(favPath),
+                        SelectedImageKey = GetImageKeyForPath(favPath),
                     };
 
                     favoritesNode.Nodes.Add(favNode);
                 }
             }
 
-            // Add "This PC" root node
+            // Adiciona o nó parent com o texto (This PC)
             TreeNode parent = new TreeNode("This PC");
             parent.ImageIndex = 0;
 
-            // Add all logical drives as nodes
+            // Adiciona todos os discos ao no "Parent" ("This PC")
             foreach (var item in Environment.GetLogicalDrives())
             {
                 try
                 {
                     DriveInfo driver = new DriveInfo(item);
-                    TreeNode son = new TreeNode(driver.Name);
-                    son.Tag = driver.Name;
+                    TreeNode disk = new TreeNode(driver.Name);
+                    disk.Tag = driver.Name;
 
-                    // Set drive type icon
+                    // Muda o icon do no com a sua imagem corrspondente
                     switch (driver.DriveType)
                     {
                         case DriveType.Fixed:
-                            son.ImageIndex = 1;
-                            son.SelectedImageIndex = 1;
+                            disk.ImageIndex = 1;
+                            disk.SelectedImageIndex = 1;
                             break;
                         case DriveType.Removable:
-                            son.ImageIndex = 2;
-                            son.SelectedImageIndex = 2;
+                            disk.ImageIndex = 2;
+                            disk.SelectedImageIndex = 2;
                             break;
                         case DriveType.Network:
-                            son.ImageIndex = 3;
-                            son.SelectedImageIndex = 3;
+                            disk.ImageIndex = 3;
+                            disk.SelectedImageIndex = 3;
                             break;
                         case DriveType.CDRom:
-                            son.ImageIndex = 4;
-                            son.SelectedImageIndex = 4;
+                            disk.ImageIndex = 4;
+                            disk.SelectedImageIndex = 4;
                             break;
                         default:
-                            son.ImageIndex = 1;
-                            son.SelectedImageIndex = 1;
+                            disk.ImageIndex = 1;
+                            disk.SelectedImageIndex = 1;
                             break;
                     }
 
-                    // Highlight system drive
+                    // Muda a imagem do disco que contem a instalação do windows 
                     string driveLetter = Path.GetPathRoot(driver.Name);
                     string systemDrive = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System));
                     if (driveLetter.Equals(systemDrive, StringComparison.OrdinalIgnoreCase))
                     {
-                        son.ImageIndex = 6;
-                        son.SelectedImageIndex = 6;
+                        disk.ImageIndex = 6;
+                        disk.SelectedImageIndex = 6;
                     }
 
-                    // Add placeholder to each drive node
                     DirectoryInfo dir = new DirectoryInfo(driver.Name);
                     foreach (var directory in dir.GetDirectories())
                     {
@@ -1236,20 +927,20 @@ namespace File_Explorer__Clone_
                         {
                             TreeNode directoryNode = new TreeNode(directory.Name)
                             {
-                                Tag = directory.FullName, // Store the full path of the directory
+                                Tag = directory.FullName, //Guarda o caminho total do diretorio
                                 ImageIndex = 5,
                                 SelectedImageIndex = 5
                             };
-                            // Add placeholder to show it's expandable
+                            // Adiciona-se um nó para que apareça o botão de expandir
                             if (directory.GetDirectories().Length != 0)
                             {
                                 directoryNode.Nodes.Add(new TreeNode("Loading..."));
                             }
-                            son.Nodes.Add(directoryNode);
+                            disk.Nodes.Add(directoryNode);
                         }
                     }
 
-                    parent.Nodes.Add(son);
+                    parent.Nodes.Add(disk); //Adiciona o nó do disk ao no "parent" que contem o texto "This PC" 
                 }
                 catch (Exception ex)
                 {
@@ -1257,8 +948,9 @@ namespace File_Explorer__Clone_
                 }
             }
 
-            treeView1.Nodes.Add(parent);
-            favoritesNode.Expand();
+            tvw_Disks.Nodes.Add(parent); //Adiciona o nó parent (This PC) à treeview 
+            //Expande o nó favoritesNode e o parent
+            favoritesNode.Expand(); 
             parent.Expand();
         }
         #endregion
@@ -1266,33 +958,31 @@ namespace File_Explorer__Clone_
         #region Evento AfterLabelEdit
         private void lvw_FileExplorer_AfterLabelEdit(object sender, LabelEditEventArgs e)
         {
+            //Se nao houver texto cancela a edição
             if (string.IsNullOrWhiteSpace(e.Label))
             {
                 e.CancelEdit = true;
                 return;
             }
-
+            //Se não, muda o nome do ficheiro com o novo nome que o utilizador alterou
             string originalFullPath = Path.Combine(path, lvw_FileExplorer.Items[e.Item].Text);
             string newFullPath = Path.Combine(path, e.Label);
 
             try
             {
-                if (lvw_FileExplorer.FocusedItem.ImageIndex == 1)
+                if (lvw_FileExplorer.FocusedItem.ImageIndex != 0)
                 {
-                    File.Move(originalFullPath, newFullPath);
-                    lvw_FileExplorer.SelectedItems[0].Text = e.Label;
+                        File.Move(originalFullPath, newFullPath);
                 }
                 else
                 {
                     Directory.Move(lvw_FileExplorer.SelectedItems[0].Text, e.Label);
-                    lvw_FileExplorer.SelectedItems[0].Text = e.Label;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error renaming file: " + ex.Message, "Error", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                e.CancelEdit = true;
+                MessageBox.Show("Error renaming file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.CancelEdit = true; //Em caso e erro cancela a edição da label
                 LogError(ex.Message);
             }
         }
@@ -1302,25 +992,33 @@ namespace File_Explorer__Clone_
 
         private void txt_Path_TextChanged(object sender, EventArgs e)
         {
+            //Ao alterar o texto da TextBox muda a variavel global path com o texto
             path = txt_Path.Text;
         }
 
         #endregion
 
         #region AddDirectoryToZip
-
-        private void AddDirectoryToZip(ZipArchive archive, DirectoryInfo dirInfo, string relativePath)
+        /// <summary>
+        /// Adiciona um diretorio a um ficheiro ".zip"
+        /// </summary>
+        /// <param name="directory"></param>
+        /// <param name="dirInfo"></param>
+        /// <param name="relativePath"></param>
+        private void AddDirectoryToZip(ZipArchive directory, DirectoryInfo dirInfo, string relativePath)
         {
+            //Adiciona o diretorio/ficheiro a um ficheiro zip
+
             foreach (FileInfo file in dirInfo.GetFiles())
             {
                 string entryName = Path.Combine(relativePath, file.Name);
-                archive.CreateEntryFromFile(file.FullName, entryName, CompressionLevel.Optimal);
+                directory.CreateEntryFromFile(file.FullName, entryName, CompressionLevel.Optimal);
             }
 
             foreach (DirectoryInfo subdir in dirInfo.GetDirectories())
             {
                 string tempPath = Path.Combine(relativePath, subdir.Name);
-                AddDirectoryToZip(archive, subdir, tempPath);
+                AddDirectoryToZip(directory, subdir, tempPath);
             }
         }
 
@@ -1330,6 +1028,7 @@ namespace File_Explorer__Clone_
 
         private void lvw_FileExplorer_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
+            //Quando o item selecionado muda verifica se é um .rar e liga um botão de estrair ficheiros .rar
             FileInfo file = new FileInfo(path + e.Item.Text);
             if (file.Extension == ".rar")
             {
@@ -1340,7 +1039,7 @@ namespace File_Explorer__Clone_
                 tsb_Extract.Visible = false;
             }
 
-            if(lvw_FileExplorer.SelectedItems.Count == 1)
+            if (lvw_FileExplorer.SelectedItems.Count == 1)
             {
                 tsb_Rename.Visible = true;
             }
@@ -1355,13 +1054,19 @@ namespace File_Explorer__Clone_
 
         #region LogError
 
+        /// <summary>
+        /// Metodo para fazer um log de um erro que tenha occorido no programa para que mais tarde se o utilizador quiser saber possa ver o que aconteceu
+        /// </summary>
+        /// <param name="message">String que recebe a mensagem de erro a "logar" no ficheiro</param>
         private void LogError(string message)
         {
+            //Verifica se o ficheiro já existe e se não existir cria-se um novo
             if (File.Exists(logspath))
             {
-                string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + message +
+                string error = File.ReadAllText(logspath) + "Ocorreu um Erro inesperado: " + "\n" + message + //Adiciona a mensagem de erro a data e hora a que o erro ocorreu
                                DateTime.Now + "\n";
 
+                //Escreve no ficheiro a mensagem de erro
                 using (StreamWriter writetext = new StreamWriter("Logs.txt"))
                 {
                     writetext.WriteLine(error);
@@ -1369,6 +1074,7 @@ namespace File_Explorer__Clone_
             }
             else
             {
+                //Se o ficheiro não existe cria e escreve a mensagem
                 using (FileStream filestream = File.Create(logspath))
                 {
                 }
@@ -1388,19 +1094,25 @@ namespace File_Explorer__Clone_
 
         #region AddToFavorite
 
+        /// <summary>
+        /// Adiciona o(s) ficheiro(s) selecionado(s) à lista de ficheiros favoritos
+        /// </summary>
         private void AddToFavorite()
         {
+            //Se o texto do botão pressionado for Remove... retira da lista o ficheiro selecionado
+            //Se for Add... adiciona o ficheiro selecionado à lista de ficheiros favoritos
+
             if (cms_FileOptions.Items[5].Text == "Remove from favorite" || tsb_Favorite.Text == "Remove from favorite")
             {
                 int cnt = 0;
                 foreach (var item in lvw_FileExplorer.SelectedItems)
                 {
                     string selectedPath = Path.Combine(path, lvw_FileExplorer.SelectedItems[cnt].Text);
-                        favoritePaths.Remove(selectedPath);
+                    favoritePaths.Remove(selectedPath);
 
                     cnt++;
                 }
-                refreshTreeView();
+                RefreshTreeView();
             }
             else
             {
@@ -1421,7 +1133,7 @@ namespace File_Explorer__Clone_
                             cnt++;
                         }
 
-                        refreshTreeView();
+                        RefreshTreeView();
                     }
                     else
                     {
@@ -1429,7 +1141,7 @@ namespace File_Explorer__Clone_
                         if (!favoritePaths.Contains(selectedPath))
                         {
                             favoritePaths.Add(selectedPath);
-                            refreshTreeView();
+                            RefreshTreeView();
                         }
                     }
                 }
@@ -1440,10 +1152,16 @@ namespace File_Explorer__Clone_
 
         #region Copy/Pate/Cut/Delete
 
+        /// <summary>
+        /// Metodo que adiciona um ficheiro/diretorio à "clipboard"
+        /// </summary>
+        /// <param name="cut">Variavel do tipo bool para saber se é uma operação cut ou não</param>
         private void AddToClipboard(bool cut)
         {
             copiedFilePaths.Clear();
-            cutOperation = cut;
+            cutOperation = cut; //Muda a variavel global dependendo do valor de cut
+            
+            //Precorre todos os item selecionados e adiciona à "clipboard"
             foreach (ListViewItem item in lvw_FileExplorer.SelectedItems)
             {
                 string fullPath = Path.Combine(path, item.Text);
@@ -1451,15 +1169,22 @@ namespace File_Explorer__Clone_
             }
         }
 
+        /// <summary>
+        /// Metodo para colar ficheiros num determinado caminho
+        /// </summary>
+        /// <param name="destinationPath">Variavel correpondente ao caminho no qual se devem colar os ficheiros</param>
         private void PasteFiles(string destinationPath)
         {
+            //Precorre todos os ficheiros dentro da "clipboard" e cola no caminho "destinationPath"
             foreach (string sourcePath in copiedFilePaths)
             {
                 string destPath = Path.Combine(destinationPath, Path.GetFileName(sourcePath));
+                //Se for um diretorio e cut faz move se não chama o metodo "CopyDirectorys"
                 if (Directory.Exists(sourcePath))
                 {
                     DirectoryInfo sourceDir = new DirectoryInfo(sourcePath);
                     DirectoryInfo destDir = new DirectoryInfo(destPath);
+
                     if (cutOperation)
                     {
                         Directory.Move(sourcePath, destPath);
@@ -1469,6 +1194,7 @@ namespace File_Explorer__Clone_
                         CopyDirectory(sourceDir, destDir);
                     }
                 }
+                //Se o ficheiro já existe se for uma cut operation faz move do ficheiro copiado com o do caminho a colar o ficheiro se nao copia e dá replace
                 else if (File.Exists(sourcePath))
                 {
                     if (cutOperation)
@@ -1481,7 +1207,7 @@ namespace File_Explorer__Clone_
                     }
                 }
             }
-
+            //Se for uma operação de cut após colar os ficheiros limpa a "clipboard"
             if (cutOperation)
             {
                 copiedFilePaths.Clear();
@@ -1490,6 +1216,11 @@ namespace File_Explorer__Clone_
             RefreshExplorer();
         }
 
+        /// <summary>
+        /// Metodo Recursivo para copiar ficheiros de um diretorio, percorre todos os diretorios e ficheiros do diretorio copiado e faz paste no caminho pretendido
+        /// </summary>
+        /// <param name="source">Variavel com o caminho do ficheiro copiado</param>
+        /// <param name="target">Variavel com o caminho para onde o ficheiro deve ser copiado</param>
         private static void CopyDirectory(DirectoryInfo source, DirectoryInfo target)
         {
             Directory.CreateDirectory(target.FullName);
@@ -1505,8 +1236,14 @@ namespace File_Explorer__Clone_
             }
         }
 
+        /// <summary>
+        /// Metodo para apagar ficheiros selecionados
+        /// </summary>
         private void deleteFile()
         {
+
+            //Verifica se o ficheiro existe e se existir apagar se for um diretorio apaga o diretorio e todos os ficheiros/diretorios dentro
+
             int cnt = 0;
             foreach (var item in lvw_FileExplorer.SelectedItems)
             {
@@ -1553,6 +1290,7 @@ namespace File_Explorer__Clone_
 
         private void lvw_FileExplorer_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //Quando se muda o index selecionado verifica-se se está na lista de favoritos e se estiver muda o texto ddo item 5 "Add to favorites" para "Remove from favorite"
             foreach (ListViewItem item in lvw_FileExplorer.SelectedItems)
             {
                 if (favoritePaths.Contains(Path.Combine(path, item.Text)))
@@ -1571,46 +1309,54 @@ namespace File_Explorer__Clone_
         #endregion
 
         #region GetImageKeyForPath
+
+        /// <summary>
+        /// Metodo para estrair o icon de um ficheiro
+        /// </summary>
+        /// <param name="path">Recebe uma string com o caminho do ficheiro</param>
+        /// <returns>A ImageKey correspondente ao icon do ficheiro</returns>
         private string GetImageKeyForPath(string path)
         {
-            string imageKey = path;
+            try
+            {
+                Icon icon = Icon.ExtractAssociatedIcon(path);
 
-            if (Directory.Exists(path))
-            {
-                return "folder";
-            }
-            else if (File.Exists(path))
-            {
-                try
+                if (icon != null)
                 {
-                    Icon icon = Icon.ExtractAssociatedIcon(path);
-                    if (icon != null)
+                    Bitmap iconBitmap = icon.ToBitmap();
+
+                    string imageKey = path;
+
+                    //Se a imgl_Large ainda não tiver a imagem adiciona
+                    if (!imgl_Large.Images.ContainsKey(imageKey))
                     {
-                        Bitmap iconBitmap = icon.ToBitmap();
-
-                        if (!imgl_Large.Images.ContainsKey(imageKey))
-                        {
-                            imgl_Large.Images.Add(imageKey, iconBitmap);
-                        }
-
-
-                        if (!imgl_Drivers.Images.ContainsKey(imageKey))
-                        {
-                            imgl_Drivers.Images.Add(imageKey, iconBitmap);
-                        }
-
-                        return imageKey;
+                        imgl_Large.Images.Add(imageKey, iconBitmap);
                     }
-                }
-                catch (Exception ex)
-                {
-                    LogError(ex.Message);
-                }
 
-                return "default_file";
+                    //Se a imgl_Small ainda não tiver a imagem adiciona
+                    if (!imgl_Small.Images.ContainsKey(imageKey))
+                    {
+                        imgl_Small.Images.Add(imageKey, iconBitmap);
+                    }
+
+                    //Se a imgl_Drivers ainda não tiver a imagem adiciona
+                    if (!imgl_Drivers.Images.ContainsKey(imageKey))
+                    {
+                        imgl_Drivers.Images.Add(imageKey, iconBitmap);
+                    }
+                    return imageKey;
+                }
+                else
+                {
+                    return "1";
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError(ex.Message);
             }
 
-            return "unknown";
+            return "default_file";
         }
         #endregion
 
@@ -1618,8 +1364,10 @@ namespace File_Explorer__Clone_
 
         private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
+            //Guarda numa variavel do tipo TreeNode 
             TreeNode node = e.Node;
 
+            //Se tiver o texto "Loading..." e chama o metodo recursivo LoadDirecotries para mostrar os diretorios todos dentro de um diretorio
             if (node.Nodes.Count == 1 && node.Nodes[0].Text == "Loading...")
             {
                 node.Nodes.Clear();
@@ -1633,8 +1381,10 @@ namespace File_Explorer__Clone_
         {
             try
             {
+                //Precorre cada diretorio e os seus respetivos diretorios
                 foreach (DirectoryInfo subdir in directoryInfo.GetDirectories())
                 {
+
                     if (!subdir.Attributes.HasFlag(FileAttributes.Hidden))
                     {
                         TreeNode subNode = new TreeNode(subdir.Name)
@@ -1643,7 +1393,7 @@ namespace File_Explorer__Clone_
                             ImageIndex = 5,
                             SelectedImageIndex = 5
                         };
-                        // Add a placeholder node to make this node appear expandable
+                        // Adiciona um nó com o texto "Loading..." para mostrar o botão de expandir o nó
                         if (subdir.GetDirectories().Length != 0)
                         {
                             subNode.Nodes.Add(new TreeNode("Loading..."));
@@ -1665,6 +1415,7 @@ namespace File_Explorer__Clone_
 
         private void lvw_FileExplorer_ColumnClick(object sender, ColumnClickEventArgs e)
         {
+            //Utiliza a classe lvwColumnSorter para ordenar os ficheiros por nome, data de modificação, e extenção (retirado do site oficial da microsoft)
             if (e.Column == lvwColumnSorter.SortColumn)
             {
                 if (lvwColumnSorter.Order == SortOrder.Ascending)
@@ -1681,13 +1432,19 @@ namespace File_Explorer__Clone_
                 lvwColumnSorter.SortColumn = e.Column;
                 lvwColumnSorter.Order = SortOrder.Ascending;
             }
-
+            //Usa o metodo Sort para ordenar
             this.lvw_FileExplorer.Sort();
         }
 
         #endregion
 
         #region GetFileTypeDescription
+
+        /// <summary>
+        /// Altera a extenção para Maiusculas e file a frente.
+        /// </summary>
+        /// <param name="filePath">Recebe uma string que corresponde ao caminho do ficheiro</param>
+        /// <returns>A extenção em Maiusculas + "file"</returns>
         private string GetFileTypeDescription(string filePath)
         {
             FileInfo fileInfo = new FileInfo(filePath);
@@ -1696,6 +1453,129 @@ namespace File_Explorer__Clone_
 
         #endregion
 
+        #region CreateNewFile
 
+        /// <summary>
+        /// Metodo para criar um novo ficheiro to tipo "type"
+        /// </summary>
+        /// <param name="type">Variavel que recebe um tipo de ficheiro a ser criado</param>
+        private void CreateNewFile(string type)
+        {
+            int cnt = 0;
+            string newFileName = $"New File.{type}";
+
+            DirectoryInfo dir = new DirectoryInfo(path);
+
+            //Procura se já existe um ficheiro com o nome "New File" ou "New File (cnt)" e se existir aumenta o numero do cnt e muda o nome para "New file" e o numero do cnt entre ()
+            foreach (ListViewItem item in lvw_FileExplorer.Items)
+            {
+                foreach (var item2 in dir.GetFiles())
+                {
+                    if (item2.Name == newFileName)
+                    {
+                        cnt++;
+                    }
+                }
+
+                if (cnt != 0)
+                {
+                    newFileName = "New File";
+                    newFileName = newFileName + "(" + cnt + ")" + $".{type}";
+                }
+            }
+
+            string fullPath = Path.Combine(path, newFileName);
+
+            try
+            {
+                using (FileStream filestream = File.Create(fullPath)) { } //Cria o ficheiro
+
+                RefreshExplorer();
+
+                //Após cirar o ficheiro começa a edição do nome como no windows file explorer
+                foreach (ListViewItem item in lvw_FileExplorer.Items)
+                {
+                    if (item.Text == newFileName)
+                    {
+                        lvw_FileExplorer.FocusedItem = item;
+                        item.Selected = true;
+                        item.BeginEdit();
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error creating file: " + ex.Message);
+                LogError(ex.Message);
+            }
+        }
+        #endregion
+
+        #region NewFolder
+
+        /// <summary>
+        /// Metodo para criar uma nova pasta
+        /// </summary>
+        private void NewFolder()
+        {
+            int cnt = 0;
+            string newFolderName = "New Folder";
+
+            DirectoryInfo dir = new DirectoryInfo(path);
+            foreach (ListViewItem item in lvw_FileExplorer.Items)
+            {
+                foreach (var item2 in dir.GetDirectories())
+                {
+                    if (item2.Name == newFolderName)
+                    {
+                        cnt++;
+                    }
+                }
+
+                if (cnt != 0)
+                {
+                    newFolderName = "New Folder";
+                    newFolderName = newFolderName + "(" + cnt + ")";
+                }
+            }
+
+            string fullPath = Path.Combine(path, newFolderName);
+
+            try
+            {
+                Directory.CreateDirectory(fullPath);
+
+                RefreshExplorer();
+
+                foreach (ListViewItem item in lvw_FileExplorer.Items)
+                {
+                    if (item.Text == newFolderName)
+                    {
+                        lvw_FileExplorer.FocusedItem = item;
+                        item.Selected = true;
+                        item.BeginEdit();
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error creating Directory: " + ex.Message);
+                LogError(ex.Message);
+            }
+        }
+        #endregion
+
+        #region txt_Path_Enter
+        private void txt_Path_Enter(object sender, EventArgs e)
+        {
+            //Se o caminho da textbox não acabar em \ adiciona \
+            if (!txt_Path.Text.EndsWith(@"\"))
+            {
+                txt_Path.Text += @"\";
+            }
+        }
+        #endregion
     }
 }
