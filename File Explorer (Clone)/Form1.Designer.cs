@@ -119,7 +119,7 @@ namespace File_Explorer__Clone_
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -144,7 +144,7 @@ namespace File_Explorer__Clone_
             this.tvw_Disks.Indent = 19;
             this.tvw_Disks.LineColor = System.Drawing.Color.White;
             this.tvw_Disks.Location = new System.Drawing.Point(0, 0);
-            this.tvw_Disks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tvw_Disks.Margin = new System.Windows.Forms.Padding(4);
             this.tvw_Disks.Name = "tvw_Disks";
             this.tvw_Disks.PathSeparator = "";
             this.tvw_Disks.SelectedImageIndex = 0;
@@ -446,6 +446,7 @@ namespace File_Explorer__Clone_
             // btn_GoBack
             // 
             this.btn_GoBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_GoBack.Enabled = false;
             this.btn_GoBack.Image = global::File_Explorer__Clone_.Properties.Resources.turn_back;
             this.btn_GoBack.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_GoBack.Name = "btn_GoBack";
@@ -462,6 +463,7 @@ namespace File_Explorer__Clone_
             // btn_Foward
             // 
             this.btn_Foward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_Foward.Enabled = false;
             this.btn_Foward.Image = global::File_Explorer__Clone_.Properties.Resources.redo;
             this.btn_Foward.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_Foward.Name = "btn_Foward";
@@ -526,7 +528,7 @@ namespace File_Explorer__Clone_
             this.lvw_FileExplorer.LabelEdit = true;
             this.lvw_FileExplorer.LargeImageList = this.imgl_Large;
             this.lvw_FileExplorer.Location = new System.Drawing.Point(4, 65);
-            this.lvw_FileExplorer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lvw_FileExplorer.Margin = new System.Windows.Forms.Padding(4);
             this.lvw_FileExplorer.Name = "lvw_FileExplorer";
             this.lvw_FileExplorer.Size = new System.Drawing.Size(1081, 616);
             this.lvw_FileExplorer.SmallImageList = this.imgl_Small;
@@ -796,7 +798,7 @@ namespace File_Explorer__Clone_
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1344, 687);
             this.Controls.Add(this.splitContainer1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Windows File Explorer (Clone)";
             this.Load += new System.EventHandler(this.Form1_Load);

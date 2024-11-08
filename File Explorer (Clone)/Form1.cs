@@ -137,6 +137,7 @@ namespace File_Explorer__Clone_
                         {
                             OldPosition.Add(path);
                             ForwardPosition.Clear();
+                            btn_GoBack.Enabled = true;
 
                             path = hitTestInfo.Node.Tag.ToString();
                             RefreshExplorer();
@@ -227,6 +228,11 @@ namespace File_Explorer__Clone_
                 path = OldPosition.Last();
                 OldPosition.RemoveAt(OldPosition.Count - 1); // Remove o diretorio atual da lista para evitar repitições
                 RefreshExplorer();
+                btn_Foward.Enabled = true;
+            }
+            if (OldPosition.Count == 0)
+            {
+                btn_GoBack.Enabled = false;
             }
         }
 
@@ -239,6 +245,11 @@ namespace File_Explorer__Clone_
                 path = ForwardPosition.Last();
                 ForwardPosition.RemoveAt(ForwardPosition.Count - 1); // Remove o diretorio atual da lista para evitar repitições
                 RefreshExplorer();
+                btn_GoBack.Enabled = true;
+            }
+            if (ForwardPosition.Count == 0)
+            {
+                btn_Foward.Enabled = false;
             }
         }
 
@@ -250,6 +261,13 @@ namespace File_Explorer__Clone_
                 OldPosition.Add(path);
                 path = new DirectoryInfo(path).Parent.FullName + @"\";
                 RefreshExplorer();
+                btn_GoBack.Enabled = true;
+                btn_GoUpOneLevel.Enabled = true;
+            }
+
+            if (Directory.GetParent(path) == null)
+            {
+                btn_GoUpOneLevel.Enabled = false;
             }
         }
 
@@ -338,6 +356,7 @@ namespace File_Explorer__Clone_
             path = newPath;
             ForwardPosition.Clear();
             RefreshExplorer();
+            btn_GoBack.Enabled = true;
         }
 
         private void detailsToolStripMenuItem_Click(object sender, EventArgs e)
