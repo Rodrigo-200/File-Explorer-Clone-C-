@@ -1039,13 +1039,14 @@ namespace File_Explorer__Clone_
                 tsb_Extract.Visible = false;
             }
 
+            //Se estiver apena um item selecionado liga o botão para alterar o nome de um ficheiro/pasta
             if (lvw_FileExplorer.SelectedItems.Count == 1)
             {
-                tsb_Rename.Visible = true;
+                tsb_Rename.Enabled = true;
             }
             else
             {
-                tsb_Rename.Visible = false;
+                tsb_Rename.Enabled = false;
             }
 
         }
