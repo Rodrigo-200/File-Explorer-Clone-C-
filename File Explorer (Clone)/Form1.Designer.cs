@@ -36,6 +36,18 @@ namespace File_Explorer__Clone_
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tvw_Disks = new System.Windows.Forms.TreeView();
             this.imgl_Drivers = new System.Windows.Forms.ImageList(this.components);
+            this.lbl_EncodingOptions = new System.Windows.Forms.Label();
+            this.cbb_EncodingOptions = new System.Windows.Forms.ComboBox();
+            this.lbl_FileContent = new System.Windows.Forms.Label();
+            this.lbl_FileName = new System.Windows.Forms.Label();
+            this.lbl_LinePosition = new System.Windows.Forms.Label();
+            this.lbl_CaracterPosition = new System.Windows.Forms.Label();
+            this.txt_LinePosition = new System.Windows.Forms.TextBox();
+            this.txt_CaracterPosition = new System.Windows.Forms.TextBox();
+            this.btn_BinaryWriter = new System.Windows.Forms.Button();
+            this.btn_StreamWriter = new System.Windows.Forms.Button();
+            this.txt_FileContent = new System.Windows.Forms.TextBox();
+            this.txt_FileName = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsdd_new = new System.Windows.Forms.ToolStripDropDownButton();
             this.newtextfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,18 +117,7 @@ namespace File_Explorer__Clone_
             this.addToFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.compressAsWinRARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.compressAsZIPFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.txt_FileName = new System.Windows.Forms.TextBox();
-            this.txt_FileContent = new System.Windows.Forms.TextBox();
-            this.btn_StreamWriter = new System.Windows.Forms.Button();
-            this.btn_BinaryWriter = new System.Windows.Forms.Button();
-            this.txt_CaracterPosition = new System.Windows.Forms.TextBox();
-            this.txt_LinePosition = new System.Windows.Forms.TextBox();
-            this.lbl_CaracterPosition = new System.Windows.Forms.Label();
-            this.lbl_LinePosition = new System.Windows.Forms.Label();
-            this.lbl_FileName = new System.Windows.Forms.Label();
-            this.lbl_FileContent = new System.Windows.Forms.Label();
-            this.cbb_EncodingOptions = new System.Windows.Forms.ComboBox();
-            this.lbl_EncodingOptions = new System.Windows.Forms.Label();
+            this.openTextFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -192,6 +193,116 @@ namespace File_Explorer__Clone_
             this.imgl_Drivers.Images.SetKeyName(5, "folder.png");
             this.imgl_Drivers.Images.SetKeyName(6, "windows.png");
             this.imgl_Drivers.Images.SetKeyName(7, "star.png");
+            // 
+            // lbl_EncodingOptions
+            // 
+            this.lbl_EncodingOptions.AutoSize = true;
+            this.lbl_EncodingOptions.Location = new System.Drawing.Point(1237, 393);
+            this.lbl_EncodingOptions.Name = "lbl_EncodingOptions";
+            this.lbl_EncodingOptions.Size = new System.Drawing.Size(132, 16);
+            this.lbl_EncodingOptions.TabIndex = 31;
+            this.lbl_EncodingOptions.Text = "Metodo de Encoding";
+            this.lbl_EncodingOptions.Visible = false;
+            // 
+            // cbb_EncodingOptions
+            // 
+            this.cbb_EncodingOptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbb_EncodingOptions.FormattingEnabled = true;
+            this.cbb_EncodingOptions.Items.AddRange(new object[] {
+            "UTF8",
+            "UTF32",
+            "ASCII"});
+            this.cbb_EncodingOptions.Location = new System.Drawing.Point(1238, 412);
+            this.cbb_EncodingOptions.Name = "cbb_EncodingOptions";
+            this.cbb_EncodingOptions.Size = new System.Drawing.Size(138, 24);
+            this.cbb_EncodingOptions.TabIndex = 30;
+            this.cbb_EncodingOptions.Visible = false;
+            // 
+            // lbl_FileContent
+            // 
+            this.lbl_FileContent.AutoSize = true;
+            this.lbl_FileContent.Location = new System.Drawing.Point(1089, 112);
+            this.lbl_FileContent.Name = "lbl_FileContent";
+            this.lbl_FileContent.Size = new System.Drawing.Size(135, 16);
+            this.lbl_FileContent.TabIndex = 29;
+            this.lbl_FileContent.Text = "Conteudo do Ficheiro";
+            // 
+            // lbl_FileName
+            // 
+            this.lbl_FileName.AutoSize = true;
+            this.lbl_FileName.Location = new System.Drawing.Point(1089, 65);
+            this.lbl_FileName.Name = "lbl_FileName";
+            this.lbl_FileName.Size = new System.Drawing.Size(114, 16);
+            this.lbl_FileName.TabIndex = 28;
+            this.lbl_FileName.Text = "Nome do Ficheiro";
+            // 
+            // lbl_LinePosition
+            // 
+            this.lbl_LinePosition.AutoSize = true;
+            this.lbl_LinePosition.Location = new System.Drawing.Point(1092, 437);
+            this.lbl_LinePosition.Name = "lbl_LinePosition";
+            this.lbl_LinePosition.Size = new System.Drawing.Size(111, 16);
+            this.lbl_LinePosition.TabIndex = 27;
+            this.lbl_LinePosition.Text = "Posição da Linha";
+            // 
+            // lbl_CaracterPosition
+            // 
+            this.lbl_CaracterPosition.AutoSize = true;
+            this.lbl_CaracterPosition.Location = new System.Drawing.Point(1092, 393);
+            this.lbl_CaracterPosition.Name = "lbl_CaracterPosition";
+            this.lbl_CaracterPosition.Size = new System.Drawing.Size(130, 16);
+            this.lbl_CaracterPosition.TabIndex = 26;
+            this.lbl_CaracterPosition.Text = "Posição do Caracter";
+            // 
+            // txt_LinePosition
+            // 
+            this.txt_LinePosition.Location = new System.Drawing.Point(1095, 456);
+            this.txt_LinePosition.Name = "txt_LinePosition";
+            this.txt_LinePosition.Size = new System.Drawing.Size(140, 22);
+            this.txt_LinePosition.TabIndex = 25;
+            // 
+            // txt_CaracterPosition
+            // 
+            this.txt_CaracterPosition.Location = new System.Drawing.Point(1093, 412);
+            this.txt_CaracterPosition.Name = "txt_CaracterPosition";
+            this.txt_CaracterPosition.Size = new System.Drawing.Size(138, 22);
+            this.txt_CaracterPosition.TabIndex = 24;
+            // 
+            // btn_BinaryWriter
+            // 
+            this.btn_BinaryWriter.Location = new System.Drawing.Point(1237, 367);
+            this.btn_BinaryWriter.Name = "btn_BinaryWriter";
+            this.btn_BinaryWriter.Size = new System.Drawing.Size(140, 23);
+            this.btn_BinaryWriter.TabIndex = 23;
+            this.btn_BinaryWriter.Text = "Binary Writer";
+            this.btn_BinaryWriter.UseVisualStyleBackColor = true;
+            this.btn_BinaryWriter.Click += new System.EventHandler(this.btn_BinaryWriter_Click);
+            // 
+            // btn_StreamWriter
+            // 
+            this.btn_StreamWriter.Location = new System.Drawing.Point(1092, 367);
+            this.btn_StreamWriter.Name = "btn_StreamWriter";
+            this.btn_StreamWriter.Size = new System.Drawing.Size(139, 23);
+            this.btn_StreamWriter.TabIndex = 22;
+            this.btn_StreamWriter.Text = "Stream Writer";
+            this.btn_StreamWriter.UseVisualStyleBackColor = true;
+            this.btn_StreamWriter.Click += new System.EventHandler(this.btn_StreamWriter_Click);
+            // 
+            // txt_FileContent
+            // 
+            this.txt_FileContent.Location = new System.Drawing.Point(1092, 131);
+            this.txt_FileContent.Multiline = true;
+            this.txt_FileContent.Name = "txt_FileContent";
+            this.txt_FileContent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txt_FileContent.Size = new System.Drawing.Size(285, 230);
+            this.txt_FileContent.TabIndex = 21;
+            // 
+            // txt_FileName
+            // 
+            this.txt_FileName.Location = new System.Drawing.Point(1093, 84);
+            this.txt_FileName.Name = "txt_FileName";
+            this.txt_FileName.Size = new System.Drawing.Size(285, 22);
+            this.txt_FileName.TabIndex = 20;
             // 
             // toolStrip1
             // 
@@ -747,9 +858,10 @@ namespace File_Explorer__Clone_
             this.pasteToolStripMenuItem,
             this.addToFavoritesToolStripMenuItem,
             this.compressAsWinRARToolStripMenuItem,
-            this.compressAsZIPFileToolStripMenuItem});
+            this.compressAsZIPFileToolStripMenuItem,
+            this.openTextFileToolStripMenuItem});
             this.cms_FileOptions.Name = "contextMenuStrip1";
-            this.cms_FileOptions.Size = new System.Drawing.Size(224, 212);
+            this.cms_FileOptions.Size = new System.Drawing.Size(224, 266);
             // 
             // apagarToolStripMenuItem
             // 
@@ -815,115 +927,12 @@ namespace File_Explorer__Clone_
             this.compressAsZIPFileToolStripMenuItem.Text = "Compress as ZIP File";
             this.compressAsZIPFileToolStripMenuItem.Click += new System.EventHandler(this.compressAsZIPFileToolStripMenuItem_Click);
             // 
-            // txt_FileName
+            // openTextFileToolStripMenuItem
             // 
-            this.txt_FileName.Location = new System.Drawing.Point(1093, 84);
-            this.txt_FileName.Name = "txt_FileName";
-            this.txt_FileName.Size = new System.Drawing.Size(285, 22);
-            this.txt_FileName.TabIndex = 20;
-            // 
-            // txt_FileContent
-            // 
-            this.txt_FileContent.Location = new System.Drawing.Point(1092, 131);
-            this.txt_FileContent.Multiline = true;
-            this.txt_FileContent.Name = "txt_FileContent";
-            this.txt_FileContent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txt_FileContent.Size = new System.Drawing.Size(285, 230);
-            this.txt_FileContent.TabIndex = 21;
-            // 
-            // btn_StreamWriter
-            // 
-            this.btn_StreamWriter.Location = new System.Drawing.Point(1092, 367);
-            this.btn_StreamWriter.Name = "btn_StreamWriter";
-            this.btn_StreamWriter.Size = new System.Drawing.Size(139, 23);
-            this.btn_StreamWriter.TabIndex = 22;
-            this.btn_StreamWriter.Text = "Stream Writer";
-            this.btn_StreamWriter.UseVisualStyleBackColor = true;
-            this.btn_StreamWriter.Click += new System.EventHandler(this.btn_StreamWriter_Click);
-            // 
-            // btn_BinaryWriter
-            // 
-            this.btn_BinaryWriter.Location = new System.Drawing.Point(1237, 367);
-            this.btn_BinaryWriter.Name = "btn_BinaryWriter";
-            this.btn_BinaryWriter.Size = new System.Drawing.Size(140, 23);
-            this.btn_BinaryWriter.TabIndex = 23;
-            this.btn_BinaryWriter.Text = "Binary Writer";
-            this.btn_BinaryWriter.UseVisualStyleBackColor = true;
-            this.btn_BinaryWriter.Click += new System.EventHandler(this.btn_BinaryWriter_Click);
-            // 
-            // txt_CaracterPosition
-            // 
-            this.txt_CaracterPosition.Location = new System.Drawing.Point(1093, 412);
-            this.txt_CaracterPosition.Name = "txt_CaracterPosition";
-            this.txt_CaracterPosition.Size = new System.Drawing.Size(138, 22);
-            this.txt_CaracterPosition.TabIndex = 24;
-            // 
-            // txt_LinePosition
-            // 
-            this.txt_LinePosition.Location = new System.Drawing.Point(1095, 456);
-            this.txt_LinePosition.Name = "txt_LinePosition";
-            this.txt_LinePosition.Size = new System.Drawing.Size(140, 22);
-            this.txt_LinePosition.TabIndex = 25;
-            // 
-            // lbl_CaracterPosition
-            // 
-            this.lbl_CaracterPosition.AutoSize = true;
-            this.lbl_CaracterPosition.Location = new System.Drawing.Point(1092, 393);
-            this.lbl_CaracterPosition.Name = "lbl_CaracterPosition";
-            this.lbl_CaracterPosition.Size = new System.Drawing.Size(130, 16);
-            this.lbl_CaracterPosition.TabIndex = 26;
-            this.lbl_CaracterPosition.Text = "Posição do Caracter";
-            // 
-            // lbl_LinePosition
-            // 
-            this.lbl_LinePosition.AutoSize = true;
-            this.lbl_LinePosition.Location = new System.Drawing.Point(1092, 437);
-            this.lbl_LinePosition.Name = "lbl_LinePosition";
-            this.lbl_LinePosition.Size = new System.Drawing.Size(111, 16);
-            this.lbl_LinePosition.TabIndex = 27;
-            this.lbl_LinePosition.Text = "Posição da Linha";
-            // 
-            // lbl_FileName
-            // 
-            this.lbl_FileName.AutoSize = true;
-            this.lbl_FileName.Location = new System.Drawing.Point(1089, 65);
-            this.lbl_FileName.Name = "lbl_FileName";
-            this.lbl_FileName.Size = new System.Drawing.Size(114, 16);
-            this.lbl_FileName.TabIndex = 28;
-            this.lbl_FileName.Text = "Nome do Ficheiro";
-            // 
-            // lbl_FileContent
-            // 
-            this.lbl_FileContent.AutoSize = true;
-            this.lbl_FileContent.Location = new System.Drawing.Point(1089, 112);
-            this.lbl_FileContent.Name = "lbl_FileContent";
-            this.lbl_FileContent.Size = new System.Drawing.Size(135, 16);
-            this.lbl_FileContent.TabIndex = 29;
-            this.lbl_FileContent.Text = "Conteudo do Ficheiro";
-            // 
-            // cbb_EncodingOptions
-            // 
-            this.cbb_EncodingOptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbb_EncodingOptions.FormattingEnabled = true;
-            this.cbb_EncodingOptions.Items.AddRange(new object[] {
-            "UTF8",
-            "UTF32",
-            "ASCII"});
-            this.cbb_EncodingOptions.Location = new System.Drawing.Point(1238, 412);
-            this.cbb_EncodingOptions.Name = "cbb_EncodingOptions";
-            this.cbb_EncodingOptions.Size = new System.Drawing.Size(138, 24);
-            this.cbb_EncodingOptions.TabIndex = 30;
-            this.cbb_EncodingOptions.Visible = false;
-            // 
-            // lbl_EncodingOptions
-            // 
-            this.lbl_EncodingOptions.AutoSize = true;
-            this.lbl_EncodingOptions.Location = new System.Drawing.Point(1237, 393);
-            this.lbl_EncodingOptions.Name = "lbl_EncodingOptions";
-            this.lbl_EncodingOptions.Size = new System.Drawing.Size(132, 16);
-            this.lbl_EncodingOptions.TabIndex = 31;
-            this.lbl_EncodingOptions.Text = "Metodo de Encoding";
-            this.lbl_EncodingOptions.Visible = false;
+            this.openTextFileToolStripMenuItem.Name = "openTextFileToolStripMenuItem";
+            this.openTextFileToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.openTextFileToolStripMenuItem.Text = "Open Text File";
+            this.openTextFileToolStripMenuItem.Click += new System.EventHandler(this.openTextFileToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -1037,5 +1046,6 @@ namespace File_Explorer__Clone_
         private Label lbl_CaracterPosition;
         private Label lbl_EncodingOptions;
         private ComboBox cbb_EncodingOptions;
+        private ToolStripMenuItem openTextFileToolStripMenuItem;
     }
 }
