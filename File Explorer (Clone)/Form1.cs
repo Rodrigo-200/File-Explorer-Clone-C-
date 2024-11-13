@@ -7,6 +7,8 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace File_Explorer__Clone_
@@ -15,16 +17,19 @@ namespace File_Explorer__Clone_
     {
         #region Inicialização de variaveis 
 
-        string path = Environment.CurrentDirectory + @"\";
-        string logspath = Environment.CurrentDirectory + @"\" + "Logs.txt";
+        private string path = Environment.CurrentDirectory + @"\";
+        private string logspath = Environment.CurrentDirectory + @"\" + "Logs.txt";
 
-        List<string> OldPosition = new List<string>();
-        List<string> ForwardPosition = new List<string>();
+        private List<string> OldPosition = new List<string>();
+        private List<string> ForwardPosition = new List<string>();
         private List<string> favoritePaths = new List<string>();
-        bool Show_Hidden = false;
+        private bool Show_Hidden = false;
 
         private List<string> copiedFilePaths = new List<string>();
         private bool cutOperation = false;
+
+        private bool isRead = false;
+        private bool isWrite = false;
 
         #endregion
 
@@ -1598,14 +1603,148 @@ namespace File_Explorer__Clone_
         }
         #endregion
 
-        #region StreamWriter
+        #region BinaryReader
+        private void BinaryReader()
+        {
+            if (cbb_EncodingOptions.SelectedItem != null)
+            {
+                string aux = "";
+                Encoding type;
+
+                switch (cbb_EncodingOptions.SelectedIndex)
+                {
+                    case 0:
+                        type = Encoding.UTF8;
+                        break;
+                    case 1:
+                        type = Encoding.UTF32;
+                        break;
+                    case 2:
+                        type = Encoding.ASCII;
+                        break;
+                    default:
+                        type = Encoding.UTF8;
+                        break;
+                }
+
+                FileStream fbinaryread = new FileStream(Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text), FileMode.Open);
+                BinaryReader br = new BinaryReader(fbinaryread, type);
+
+                string allText = new string(br.ReadChars((int)br.BaseStream.Length));
+                string line = "";
+
+                br.BaseStream.Position = 0;
+                int cnt = 0;
+                try
+                {
+                    while (br.BaseStream.Position < br.BaseStream.Length)
+                    {
+                        char ch = br.ReadChar();
+
+                        if (ch == '\n' || br.BaseStream.Position == br.BaseStream.Length)
+                        {
+
+                            int linePosition = Convert.ToInt32(txt_LinePosition.Text);
+                            cnt++;
+                            if (cnt == linePosition)
+                            {
+                                aux = $"Linha {txt_LinePosition.Text}: \n " + line + "\n\n";
+
+                            }
+                            line = "";
+                        }
+                        else
+                        {
+                            line += ch;
+                        }
+                    }
+
+
+                    int CaracterPosition = Convert.ToInt32(txt_CaracterPosition.Text) - 1;
+                    if (CaracterPosition >= 0 && CaracterPosition < allText.Length)
+                    {
+                        aux += $"Caracter {txt_CaracterPosition.Text}: \n " + allText[CaracterPosition] + "\n\n";
+                    }
+
+                    //Ler Tudo
+                    MessageBox.Show(aux + "Texto completo do ficheiro: \n " + allText,
+                                    lvw_FileExplorer.SelectedItems[0].Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    cbb_EncodingOptions.Visible = false;
+                    btn_ok.Visible = false;
+                    isWrite = false;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally { br.Close(); }
+            }
+        }
+
+        #endregion
+
+        #region BinaryWriter
+
+        private void BinaryWriter()
+        {
+            if (cbb_EncodingOptions.SelectedItem != null)
+            {
+                FileStream fbinary = new FileStream(Path.Combine(path, txt_FileName.Text.EndsWith(".txt") ? txt_FileName.Text : txt_FileName.Text + ".txt"), FileMode.Create, FileAccess.Write, FileShare.None);
+                Encoding type;
+
+                switch (cbb_EncodingOptions.SelectedIndex)
+                {
+                    case 0:
+                        type = Encoding.UTF8;
+                        break;
+                    case 1:
+                        type = Encoding.UTF32;
+                        break;
+                    case 2:
+                        type = Encoding.ASCII;
+                        break;
+                    default:
+                        type = Encoding.UTF8;
+                        break;
+                }
+
+                BinaryWriter bw = new BinaryWriter(fbinary, type);
+                try
+                {
+                    bw.Write(txt_FileContent.Text);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally { bw.Close(); }
+
+                cbb_EncodingOptions.Visible = false;
+                btn_ok.Visible = false;
+                RefreshExplorer();
+                isRead = false;
+            }
+        }
+
+        #endregion
+
+        #region btn_StreamWriter_Click
         private void btn_StreamWriter_Click(object sender, EventArgs e)
         {
             try
             {
                 StreamWriter writer = new StreamWriter(Path.Combine(path, txt_FileName.Text.EndsWith(".txt") ? txt_FileName.Text : txt_FileName.Text + ".txt"));
-                writer.WriteLine(txt_FileContent.Text);
-                writer.Close();
+                try
+                {
+                    writer.WriteLine(txt_FileContent.Text);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally { writer.Close(); }
+
                 RefreshExplorer();
             }
             catch (Exception ex)
@@ -1616,46 +1755,26 @@ namespace File_Explorer__Clone_
 
         #endregion
 
+        #region btn_BinaryWriter_Click
         private void btn_BinaryWriter_Click(object sender, EventArgs e)
         {
             if (!cbb_EncodingOptions.Visible)
             {
                 cbb_EncodingOptions.Visible = true;
+                btn_ok.Visible = true;
                 MessageBox.Show("Escolha uma das opções de Encoding", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cbb_EncodingOptions.Focus();
+                isWrite = true;
             }
             else
             {
-                if (cbb_EncodingOptions.SelectedItem != null)
-                {
-                    FileStream fbinary = new FileStream(Path.Combine(path, txt_FileName.Text.EndsWith(".txt") ? txt_FileName.Text : txt_FileName.Text + ".txt"), FileMode.Create, FileAccess.Write, FileShare.None);
-                    Encoding type;
-
-                    switch (cbb_EncodingOptions.SelectedIndex)
-                    {
-                        case 0:
-                            type = Encoding.UTF8;
-                            break;
-                        case 1:
-                            type = Encoding.UTF32;
-                            break;
-                        case 2:
-                            type = Encoding.ASCII;
-                            break;
-                        default:
-                            type = Encoding.UTF8;
-                            break;
-                    }
-
-                    BinaryWriter bw = new BinaryWriter(fbinary, type);
-                    bw.Write(txt_FileContent.Text);
-                    bw.Close();
-                    cbb_EncodingOptions.Visible = false;
-                    RefreshExplorer();
-                }
+                BinaryWriter();
             }
         }
 
+        #endregion
+
+        #region openTextFileToolStripMenuItem_Click
         private void openTextFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string aux = "";
@@ -1670,106 +1789,83 @@ namespace File_Explorer__Clone_
 
                 if (dialogResult == DialogResult.Yes)
                 {
+
                     StreamReader sr = new StreamReader(Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text));
                     //Ler linha a linha
-
-                    for (cnt = 1; !sr.EndOfStream; cnt++)
+                    try
                     {
-                        sr.ReadLine();
-                        if (cnt == Convert.ToInt32(txt_LinePosition.Text) - 1)
+                        for (cnt = 1; !sr.EndOfStream; cnt++)
                         {
-                            aux = $"Linha {txt_LinePosition.Text}: \n" + sr.ReadLine() + "\n \n";
-                            break;
+                            sr.ReadLine();
+                            if (cnt == Convert.ToInt32(txt_LinePosition.Text) - 1)
+                            {
+                                aux = $"Linha {txt_LinePosition.Text}: \n" + sr.ReadLine() + "\n \n";
+                                break;
+                            }
                         }
-                    }
-                    sr.Close();
+                        sr.Close();
 
-                    sr = new StreamReader(Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text));
-                    //Ler caracter a caracter
-                    for (cnt = 1; cnt < sr.BaseStream.Length; cnt++)
+                        sr = new StreamReader(Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text));
+                        //Ler caracter a caracter
+                        for (cnt = 1; cnt < sr.BaseStream.Length; cnt++)
+                        {
+                            ((char)sr.Read()).ToString();
+                            if (cnt == Convert.ToInt32(txt_CaracterPosition.Text) - 1)
+                            {
+                                aux += $"Caracter {txt_CaracterPosition.Text}: \n" + ((char)sr.Read()).ToString() + "\n \n";
+                                break;
+                            }
+                        }
+                        sr.Close();
+
+                        sr = new StreamReader(Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text));
+                        //Ler Tudo
+                        MessageBox.Show(aux + "Texto completo do ficheiro: \n" + sr.ReadToEnd(),
+                                        lvw_FileExplorer.SelectedItems[0].Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
                     {
-                        ((char)sr.Read()).ToString();
-                        if (cnt == Convert.ToInt32(txt_CaracterPosition.Text) - 1)
-                        {
-                            aux += $"Caracter {txt_CaracterPosition.Text}: \n" + ((char)sr.Read()).ToString() + "\n \n";
-                            break;
-                        }
+                        MessageBox.Show(ex.Message);
                     }
-                    sr.Close();
-
-                    sr = new StreamReader(Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text));
-                    //Ler Tudo
-                    MessageBox.Show(aux + "Texto completo do ficheiro: \n" + sr.ReadToEnd(),
-                                    lvw_FileExplorer.SelectedItems[0].Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    sr.Close();
+                    finally { sr.Close(); }
                 }
                 else
                 {
                     if (!cbb_EncodingOptions.Visible)
                     {
                         cbb_EncodingOptions.Visible = true;
+                        btn_ok.Visible = true;
                         MessageBox.Show("Escolha uma das opções de Encoding", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         cbb_EncodingOptions.Focus();
+                        isRead = true;
                     }
                     else
                     {
-                        if (cbb_EncodingOptions.SelectedItem != null)
-                        {
-                            Encoding type;
-
-                            switch (cbb_EncodingOptions.SelectedIndex)
-                            {
-                                case 0:
-                                    type = Encoding.UTF8;
-                                    break;
-                                case 1:
-                                    type = Encoding.UTF32;
-                                    break;
-                                case 2:
-                                    type = Encoding.ASCII;
-                                    break;
-                                default:
-                                    type = Encoding.UTF8;
-                                    break;
-                            }
-
-                            FileStream fbinaryread = new FileStream(Path.Combine(path, lvw_FileExplorer.SelectedItems[0].Text), FileMode.Open);
-                            BinaryReader br = new BinaryReader(fbinaryread, type);
-
-                            for (cnt = 1; cnt < br.BaseStream.Length; cnt++)
-                            {
-                                br.ReadString();
-                                if (cnt == Convert.ToInt32(txt_LinePosition.Text) - 1)
-                                {
-                                    aux = $"Linha {txt_LinePosition.Text}: \n" + br.ReadString() + "\n \n";
-                                    break;
-                                }
-                            }
-
-                            br.Close();
-
-                            br = new BinaryReader(fbinaryread, type);
-
-                            for (cnt = 1; cnt < br.BaseStream.Length; cnt++)
-                            {
-                                ((char)br.ReadChar()).ToString();
-                                if (cnt == Convert.ToInt32(txt_CaracterPosition.Text) - 1)
-                                {
-                                    aux += $"Caracter {txt_CaracterPosition.Text}: \n" + ((char)br.ReadChar()).ToString() + "\n \n";
-                                    break;
-                                }
-                            }
-                            br.Close();
-
-                            //Ler Tudo
-                            MessageBox.Show(aux + "Texto completo do ficheiro: \n" + br.Read(),
-                                            lvw_FileExplorer.SelectedItems[0].Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            br.Close();
-                        }
+                        BinaryReader();
                     }
                 }
 
             }
         }
+
+        #endregion
+
+        #region btn_ok_Click
+
+        private void btn_ok_Click(object sender, EventArgs e)
+        {
+            if (isRead)
+            {
+                BinaryReader();
+            }
+            if (isWrite)
+            {
+                BinaryWriter();
+            }
+        }
+
+        #endregion
+
+
     }
 }
