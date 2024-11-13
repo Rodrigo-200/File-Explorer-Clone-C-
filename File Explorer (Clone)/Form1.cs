@@ -606,7 +606,7 @@ namespace File_Explorer__Clone_
         #endregion
 
         #region Eventos KeyDown
-       
+
         private void lvw_FileExplorer_KeyDown(object sender, KeyEventArgs e)
         {
             //Se for a tecla F2 começa a editar o nome do ficheiro selecionado
@@ -969,7 +969,7 @@ namespace File_Explorer__Clone_
 
             tvw_Disks.Nodes.Add(parent); //Adiciona o nó parent (This PC) à treeview 
             //Expande o nó favoritesNode e o parent
-            favoritesNode.Expand(); 
+            favoritesNode.Expand();
             parent.Expand();
         }
         #endregion
@@ -991,7 +991,7 @@ namespace File_Explorer__Clone_
             {
                 if (lvw_FileExplorer.FocusedItem.ImageIndex != 0)
                 {
-                        File.Move(originalFullPath, newFullPath);
+                    File.Move(originalFullPath, newFullPath);
                 }
                 else
                 {
@@ -1180,7 +1180,7 @@ namespace File_Explorer__Clone_
         {
             copiedFilePaths.Clear();
             cutOperation = cut; //Muda a variavel global dependendo do valor de cut
-            
+
             //Precorre todos os item selecionados e adiciona à "clipboard"
             foreach (ListViewItem item in lvw_FileExplorer.SelectedItems)
             {
@@ -1597,5 +1597,48 @@ namespace File_Explorer__Clone_
             }
         }
         #endregion
+
+        #region StreamWriter
+        private void btn_StreamWriter_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                StreamWriter writer = new StreamWriter(Path.Combine(path, txt_FileName.Text.EndsWith(".txt") ? txt_FileName.Text : txt_FileName.Text + ".txt"));
+                writer.WriteLine(txt_FileContent.Text);
+                writer.Close();
+                RefreshExplorer();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
+
+        private void btn_BinaryWriter_Click(object sender, EventArgs e)
+        {
+            if (!cbb_EncodingOptions.Visible)
+            {
+                cbb_EncodingOptions.Visible = true;
+                MessageBox.Show("Escolha uma das opções de Encoding", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                if (cbb_EncodingOptions.SelectedItem != null)
+                {
+                    FileStream fbinary = new FileStream(Path.Combine(path, txt_FileName.Text.EndsWith(".txt") ? txt_FileName.Text : txt_FileName.Text + ".txt"), FileMode.Create, FileAccess.Write, FileShare.None);
+
+                    BinaryWriter bw = new BinaryWriter(fbinary, //meter o encoding);
+                    bw.Write("INETE");
+                    bw.Write(true);
+                    bw.Write(1);
+                    bw.Write(12);
+                    bw.Write(14);
+                    bw.Write(12);
+                    bw.Close();
+                }
+            }
+        }
     }
 }
